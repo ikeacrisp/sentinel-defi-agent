@@ -1,5 +1,5 @@
 {
-  "name": "sentinel-defi-agent",
+  "name": "fold-defi-agent",
   "version": "1.0.0",
   "description": "Privacy-preserving DeFi security monitoring agent powered by Arcium MPC on Solana",
   "license": "MIT",

@@ -1,5 +1,5 @@
 {
-  "name": "sentinel-agent",
+  "name": "fold-agent",
   "version": "1.0.0",
   "description": "Autonomous DeFi security monitoring agent with Arcium MPC privacy",
   "main": "dist/index.js",

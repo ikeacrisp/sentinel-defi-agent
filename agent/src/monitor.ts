@@ -20,7 +20,7 @@ import {
 import { AlertService } from "./alerts";
 import { fetchPositionData, PositionSnapshot } from "./positions";
 
-const ENCRYPTION_KEY_MESSAGE = "sentinel-defi-encryption-key-v1";
+const ENCRYPTION_KEY_MESSAGE = "fold-defi-encryption-key-v1";
 
 interface MonitoredPosition {
   positionId: number;
@@ -29,7 +29,7 @@ interface MonitoredPosition {
   lastCheck: number;
 }
 
-export class SentinelMonitor {
+export class FoldMonitor {
   private connection: Connection;
   private wallet: Keypair;
   private programId: PublicKey;

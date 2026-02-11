@@ -28,7 +28,7 @@ import * as fs from "fs";
 import * as os from "os";
 import { expect } from "chai";
 
-const ENCRYPTION_KEY_MESSAGE = "sentinel-defi-encryption-key-v1";
+const ENCRYPTION_KEY_MESSAGE = "fold-defi-encryption-key-v1";
 
 function deriveEncryptionKey(
   wallet: anchor.web3.Keypair,
@@ -43,7 +43,7 @@ function deriveEncryptionKey(
   return { privateKey, publicKey };
 }
 
-describe("Sentinel DeFi Security Agent", () => {
+describe("Fold DeFi Security Agent", () => {
   anchor.setProvider(anchor.AnchorProvider.env());
   const program = anchor.workspace.Sentinel as Program<Sentinel>;
   const provider = anchor.getProvider();

@@ -22,7 +22,7 @@ export class AlertService {
     this.lastAlertTime = now;
 
     const emoji = this.getSeverityEmoji(severity);
-    const formatted = `${emoji} *Sentinel Alert - ${severity}*\n\n${message}\n\n_Privacy preserved via Arcium MPC_`;
+    const formatted = `${emoji} *Fold Alert - ${severity}*\n\n${message}\n\n_Privacy preserved via Arcium MPC_`;
 
     // Log to console always
     console.log(`\n${"!".repeat(50)}`);

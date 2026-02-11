@@ -1,6 +1,6 @@
 import { Connection, Keypair, PublicKey } from "@solana/web3.js";
 import * as anchor from "@coral-xyz/anchor";
-import { SentinelMonitor } from "./monitor";
+import { FoldMonitor } from "./monitor";
 import { AlertService } from "./alerts";
 import * as dotenv from "dotenv";
 import * as fs from "fs";
@@ -10,7 +10,7 @@ dotenv.config();
 
 const CONFIG = {
   rpcUrl: process.env.SOLANA_RPC_URL || "https://devnet.helius-rpc.com/?api-key=YOUR_KEY",
-  programId: process.env.PROGRAM_ID || "SentDeFi11111111111111111111111111111111111",
+  programId: process.env.PROGRAM_ID || "ABDZr3DvUSnugBNrAj8vaAhKt3tHafA82MDja812QbJC",
   checkIntervalMs: parseInt(process.env.CHECK_INTERVAL_MS || "30000"),
   telegramBotToken: process.env.TELEGRAM_BOT_TOKEN || "",
   telegramChatId: process.env.TELEGRAM_CHAT_ID || "",
@@ -19,7 +19,7 @@ const CONFIG = {
 
 async function main() {
   console.log("=".repeat(60));
-  console.log("  Sentinel DeFi Security Agent");
+  console.log("  Fold DeFi Security Agent");
   console.log("  Privacy-Preserving Position Monitoring via Arcium MPC");
   console.log("=".repeat(60));
   console.log();
@@ -41,7 +41,7 @@ async function main() {
   );
 
   // Initialize monitor
-  const monitor = new SentinelMonitor(
+  const monitor = new FoldMonitor(
     connection,
     wallet,
     new PublicKey(CONFIG.programId),
@@ -51,7 +51,7 @@ async function main() {
 
   // Handle shutdown
   process.on("SIGINT", () => {
-    console.log("\nShutting down Sentinel agent...");
+    console.log("\nShutting down Fold agent...");
     monitor.stop();
     process.exit(0);
   });

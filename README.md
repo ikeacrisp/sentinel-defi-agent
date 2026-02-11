@@ -1,4 +1,4 @@
-# Sentinel - Privacy-Preserving DeFi Security Agent
+# Fold - Privacy-Preserving DeFi Security Agent
 
 > An autonomous agent that monitors DeFi positions 24/7 using Arcium's MPC network — your portfolio is protected by an agent that literally cannot see your money.
 
@@ -8,7 +8,7 @@ DeFi users lose billions annually to exploits, rug pulls, and liquidations. Curr
 
 ## The Solution
 
-Sentinel is an autonomous agent that:
+Fold is an autonomous agent that:
 
 1. **Monitors** your DeFi positions in real-time across Solana protocols
 2. **Detects** threats using privacy-preserving computation via Arcium MPC
@@ -61,7 +61,7 @@ You connect wallet
 ## Project Structure
 
 ```
-sentinel-agent/
+fold-agent/
 ├── programs/sentinel/      # Solana Anchor program
 ├── encrypted-ixs/          # Arcis MPC circuits
 ├── agent/                  # TypeScript monitoring agent
@@ -111,7 +111,7 @@ arcium finalize-mxe-keys ABDZr3DvUSnugBNrAj8vaAhKt3tHafA82MDja812QbJC --cluster-
 ### Local Test Output
 
 ```
-  Sentinel DeFi Security Agent
+  Fold DeFi Security Agent
     MXE x25519 pubkey: [252, 251, 33, 11, ...]
     Initializing computation definitions...
     All computation definitions initialized
@@ -147,7 +147,7 @@ npm run dev
 
 ## Solana Integration
 
-Sentinel uses Arcium's MPC network to enable privacy-preserving DeFi security monitoring on Solana. Users encrypt their position data client-side using x25519 key exchange, then submit to Arcium MXEs where distributed nodes compute risk scores without any single party seeing plaintext. Results trigger on-chain callbacks to our Anchor program, which emits events for the agent to execute pre-authorized protective actions. Integrates Pyth oracles for real-time price data and Helius webhooks for event monitoring.
+Fold uses Arcium's MPC network to enable privacy-preserving DeFi security monitoring on Solana. Users encrypt their position data client-side using x25519 key exchange, then submit to Arcium MXEs where distributed nodes compute risk scores without any single party seeing plaintext. Results trigger on-chain callbacks to our Anchor program, which emits events for the agent to execute pre-authorized protective actions. Integrates Pyth oracles for real-time price data and Helius webhooks for event monitoring.
 
 ## Tags
 
