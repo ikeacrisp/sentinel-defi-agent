@@ -1,0 +1,26 @@
+{
+  "name": "sentinel-agent",
+  "version": "1.0.0",
+  "description": "Autonomous DeFi security monitoring agent with Arcium MPC privacy",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "ts-node src/index.ts"
+  },
+  "dependencies": {
+    "@arcium-hq/client": "0.8.0",
+    "@arcium-hq/reader": "^0.4.0",
+    "@coral-xyz/anchor": "^0.32.1",
+    "@solana/web3.js": "^1.95.0",
+    "@pythnetwork/price-service-client": "^1.9.0",
+    "grammy": "^1.21.0",
+    "tweetnacl": "^1.0.3",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.3"
+  }
+}
