@@ -9,3 +9,5 @@ test-ledger
 agent/.env
 **/*.rs.bk
 *.so
+artifacts/
+.anchor/
