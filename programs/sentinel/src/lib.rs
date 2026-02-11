@@ -132,7 +132,7 @@ pub mod sentinel {
             ctx.accounts,
             computation_offset,
             args,
-            vec![CheckHealthCallback::callback_ix(
+            vec![CheckPositionHealthCallback::callback_ix(
                 computation_offset,
                 &ctx.accounts.mxe_account,
                 &[CallbackAccount {
@@ -148,15 +148,15 @@ pub mod sentinel {
     }
 
     #[arcium_callback(encrypted_ix = "check_position_health")]
-    pub fn check_health_callback(
-        ctx: Context<CheckHealthCallback>,
-        output: SignedComputationOutputs<CheckHealthOutput>,
+    pub fn check_position_health_callback(
+        ctx: Context<CheckPositionHealthCallback>,
+        output: SignedComputationOutputs<CheckPositionHealthOutput>,
     ) -> Result<()> {
         let o = match output.verify_output(
             &ctx.accounts.cluster_account,
             &ctx.accounts.computation_account,
         ) {
-            Ok(CheckHealthOutput { field_0 }) => field_0,
+            Ok(CheckPositionHealthOutput { field_0 }) => field_0,
             Err(_) => return Err(ErrorCode::AbortedComputation.into()),
         };
 
@@ -404,7 +404,7 @@ pub struct CheckHealth<'info> {
 
 #[callback_accounts("check_position_health")]
 #[derive(Accounts)]
-pub struct CheckHealthCallback<'info> {
+pub struct CheckPositionHealthCallback<'info> {
     pub arcium_program: Program<'info, Arcium>,
     #[account(address = derive_comp_def_pda!(COMP_DEF_OFFSET_CHECK_HEALTH))]
     pub comp_def_account: Account<'info, ComputationDefinitionAccount>,
