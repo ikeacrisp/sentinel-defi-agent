@@ -8,6 +8,9 @@ skip-lint = false
 [programs.localnet]
 sentinel = "ABDZr3DvUSnugBNrAj8vaAhKt3tHafA82MDja812QbJC"
 
+[programs.devnet]
+sentinel = "ABDZr3DvUSnugBNrAj8vaAhKt3tHafA82MDja812QbJC"
+
 [registry]
 url = "https://api.apr.dev"
 
