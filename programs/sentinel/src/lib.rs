@@ -6,7 +6,7 @@ const COMP_DEF_OFFSET_INIT_RISK_STATE: u32 = comp_def_offset("init_risk_state");
 const COMP_DEF_OFFSET_CHECK_HEALTH: u32 = comp_def_offset("check_position_health");
 const COMP_DEF_OFFSET_REVEAL_RISK: u32 = comp_def_offset("reveal_risk");
 
-declare_id!("SentDeFi11111111111111111111111111111111111");
+declare_id!("ABDZr3DvUSnugBNrAj8vaAhKt3tHafA82MDja812QbJC");
 
 #[arcium_program]
 pub mod sentinel {
