@@ -92,7 +92,38 @@ arcium build
 arcium test
 
 # Deploy to devnet
-arcium deploy --cluster-offset 456
+anchor deploy --provider.cluster devnet
+arcium deploy --cluster-offset 456 --keypair-path ~/.config/solana/id.json --recovery-set-size 5 --rpc-url devnet --skip-deploy
+arcium finalize-mxe-keys ABDZr3DvUSnugBNrAj8vaAhKt3tHafA82MDja812QbJC --cluster-offset 456 --keypair-path ~/.config/solana/id.json --rpc-url devnet
+```
+
+## Devnet Deployment
+
+| Component | Address / Link |
+|-----------|---------------|
+| Program ID | `ABDZr3DvUSnugBNrAj8vaAhKt3tHafA82MDja812QbJC` |
+| Deploy TX | [Explorer](https://explorer.solana.com/tx/2Uj4F8sjCdyyGpC4kbRpPH6RgEmZaM6rkg4t5JtcqAd1V6mNtmUpq4bHtkqHPwYFbSfSr2wp8QesWH1ML9fSEEiE?cluster=devnet) |
+| MXE Init TX | [Explorer](https://explorer.solana.com/tx/3R8ZzhTaHkttJLcNjynKGCXLEMavdgVgeL8nqGimu4zo6EiMozgWRKkDPohfsLogahFEx8QKEcgMNtZqEwWguB9U?cluster=devnet) |
+| MXE Keys TX | [Explorer](https://explorer.solana.com/tx/xRNSM7Spnnz8Ecv23zxaNWzu9kp5wknRKfBZ8eZXqg994haYHjL2cNUeygp3SCE3mhU8KKfuxeQeyJ1F5W4hvXr?cluster=devnet) |
+| Cluster | Devnet offset 456 (2 active nodes) |
+| IDL Account | `8D937Hk1NwEEqRh2P1vCbyNToShTs4yT8e1h9BNc2FPa` |
+
+### Local Test Output
+
+```
+  Sentinel DeFi Security Agent
+    MXE x25519 pubkey: [252, 251, 33, 11, ...]
+    Initializing computation definitions...
+    All computation definitions initialized
+    Registering position...
+    Position registered
+    Submitting encrypted health check (risky position)...
+    Health check completed
+    Revealing risk status...
+    Position at risk: true
+      ✓ monitors positions and detects risk (23151ms)
+
+  1 passing (23s)
 ```
 
 ### Run the Agent

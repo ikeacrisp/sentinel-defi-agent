@@ -230,18 +230,23 @@ describe("Sentinel DeFi Security Agent", () => {
     const mxeAcc = await arciumProgram.account.mxeAccount.fetch(mxeAccount);
     const lutAddress = getLookupTableAddress(program.programId, mxeAcc.lutOffsetSlot);
 
-    const sig = await (program.methods as any)
-      [methodName]()
-      .accounts({
-        compDefAccount: compDefPDA,
-        payer: owner.publicKey,
-        mxeAccount,
-        addressLookupTable: lutAddress,
-      })
-      .signers([owner])
-      .rpc({ commitment: "confirmed" });
-
-    console.log(`Initialized ${circuitName} comp def:`, sig);
+    // Check if comp def already exists (for devnet re-runs)
+    const compDefInfo = await provider.connection.getAccountInfo(compDefPDA);
+    if (compDefInfo) {
+      console.log(`${circuitName} comp def already initialized, skipping`);
+    } else {
+      const sig = await (program.methods as any)
+        [methodName]()
+        .accounts({
+          compDefAccount: compDefPDA,
+          payer: owner.publicKey,
+          mxeAccount,
+          addressLookupTable: lutAddress,
+        })
+        .signers([owner])
+        .rpc({ commitment: "confirmed" });
+      console.log(`Initialized ${circuitName} comp def:`, sig);
+    }
 
     const rawCircuit = fs.readFileSync(`build/${circuitName}.arcis`);
     await uploadCircuit(
@@ -252,7 +257,7 @@ describe("Sentinel DeFi Security Agent", () => {
       true
     );
 
-    return sig;
+    return "ok";
   }
 });
 
