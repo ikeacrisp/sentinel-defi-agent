@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fold — UI Wireframes</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'JetBrains Mono', monospace;
+      background: #0d1117;
+      color: #c9d1d9;
+      padding: 40px;
+      line-height: 1.6;
+    }
+
+    h1 {
+      font-size: 28px;
+      color: #00ff88;
+      margin-bottom: 8px;
+    }
+
+    h2 {
+      font-size: 20px;
+      color: #58a6ff;
+      margin: 60px 0 24px 0;
+      padding-bottom: 8px;
+      border-bottom: 2px solid #21262d;
+    }
+
+    h3 {
+      font-size: 15px;
+      color: #f0883e;
+      margin: 24px 0 12px 0;
+    }
+
+    .subtitle {
+      color: #8b949e;
+      font-size: 14px;
+      margin-bottom: 40px;
+    }
+
+    .screen {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 12px;
+      padding: 32px;
+      margin-bottom: 32px;
+    }
+
+    .screen-title {
+      font-size: 16px;
+      color: #00ff88;
+      margin-bottom: 4px;
+    }
+
+    .screen-file {
+      font-size: 12px;
+      color: #8b949e;
+      margin-bottom: 4px;
+    }
+
+    .screen-desc {
+      font-size: 13px;
+      color: #8b949e;
+      margin-bottom: 20px;
+    }
+
+    pre {
+      background: #0d1117;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      padding: 20px;
+      overflow-x: auto;
+      font-size: 12px;
+      line-height: 1.5;
+      color: #e6edf3;
+      margin-bottom: 16px;
+    }
+
+    .note {
+      background: #1c2128;
+      border-left: 3px solid #f0883e;
+      padding: 12px 16px;
+      margin: 12px 0;
+      font-size: 12px;
+      color: #f0883e;
+    }
+
+    .feature {
+      background: #1c2128;
+      border-left: 3px solid #00ff88;
+      padding: 12px 16px;
+      margin: 8px 0;
+      font-size: 12px;
+      color: #c9d1d9;
+    }
+
+    .feature strong { color: #00ff88; }
+
+    .new-badge {
+      display: inline-block;
+      background: #238636;
+      color: #fff;
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      margin-left: 8px;
+      vertical-align: middle;
+    }
+
+    .changed-badge {
+      display: inline-block;
+      background: #9e6a03;
+      color: #fff;
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      margin-left: 8px;
+      vertical-align: middle;
+    }
+
+    .nav-map {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 12px;
+      margin: 20px 0;
+    }
+
+    .nav-item {
+      background: #21262d;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      padding: 16px;
+      text-align: center;
+      font-size: 13px;
+    }
+
+    .nav-item .label { color: #58a6ff; font-weight: 600; }
+    .nav-item .file { color: #8b949e; font-size: 11px; margin-top: 4px; }
+
+    .colors {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin: 12px 0;
+    }
+
+    .color-swatch {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+    }
+
+    .swatch {
+      width: 24px;
+      height: 24px;
+      border-radius: 6px;
+      border: 1px solid #30363d;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      margin: 12px 0;
+    }
+
+    th, td {
+      text-align: left;
+      padding: 8px 12px;
+      border: 1px solid #30363d;
+    }
+
+    th { background: #21262d; color: #58a6ff; }
+    td { color: #c9d1d9; }
+
+    a { color: #58a6ff; }
+  </style>
+</head>
+<body>
+
+<h1>Fold UI Wireframes</h1>
+<p class="subtitle">Complete screen map and component reference for polishing the UI.<br>
+Design system: Dark theme, Inter + JetBrains Mono, green/blue/purple accents.</p>
+
+<!-- ============================================ -->
+<!-- DESIGN SYSTEM -->
+<!-- ============================================ -->
+
+<h2>Design System</h2>
+
+<h3>Color Palette</h3>
+<div class="colors">
+  <div class="color-swatch"><div class="swatch" style="background:#0a0b0d"></div> dark-900 #0a0b0d (bg)</div>
+  <div class="color-swatch"><div class="swatch" style="background:#12141a"></div> dark-800 #12141a (card)</div>
+  <div class="color-swatch"><div class="swatch" style="background:#1a1d26"></div> dark-700 #1a1d26 (hover)</div>
+  <div class="color-swatch"><div class="swatch" style="background:#242833"></div> dark-600 #242833 (border)</div>
+  <div class="color-swatch"><div class="swatch" style="background:#00ff88"></div> green #00ff88 (safe/primary)</div>
+  <div class="color-swatch"><div class="swatch" style="background:#ff4757"></div> red #ff4757 (danger)</div>
+  <div class="color-swatch"><div class="swatch" style="background:#ffa502"></div> yellow #ffa502 (warning)</div>
+  <div class="color-swatch"><div class="swatch" style="background:#3742fa"></div> blue #3742fa (info/secondary)</div>
+  <div class="color-swatch"><div class="swatch" style="background:#a855f7"></div> purple #a855f7 (accent)</div>
+</div>
+
+<h3>Typography</h3>
+<table>
+  <tr><th>Use</th><th>Font</th><th>Weights</th></tr>
+  <tr><td>Headings & body</td><td>Inter</td><td>400, 500, 600, 700</td></tr>
+  <tr><td>Code, addresses, values</td><td>JetBrains Mono</td><td>400, 500</td></tr>
+</table>
+
+<h3>Recurring Components</h3>
+<table>
+  <tr><th>Component</th><th>Behavior</th></tr>
+  <tr><td>Gradient border card</td><td>1px gradient (green->blue->purple) wrapper, dark-800 inner, rounded-xl</td></tr>
+  <tr><td>Encrypted text shimmer</td><td>Gray gradient text with horizontal shimmer animation, reads as "██████"</td></tr>
+  <tr><td>Status badge</td><td>Rounded-full pill: green/Healthy, yellow/Caution, red/Critical</td></tr>
+  <tr><td>Pulse dot</td><td>Small circle with radiating pulse animation (green=connected, red=alert)</td></tr>
+  <tr><td>Toggle switch</td><td>48x24px pill with sliding circle, green when active</td></tr>
+  <tr><td>Card</td><td>dark-800 bg, dark-600 border, rounded-xl, p-5/p-6</td></tr>
+</table>
+
+<!-- ============================================ -->
+<!-- SITEMAP -->
+<!-- ============================================ -->
+
+<h2>Site Map & Navigation</h2>
+
+<div class="nav-map">
+  <div class="nav-item">
+    <div class="label">Connect</div>
+    <div class="file">connect.html</div>
+  </div>
+  <div class="nav-item">
+    <div class="label">Dashboard</div>
+    <div class="file">index.html</div>
+  </div>
+  <div class="nav-item">
+    <div class="label">Positions</div>
+    <div class="file">positions.html <span class="new-badge">NEW</span></div>
+  </div>
+  <div class="nav-item">
+    <div class="label">Alert Detail</div>
+    <div class="file">alert.html</div>
+  </div>
+  <div class="nav-item">
+    <div class="label">Alerts History</div>
+    <div class="file">alerts.html <span class="new-badge">NEW</span></div>
+  </div>
+  <div class="nav-item">
+    <div class="label">Settings</div>
+    <div class="file">settings.html</div>
+  </div>
+  <div class="nav-item">
+    <div class="label">Activity Log</div>
+    <div class="file">activity.html <span class="new-badge">NEW</span></div>
+  </div>
+</div>
+
+<pre>
+Flow:
+
+  connect.html ──[wallet connect]──> index.html (Dashboard)
+                                         │
+                     ┌───────────────┬────┴────┬──────────────┬──────────────┐
+                     │               │         │              │              │
+              positions.html   alerts.html  settings.html  activity.html  alert.html
+              (list/add/edit)  (history)    (config)       (agent log)    (detail)
+                     │               │
+              [+ Add Position]  [click alert row]
+              (modal or inline)      │
+                                alert.html
+</pre>
+
+<!-- ============================================ -->
+<!-- SCREEN 1: CONNECT -->
+<!-- ============================================ -->
+
+<h2>Screen 1: Connect Wallet</h2>
+
+<div class="screen">
+  <div class="screen-title">connect.html</div>
+  <div class="screen-file">Entry point / Landing page</div>
+  <div class="screen-desc">First thing users see. Split layout: hero left, wallet connect right.</div>
+
+<pre>
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ NAV: [Shield Logo] Fold                                     Docs   GitHub  │
+├──────────────────────────────────────────────────────────────────────────────┤
+│                                                                            │
+│   ┌─────────────────────────────┐   ┌──────────────────────────────────┐   │
+│   │                             │   │  ╔══════════════════════════╗    │   │
+│   │  DeFi Security              │   │  ║   [Lock Icon - floating] ║    │   │
+│   │  Without Surveillance       │   │  ║                          ║    │   │
+│   │  ~~~~~~~~~~~~~~~~~~         │   │  ║  Connect Your Wallet     ║    │   │
+│   │  (gradient text)            │   │  ║  Start protecting your   ║    │   │
+│   │                             │   │  ║  DeFi positions          ║    │   │
+│   │  The first security agent   │   │  ║                          ║    │   │
+│   │  that protects your         │   │  ║  ┌────────────────────┐  ║    │   │
+│   │  positions 24/7 without     │   │  ║  │ [P] Phantom        │  ║    │   │
+│   │  ever seeing your portfolio │   │  ║  │     Most popular    │  ║    │   │
+│   │                             │   │  ║  └────────────────────┘  ║    │   │
+│   │  [✓] Encrypted monitoring   │   │  ║  ┌────────────────────┐  ║    │   │
+│   │  [✓] Auto liquidation       │   │  ║  │ [S] Solflare       │  ║    │   │
+│   │      protection             │   │  ║  │     Non-custodial   │  ║    │   │
+│   │  [✓] Agent never sees       │   │  ║  └────────────────────┘  ║    │   │
+│   │      your data              │   │  ║  ┌────────────────────┐  ║    │   │
+│   │                             │   │  ║  │ [B] Backpack        │  ║    │   │
+│   │  Built on Solana |          │   │  ║  │     xNFT-enabled    │  ║    │   │
+│   │  Powered by Arcium          │   │  ║  └────────────────────┘  ║    │   │
+│   │                             │   │  ║                          ║    │   │
+│   └─────────────────────────────┘   │  ║  🔒 Your keys, your     ║    │   │
+│                                     │  ║     crypto. Always.      ║    │   │
+│                                     │  ╚══════════════════════════╝    │   │
+│                                     │   (gradient border + glow)       │   │
+│                                     └──────────────────────────────────┘   │
+│                                                                            │
+│   ┌────────────┐  ┌────────────┐  ┌────────────┐  ┌────────────┐         │
+│   │    $0       │  │   100%     │  │   24/7     │  │   &lt;1s      │         │
+│   │ Funds lost  │  │  Privacy   │  │ Protection │  │  Response  │         │
+│   └────────────┘  └────────────┘  └────────────┘  └────────────┘         │
+│                                                                            │
+│  Particle animation background (floating green dots)                       │
+└──────────────────────────────────────────────────────────────────────────────┘
+</pre>
+
+  <h3>Polish Notes</h3>
+  <div class="feature"><strong>Add:</strong> Animated shield or lock 3D icon instead of plain SVG — consider Spline or Lottie</div>
+  <div class="feature"><strong>Add:</strong> "How it works" expandable section below stats</div>
+  <div class="feature"><strong>Add:</strong> Solana + Arcium actual logos (not just colored squares)</div>
+  <div class="feature"><strong>Improve:</strong> Wallet buttons should show real wallet icons (Phantom ghost, etc.)</div>
+  <div class="feature"><strong>Improve:</strong> Mobile responsive — stack to single column on &lt;768px</div>
+  <div class="feature"><strong>Improve:</strong> Add subtle grid/mesh background pattern behind particles</div>
+</div>
+
+<!-- ============================================ -->
+<!-- SCREEN 2: DASHBOARD -->
+<!-- ============================================ -->
+
+<h2>Screen 2: Dashboard</h2>
+
+<div class="screen">
+  <div class="screen-title">index.html <span class="changed-badge">REDESIGN</span></div>
+  <div class="screen-file">Main dashboard — the home screen after connecting</div>
+  <div class="screen-desc">Primary view. Shows protection status, positions summary, activity feed, and privacy proof.</div>
+
+<pre>
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ [Shield] Fold BETA    Dashboard  Positions  Alerts  Activity  Settings      │
+│                                                          [● 7xKp...3mNq]   │
+├──────────────────────────────────────────────────────────────────────────────┤
+│                                                                            │
+│  ╔════════════════════════════════════════════════════════════════════════╗  │
+│  ║  [Shield ✓]  All Positions Protected                Privacy: 100%   ║  │
+│  ║              Monitoring via encrypted computation    ████████████    ║  │
+│  ║              Last check: 3s ago                     (progress bar)  ║  │
+│  ╚════════════════════════════════════════════════════════════════════════╝  │
+│  (gradient border card)                                                    │
+│                                                                            │
+│  ┌──────────────┐ ┌──────────────┐ ┌──────────────┐ ┌──────────────┐      │
+│  │ Protected    │ │ Portfolio    │ │ Risk Checks  │ │ Threats      │      │
+│  │ Positions    │ │ Value       │ │ Today        │ │ Blocked      │      │
+│  │    4         │ │ ENCRYPTED   │ │   247        │ │    0         │      │
+│  │ 3 protocols  │ │ 🔒 Hidden   │ │ every 30s    │ │ last 30d     │      │
+│  └──────────────┘ └──────────────┘ └──────────────┘ └──────────────┘      │
+│                                                                            │
+│  ┌─────────────────────────────────────────────┐ ┌───────────────────────┐ │
+│  │ Protected Positions              [+Add]     │ │ Privacy Status        │ │
+│  ├─────────────────────────────────────────────┤ ├───────────────────────┤ │
+│  │ [K] Lending #1      [Healthy]               │ │ [✓] Values hidden    │ │
+│  │     Protocol: ████  Value: ██████           │ │ [✓] Protocols hidden │ │
+│  │     Health: Safe    Last: 12s  Auto: ON     │ │ [✓] Wallet hidden    │ │
+│  ├─────────────────────────────────────────────┤ │ [✓] MPC active       │ │
+│  │ [M] Lending #2      [Caution]               │ │                       │ │
+│  │     Protocol: ████  Value: ██████           │ │ Powered by            │ │
+│  │     Health: ⚠ Caution  Last: 8s  Auto: ON  │ │ [Arcium] MPC Network  │ │
+│  ├─────────────────────────────────────────────┤ ├───────────────────────┤ │
+│  │ [J] LP Position #1  [Healthy]               │ │ Recent Activity       │ │
+│  │     Protocol: ████  Value: ██████           │ ├───────────────────────┤ │
+│  │     Health: Safe    Last: 3s   Auto: ON     │ │ [✓] Health check      │ │
+│  ├─────────────────────────────────────────────┤ │     passed  2m ago    │ │
+│  │ [D] Staking #1      [Healthy]               │ │ [🔒] Position         │ │
+│  │     Protocol: ████  Value: ██████           │ │     encrypted  1h ago │ │
+│  │     Health: Safe    Last: 18s  Alert Only   │ │ [⚠] Oracle volatility │ │
+│  └─────────────────────────────────────────────┘ │     detected  3h ago  │ │
+│                                                   ├───────────────────────┤ │
+│                                                   │ Quick Actions         │ │
+│                                                   ├───────────────────────┤ │
+│                                                   │ [+] Add Position      │ │
+│                                                   │ [↻] Force Check       │ │
+│                                                   │ [⚙] Configure Alerts  │ │
+│                                                   └───────────────────────┘ │
+│                                                                            │
+│  ┌────────────────────────────────────────────────────────────────────────┐ │
+│  │ How Fold Protects Your Privacy                                        │ │
+│  │  [1] Local        [2] MPC           [3] Private       [4] Automated  │ │
+│  │  Encryption       Computation       Results           Protection     │ │
+│  │  Data encrypted   Arcium nodes      Agent gets only   Pre-authorized │ │
+│  │  in browser       compute together  "safe"/"at risk"  actions fire   │ │
+│  └────────────────────────────────────────────────────────────────────────┘ │
+│                                                                            │
+├──────────────────────────────────────────────────────────────────────────────┤
+│  Built on Solana | Powered by Arcium            Docs  GitHub  Discord      │
+└──────────────────────────────────────────────────────────────────────────────┘
+</pre>
+
+  <h3>Polish Notes</h3>
+  <div class="feature"><strong>Add:</strong> Real-time "last check" counters that tick up every second (already exists, keep)</div>
+  <div class="feature"><strong>Add:</strong> Clickable position rows — navigate to position detail or expand inline</div>
+  <div class="feature"><strong>Add:</strong> "View All" link on Recent Activity → goes to activity.html</div>
+  <div class="feature"><strong>Add:</strong> Animated encryption visualization — data flowing into lock icon</div>
+  <div class="feature"><strong>Improve:</strong> "How it works" section — add connecting arrows/lines between steps</div>
+  <div class="feature"><strong>Improve:</strong> Status banner should show last check time + next check countdown</div>
+  <div class="feature"><strong>Improve:</strong> Position rows need hover state with subtle reveal of actions (pause, remove)</div>
+</div>
+
+<!-- ============================================ -->
+<!-- SCREEN 3: POSITIONS -->
+<!-- ============================================ -->
+
+<h2>Screen 3: Positions <span class="new-badge">NEW PAGE</span></h2>
+
+<div class="screen">
+  <div class="screen-title">positions.html</div>
+  <div class="screen-file">Dedicated positions management page</div>
+  <div class="screen-desc">Full-width position management with add, edit, remove, and detail views.</div>
+
+<pre>
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ [Shield] Fold BETA    Dashboard  Positions  Alerts  Activity  Settings      │
+│                                                          [● 7xKp...3mNq]   │
+├──────────────────────────────────────────────────────────────────────────────┤
+│                                                                            │
+│  Positions                                    [+ Add Position] [↻ Refresh] │
+│  Manage your monitored DeFi positions                                      │
+│                                                                            │
+│  ┌─ Filter ──────────────────────────────────────────────────────────────┐ │
+│  │  [All ✓]  [Healthy]  [Caution]  [Critical]   Search: [___________]  │ │
+│  └───────────────────────────────────────────────────────────────────────┘ │
+│                                                                            │
+│  ┌───────────────────────────────────────────────────────────────────────┐ │
+│  │  Protocol    Position       Health     Value      Last Check  Action │ │
+│  ├───────────────────────────────────────────────────────────────────────┤ │
+│  │                                                                       │ │
+│  │  ┌──┐                                                                 │ │
+│  │  │K │ Lending #1    [● Healthy]  ██████   12s ago    [⋯]             │ │
+│  │  └──┘ ████████       Safe        🔒hidden            Pause|Edit|Del  │ │
+│  │  ─────────────────────────────────────────────────────────────────── │ │
+│  │  ┌──┐                                                                 │ │
+│  │  │M │ Lending #2    [● Caution]  ██████    8s ago    [⋯]             │ │
+│  │  └──┘ ████████       ⚠ 115%      🔒hidden            Pause|Edit|Del  │ │
+│  │  ─────────────────────────────────────────────────────────────────── │ │
+│  │  ┌──┐                                                                 │ │
+│  │  │J │ LP #1         [● Healthy]  ██████    3s ago    [⋯]             │ │
+│  │  └──┘ ████████       Safe        🔒hidden            Pause|Edit|Del  │ │
+│  │  ─────────────────────────────────────────────────────────────────── │ │
+│  │  ┌──┐                                                                 │ │
+│  │  │D │ Staking #1    [● Healthy]  ██████   18s ago    [⋯]             │ │
+│  │  └──┘ ████████       Safe        🔒hidden            Pause|Edit|Del  │ │
+│  │                                                                       │ │
+│  └───────────────────────────────────────────────────────────────────────┘ │
+│                                                                            │
+│  ┌─ Position Detail (expanded on click) ─────────────────────────────────┐ │
+│  │                                                                       │ │
+│  │  Lending Position #2                          Status: [● Caution]     │ │
+│  │  Protocol: ████████ (encrypted)                                       │ │
+│  │                                                                       │ │
+│  │  ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ ┌─────────────┐    │ │
+│  │  │ Value       │ │ Collateral  │ │ Liq.Thresh  │ │ Health      │    │ │
+│  │  │ ██████      │ │ ██████      │ │ ██████      │ │ ⚠ Caution   │    │ │
+│  │  │ 🔒encrypted │ │ 🔒encrypted │ │ 🔒encrypted │ │ computed    │    │ │
+│  │  └─────────────┘ └─────────────┘ └─────────────┘ └─────────────┘    │ │
+│  │                                                                       │ │
+│  │  Auto-Protect: [ON ●──]    Alert Type: [Telegram ▾]                  │ │
+│  │  Check Freq:   [30s ●──]   Threshold:  [1.25 ●──]                   │ │
+│  │                                                                       │ │
+│  │  Recent Checks:                                                       │ │
+│  │   12:34:56  [✓] Safe        12:34:26  [✓] Safe                       │ │
+│  │   12:33:56  [✓] Safe        12:33:26  [⚠] Caution                   │ │
+│  │                                                                       │ │
+│  │  [Force Check Now]  [Pause Monitoring]  [Remove Position]            │ │
+│  └───────────────────────────────────────────────────────────────────────┘ │
+│                                                                            │
+└──────────────────────────────────────────────────────────────────────────────┘
+</pre>
+
+  <h3>Add Position Modal</h3>
+<pre>
+┌───────────────────────────────────────────────┐
+│                                         [✕]   │
+│  Add Position to Monitor                      │
+│                                               │
+│  Protocol                                     │
+│  ┌───────────────────────────────────────┐    │
+│  │ Select protocol...              [▾]   │    │
+│  └───────────────────────────────────────┘    │
+│  Kamino | MarginFi | Drift | Solend | Other  │
+│                                               │
+│  Position Type                                │
+│  ┌───────────────────────────────────────┐    │
+│  │ ○ Lending/Borrowing                   │    │
+│  │ ○ Liquidity Pool                      │    │
+│  │ ○ Staking                             │    │
+│  │ ○ Leveraged Position                  │    │
+│  └───────────────────────────────────────┘    │
+│                                               │
+│  Position Identifier                          │
+│  ┌───────────────────────────────────────┐    │
+│  │ Account address or position ID...     │    │
+│  └───────────────────────────────────────┘    │
+│                                               │
+│  Protection Level                             │
+│  ┌──────────────┐ ┌──────────────┐           │
+│  │ Alert Only   │ │ Auto-Protect │           │
+│  │ Notify me    │ │ ✓ SELECTED   │           │
+│  │ when at risk │ │ Act on risk  │           │
+│  └──────────────┘ └──────────────┘           │
+│                                               │
+│  ┌──────────────────────────────────────┐    │
+│  │ 🔒 Position data will be encrypted    │    │
+│  │    before leaving your device.        │    │
+│  │    Fold never sees your values.       │    │
+│  └──────────────────────────────────────┘    │
+│                                               │
+│  [Cancel]              [Add & Start Monitor]  │
+└───────────────────────────────────────────────┘
+</pre>
+
+  <div class="feature"><strong>Interaction:</strong> Click row to expand detail view inline (accordion style)</div>
+  <div class="feature"><strong>Interaction:</strong> Three-dot menu on each row for quick actions</div>
+  <div class="feature"><strong>Interaction:</strong> Filter pills highlight active filter with accent color</div>
+  <div class="feature"><strong>Interaction:</strong> "Add Position" opens modal overlay with backdrop blur</div>
+</div>
+
+<!-- ============================================ -->
+<!-- SCREEN 4: ALERTS HISTORY -->
+<!-- ============================================ -->
+
+<h2>Screen 4: Alerts History <span class="new-badge">NEW PAGE</span></h2>
+
+<div class="screen">
+  <div class="screen-title">alerts.html</div>
+  <div class="screen-file">Alerts history and management</div>
+  <div class="screen-desc">Chronological list of all alerts with severity, timestamps, and status.</div>
+
+<pre>
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ [Shield] Fold BETA    Dashboard  Positions  Alerts  Activity  Settings      │
+├──────────────────────────────────────────────────────────────────────────────┤
+│                                                                            │
+│  Alerts                                          [Mark All Read] [Filter]  │
+│  Security alerts and notifications                                         │
+│                                                                            │
+│  ┌─ Filters ─────────────────────────────────────────────────────────────┐ │
+│  │ [All]  [Critical]  [Warning]  [Info]  [Resolved]     Last: [7 days▾] │ │
+│  └───────────────────────────────────────────────────────────────────────┘ │
+│                                                                            │
+│  ┌───────────────────────────────────────────────────────────────────────┐ │
+│  │ Today                                                                 │ │
+│  ├───────────────────────────────────────────────────────────────────────┤ │
+│  │                                                                       │ │
+│  │  🔴 CRITICAL — Position at Risk               12:34 UTC  [→ View]   │ │
+│  │     Lending Position #2 health below threshold                        │ │
+│  │     Status: [Auto-protecting...]                                      │ │
+│  │                                                                       │ │
+│  │  🟡 WARNING — Oracle Volatility                09:15 UTC  [→ View]   │ │
+│  │     SOL/USD price dropped 8% in 1hr                                   │ │
+│  │     Status: [Increased monitoring]                                    │ │
+│  │                                                                       │ │
+│  │  🟢 INFO — Health Check Passed                 08:00 UTC             │ │
+│  │     All 4 positions healthy                                           │ │
+│  │     Status: [Resolved]                                                │ │
+│  │                                                                       │ │
+│  ├───────────────────────────────────────────────────────────────────────┤ │
+│  │ Yesterday                                                             │ │
+│  ├───────────────────────────────────────────────────────────────────────┤ │
+│  │                                                                       │ │
+│  │  🟡 WARNING — Collateral Ratio Dropping        22:10 UTC  [→ View]   │ │
+│  │     Position approaching caution zone                                 │ │
+│  │     Status: [Resolved — ratio recovered]                              │ │
+│  │                                                                       │ │
+│  │  🔵 INFO — New Position Added                  14:30 UTC             │ │
+│  │     Staking Position #1 now being monitored                           │ │
+│  │     Status: [Active]                                                  │ │
+│  │                                                                       │ │
+│  │  🟢 INFO — Daily Summary                       00:00 UTC             │ │
+│  │     4 positions monitored, 2880 checks, 0 threats                     │ │
+│  │                                                                       │ │
+│  └───────────────────────────────────────────────────────────────────────┘ │
+│                                                                            │
+│  ┌───────────────────────────────────────────────────────────────────────┐ │
+│  │  Alert Stats (Last 30 Days)                                           │ │
+│  │  ┌────────────┐ ┌────────────┐ ┌────────────┐ ┌────────────┐        │ │
+│  │  │ Critical   │ │ Warning    │ │ Info       │ │ Auto-acted │        │ │
+│  │  │    1       │ │    7       │ │   142      │ │    3       │        │ │
+│  │  └────────────┘ └────────────┘ └────────────┘ └────────────┘        │ │
+│  └───────────────────────────────────────────────────────────────────────┘ │
+│                                                                            │
+└──────────────────────────────────────────────────────────────────────────────┘
+</pre>
+
+  <div class="feature"><strong>Interaction:</strong> Click "View" on any alert row → navigates to alert.html with that alert's details</div>
+  <div class="feature"><strong>Interaction:</strong> Unread alerts have a subtle left border highlight (accent color)</div>
+  <div class="feature"><strong>Interaction:</strong> Critical alerts have a pulsing red dot indicator</div>
+</div>
+
+<!-- ============================================ -->
+<!-- SCREEN 5: ALERT DETAIL -->
+<!-- ============================================ -->
+
+<h2>Screen 5: Alert Detail</h2>
+
+<div class="screen">
+  <div class="screen-title">alert.html <span class="changed-badge">POLISH</span></div>
+  <div class="screen-file">Individual alert detail with threat analysis and automated response</div>
+  <div class="screen-desc">Shows when a risk is detected. Red-tinted UI. Shows threat info, automated response steps, and transaction log.</div>
+
+<pre>
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ [⚠ Red] Fold [ALERT]   Dashboard  Positions  Alerts  Activity  Settings    │
+│ (nav border = red, red tint background)              [🔴 7xKp...3mNq]     │
+├──────────────────────────────────────────────────────────────────────────────┤
+│                                                                            │
+│  ╔═══════════════════════════════════════════════════════════════════════╗  │
+│  ║  [⚠ pulse]  Position at Risk Detected          Risk Level: HIGH     ║  │
+│  ║             Fold detected a threat via                              ║  │
+│  ║             encrypted computation               (pulsing red)       ║  │
+│  ╚═══════════════════════════════════════════════════════════════════════╝  │
+│  (red/yellow gradient border, red glow)                                    │
+│                                                                            │
+│  ┌─────────────────────────────────────────────┐ ┌───────────────────────┐ │
+│  │ Threat Analysis                              │ │ Your Options          │ │
+│  ├─────────────────────────────────────────────┤ ├───────────────────────┤ │
+│  │                                              │ │                       │ │
+│  │  Threat Type: Approaching Liquidation        │ │ [✓ Let Agent Handle]  │ │
+│  │  Position:    ████████████ (encrypted)       │ │  Auto-withdraw in     │ │
+│  │  Protocol:    ████████    (encrypted)        │ │  progress             │ │
+│  │  Value:       ██████      (encrypted)        │ │                       │ │
+│  │                                              │ │ [⏸ Pause Actions]     │ │
+│  │  ┌──────────────────────────────────────┐   │ │  I'll handle manually │ │
+│  │  │ 🔒 Privacy Preserved                 │   │ │                       │ │
+│  │  │ Fold detected this risk without      │   │ │ [⚙ Adjust Thresholds] │ │
+│  │  │ seeing your actual position data.    │   │ │  Change sensitivity   │ │
+│  │  └──────────────────────────────────────┘   │ │                       │ │
+│  │                                              │ ├───────────────────────┤ │
+│  ├─────────────────────────────────────────────┤ │ Privacy Note           │ │
+│  │ Automated Response                           │ ├───────────────────────┤ │
+│  ├─────────────────────────────────────────────┤ │ Even during emergency  │ │
+│  │                                              │ │ Fold doesn't know:    │ │
+│  │  [●] Risk Detection        ✓ Completed      │ │  [✓] Position size    │ │
+│  │      MPC identified risk     12:34:56       │ │  [✓] Protocol name    │ │
+│  │                                              │ │  [✓] Collateral type  │ │
+│  │  [●] Alert Sent            ✓ Completed      │ │  [✓] Portfolio value   │ │
+│  │      Telegram delivered      12:34:57       │ │                       │ │
+│  │                                              │ │ Pre-authorized txn    │ │
+│  │  [◉] Emergency Withdraw   ⟳ In Progress    │ │ was signed by YOU.    │ │
+│  │      Via Jupiter             12:34:58       │ │                       │ │
+│  │                                              │ ├───────────────────────┤ │
+│  │  [ ] Funds Secured         ○ Pending        │ │ Need Help?            │ │
+│  │      Convert to USDC                        │ │ [Discord Support]     │ │
+│  │                                              │ │ [Documentation]       │ │
+│  ├─────────────────────────────────────────────┤ └───────────────────────┘ │
+│  │ Transaction Log                              │                          │
+│  ├─────────────────────────────────────────────┤                          │
+│  │ [12:34:56] MPC computation completed         │                          │
+│  │ [12:34:56] ALERT: Health below threshold     │                          │
+│  │ [12:34:57] Sending Telegram notification...  │                          │
+│  │ [12:34:57] Notification delivered             │                          │
+│  │ [12:34:58] Initiating emergency withdraw...  │                          │
+│  │ [12:34:58] TX: 4xKm...7pQr (pending)        │                          │
+│  │ [12:34:59] Awaiting confirmation... _         │                          │
+│  └─────────────────────────────────────────────┘                          │
+│                                                                            │
+└──────────────────────────────────────────────────────────────────────────────┘
+</pre>
+
+  <h3>Polish Notes</h3>
+  <div class="feature"><strong>Add:</strong> "Back to Alerts" breadcrumb link at top</div>
+  <div class="feature"><strong>Add:</strong> Solana Explorer link for transaction hash</div>
+  <div class="feature"><strong>Add:</strong> Time elapsed since alert was triggered (e.g., "2m 34s ago")</div>
+  <div class="feature"><strong>Improve:</strong> Transaction log should auto-scroll and have syntax highlighting</div>
+  <div class="feature"><strong>Improve:</strong> Step indicators should have connecting vertical line between them</div>
+</div>
+
+<!-- ============================================ -->
+<!-- SCREEN 6: ACTIVITY LOG -->
+<!-- ============================================ -->
+
+<h2>Screen 6: Activity Log <span class="new-badge">NEW PAGE</span></h2>
+
+<div class="screen">
+  <div class="screen-title">activity.html</div>
+  <div class="screen-file">Live agent activity feed — shows what the agent is doing in real time</div>
+  <div class="screen-desc">Terminal-style live feed of agent actions. Proves the agent is working. Great for demo video.</div>
+
+<pre>
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ [Shield] Fold BETA    Dashboard  Positions  Alerts  Activity  Settings      │
+├──────────────────────────────────────────────────────────────────────────────┤
+│                                                                            │
+│  Agent Activity                                     [● Live]  [Pause Feed] │
+│  Real-time monitoring feed                                                 │
+│                                                                            │
+│  ┌───────────────────────┐ ┌───────────────────────┐ ┌──────────────────┐ │
+│  │ Agent Status          │ │ Uptime                │ │ Checks/Hour     │ │
+│  │ [● ACTIVE]            │ │ 3d 14h 22m            │ │ 120              │ │
+│  └───────────────────────┘ └───────────────────────┘ └──────────────────┘ │
+│                                                                            │
+│  ┌───────────────────────────────────────────────────────────────────────┐ │
+│  │ $ fold-agent --monitor                                                │ │
+│  │                                                                       │ │
+│  │ [12:35:00] ● Running monitoring cycle...                              │ │
+│  │ [12:35:00]   Fetching 4 position(s) from 3 protocols                  │ │
+│  │ [12:35:01]   Encrypting position data (x25519 + RescueCipher)         │ │
+│  │ [12:35:01]   ████████████████████ → ciphertext (384 bytes)            │ │
+│  │ [12:35:01]   Submitting to Arcium MPC network...                      │ │
+│  │ [12:35:02]   TX: 7yMn...4kQp submitted                               │ │
+│  │ [12:35:03]   MPC nodes computing risk scores on encrypted data...     │ │
+│  │ [12:35:05]   ✓ Computation finalized                                  │ │
+│  │ [12:35:05]   Result: is_at_risk = false                               │ │
+│  │ [12:35:05]   Privacy preserved: agent never saw position values       │ │
+│  │ [12:35:05] ✓ All positions healthy                                    │ │
+│  │ [12:35:05]   Next check in 30s...                                     │ │
+│  │                                                                       │ │
+│  │ [12:35:35] ● Running monitoring cycle...                              │ │
+│  │ [12:35:35]   Fetching oracle prices (Pyth)...                         │ │
+│  │ [12:35:35]   SOL/USD: $142.87 | ETH/USD: $3,241.50                   │ │
+│  │ [12:35:36]   Encrypting position data...                              │ │
+│  │ [12:35:36]   Submitting to Arcium MPC network...                      │ │
+│  │ [12:35:38]   ✓ Computation finalized                                  │ │
+│  │ [12:35:38]   Result: is_at_risk = false                               │ │
+│  │ [12:35:38] ✓ All positions healthy                                    │ │
+│  │ [12:35:38] _                                                          │ │
+│  │                                                                       │ │
+│  └───────────────────────────────────────────────────────────────────────┘ │
+│  (dark-900 bg, mono font, auto-scrolling, color-coded lines)              │
+│                                                                            │
+│  ┌───────────────────────────────────────────────────────────────────────┐ │
+│  │ Encryption Proof                                                      │ │
+│  │                                                                       │ │
+│  │  Your Data          →   Encrypted         →   MPC Network   → Result │ │
+│  │  ┌──────────┐          ┌──────────────┐     ┌────────────┐    ┌───┐  │ │
+│  │  │ $5,000   │   🔒    │ 0x7f3a...9c  │    │ Node A: ██ │   │ ✓ │  │ │
+│  │  │ 115%     │  ───→   │ 0x2b1e...4d  │ →  │ Node B: ██ │ → │ or│  │ │
+│  │  │ 110%     │         │ 0x9e4c...7a  │    │ Node C: ██ │   │ ⚠ │  │ │
+│  │  └──────────┘         └──────────────┘     └────────────┘    └───┘  │ │
+│  │  (visible to you)     (leaves device)      (no node sees     (only  │ │
+│  │                                             plaintext)      output) │ │
+│  └───────────────────────────────────────────────────────────────────────┘ │
+│                                                                            │
+└──────────────────────────────────────────────────────────────────────────────┘
+</pre>
+
+  <div class="feature"><strong>Key feature:</strong> This page is critical for the demo video — it visually proves the encryption flow</div>
+  <div class="feature"><strong>Interaction:</strong> Terminal auto-scrolls, green text for success, yellow for warnings, red for alerts</div>
+  <div class="feature"><strong>Interaction:</strong> "Encryption Proof" diagram animates: data flows left→right with lock icon animation</div>
+  <div class="feature"><strong>Add:</strong> Copy log button, download log button</div>
+</div>
+
+<!-- ============================================ -->
+<!-- SCREEN 7: SETTINGS -->
+<!-- ============================================ -->
+
+<h2>Screen 7: Settings</h2>
+
+<div class="screen">
+  <div class="screen-title">settings.html <span class="changed-badge">POLISH</span></div>
+  <div class="screen-file">Configuration page for alerts, actions, thresholds, privacy, and frequency</div>
+  <div class="screen-desc">Narrower max-width (4xl). Stacked settings cards.</div>
+
+<pre>
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ [Shield] Fold BETA    Dashboard  Positions  Alerts  Activity  Settings      │
+├──────────────────────────────────────────────────────────────────────────────┤
+│                                                                            │
+│           Settings                                                         │
+│           Configure your protection preferences                            │
+│                                                                            │
+│           ┌──────────────────────────────────────────────┐                 │
+│           │ 🔔 Alert Notifications                       │                 │
+│           ├──────────────────────────────────────────────┤                 │
+│           │ [TG icon] Telegram    Connected    [●──ON ]  │                 │
+│           │ [DC icon] Discord     Not connected [──○OFF] │                 │
+│           │ [✉ icon] Email       Coming soon   [──○   ] │                 │
+│           └──────────────────────────────────────────────┘                 │
+│                                                                            │
+│           ┌──────────────────────────────────────────────┐                 │
+│           │ ⚡ Automated Actions                         │                 │
+│           ├──────────────────────────────────────────────┤                 │
+│           │ ⚠ Important: Actions require pre-signed txs │                 │
+│           │   You can revoke permissions at any time.    │                 │
+│           │                                              │                 │
+│           │ Emergency Withdraw           [●──ON ]        │                 │
+│           │ Convert to Stablecoin        [●──ON ]        │                 │
+│           │ Revoke Approvals             [──○OFF]        │                 │
+│           └──────────────────────────────────────────────┘                 │
+│                                                                            │
+│           ┌──────────────────────────────────────────────┐                 │
+│           │ 🚨 Risk Thresholds                           │                 │
+│           ├──────────────────────────────────────────────┤                 │
+│           │ Health Factor Alert              1.25        │                 │
+│           │ [────────●─────────────────────]              │                 │
+│           │ Aggressive 1.1          Conservative 2.0     │                 │
+│           │                                              │                 │
+│           │ Price Drop Alert                 10%         │                 │
+│           │ [──────────●───────────────────]              │                 │
+│           │ 5%                              30%          │                 │
+│           │                                              │                 │
+│           │ TVL Drop Alert                   20%         │                 │
+│           │ [────────────●─────────────────]              │                 │
+│           │ 10%                             50%          │                 │
+│           └──────────────────────────────────────────────┘                 │
+│                                                                            │
+│           ┌──────────────────────────────────────────────┐                 │
+│           │ 🔒 Privacy & Encryption                      │                 │
+│           ├──────────────────────────────────────────────┤                 │
+│           │ Arcium MPC Encryption [Required] [●──ON ]    │                 │
+│           │ Anonymous Alerts               [●──ON ]      │                 │
+│           │                                              │                 │
+│           │ ┌──────────────────────────────────────────┐ │                 │
+│           │ │ 🔒 Maximum Privacy Enabled               │ │                 │
+│           │ │ Agent cannot see values, protocols,      │ │                 │
+│           │ │ wallet, or portfolio composition.        │ │                 │
+│           │ └──────────────────────────────────────────┘ │                 │
+│           └──────────────────────────────────────────────┘                 │
+│                                                                            │
+│           ┌──────────────────────────────────────────────┐                 │
+│           │ ⏱ Monitoring Frequency                       │                 │
+│           ├──────────────────────────────────────────────┤                 │
+│           │  ┌────────┐  ┌═══════════┐  ┌────────┐     │                 │
+│           │  │  60s   │  ║   30s     ║  │  10s   │     │                 │
+│           │  │Standard│  ║  Active   ║  │Hi Alert│     │                 │
+│           │  └────────┘  └═══════════┘  └────────┘     │                 │
+│           │  Higher frequency = more compute credits    │                 │
+│           └──────────────────────────────────────────────┘                 │
+│                                                                            │
+│           ┌──────────────────────────────────────────────┐                 │
+│           │ 🔗 Connected Wallet                          │                 │
+│           ├──────────────────────────────────────────────┤                 │
+│           │ Address: 7xKp...3mNq                [Copy]  │                 │
+│           │ Network: Solana Devnet                       │                 │
+│           │ Agent Balance: 2.34 SOL                      │                 │
+│           │                                              │                 │
+│           │ [Disconnect Wallet]                          │                 │
+│           └──────────────────────────────────────────────┘                 │
+│                                                                            │
+│                     [Reset to Defaults]  [Save Changes]                    │
+│                                                                            │
+└──────────────────────────────────────────────────────────────────────────────┘
+</pre>
+
+  <h3>Polish Notes</h3>
+  <div class="feature"><strong>Add:</strong> Connected Wallet section (address, network, balance, disconnect)</div>
+  <div class="feature"><strong>Add:</strong> "Danger Zone" section at bottom with disconnect + delete account</div>
+  <div class="feature"><strong>Improve:</strong> Range sliders should show real-time value as you drag</div>
+  <div class="feature"><strong>Improve:</strong> Toggle switches need better visual feedback on click</div>
+</div>
+
+<!-- ============================================ -->
+<!-- GLOBAL COMPONENTS -->
+<!-- ============================================ -->
+
+<h2>Global Components</h2>
+
+<div class="screen">
+  <div class="screen-title">Navbar (all pages)</div>
+
+<pre>
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ [Shield Logo] Fold BETA     Dashboard  Positions  Alerts  Activity Settings │
+│                                                          [● 7xKp...3mNq]   │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+States:
+  - Normal:  Green shield, green pulse dot on wallet
+  - Alert:   Red shield, red pulse dot, nav border turns red, "ALERT" badge
+  - Loading: Shield pulses, "Connecting..." in wallet button
+
+Active page: white text + font-medium
+Inactive:    gray-400 text
+
+Mobile (&lt;768px): Hamburger menu → slide-out drawer
+</pre>
+
+  <div class="screen-title">Footer (all pages)</div>
+<pre>
+┌──────────────────────────────────────────────────────────────────────────────┐
+│  Built on Solana | Powered by Arcium              Docs  GitHub  Discord    │
+└──────────────────────────────────────────────────────────────────────────────┘
+</pre>
+
+  <div class="screen-title">Toast Notifications</div>
+<pre>
+  ┌─────────────────────────────────────────┐
+  │ ✓ Health check passed — all safe        │  ← top-right, auto-dismiss 5s
+  └─────────────────────────────────────────┘     green border-left
+
+  ┌─────────────────────────────────────────┐
+  │ ⚠ Collateral ratio dropping             │  ← yellow border-left
+  │   Position #2 approaching threshold     │     stays until dismissed
+  └─────────────────────────────────────────┘
+
+  ┌─────────────────────────────────────────┐
+  │ 🔴 CRITICAL: Position at risk!          │  ← red border-left + pulse
+  │   [View Alert]  [Dismiss]               │     stays until actioned
+  └─────────────────────────────────────────┘
+</pre>
+
+  <div class="screen-title">Loading States</div>
+<pre>
+  Position loading:
+  ┌───────────────────────────────────────────────┐
+  │  [░░░░░░░░░░░░░]  [░░░░░░]  [░░░░]  [░░░░]  │  ← skeleton shimmer
+  │  [░░░░░░░░░░░░░]  [░░░░░░]  [░░░░]  [░░░░]  │    gray bars that pulse
+  └───────────────────────────────────────────────┘
+
+  MPC computation in progress:
+  ┌───────────────────────────────────────────────┐
+  │  [◐ spinner]  Computing risk on encrypted     │  ← accent-blue spinner
+  │               data via Arcium MPC...          │    with progress dots
+  └───────────────────────────────────────────────┘
+
+  Empty state (no positions):
+  ┌───────────────────────────────────────────────┐
+  │         [Shield illustration]                  │
+  │                                                │
+  │    No positions being monitored yet           │
+  │    Add your first position to get started     │
+  │                                                │
+  │         [+ Add Your First Position]            │
+  └───────────────────────────────────────────────┘
+</pre>
+</div>
+
+<!-- ============================================ -->
+<!-- RESPONSIVE -->
+<!-- ============================================ -->
+
+<h2>Responsive Breakpoints</h2>
+
+<div class="screen">
+<table>
+  <tr><th>Breakpoint</th><th>Layout</th><th>Key Changes</th></tr>
+  <tr><td>&gt;1280px</td><td>Full desktop</td><td>3-column grid, full nav, all stats visible</td></tr>
+  <tr><td>768-1280px</td><td>Tablet</td><td>2-column grid, stats wrap to 2x2, nav shrinks</td></tr>
+  <tr><td>&lt;768px</td><td>Mobile</td><td>Single column, hamburger nav, stats stack, cards full width</td></tr>
+</table>
+
+<pre>
+Mobile Dashboard:
+┌────────────────────────┐
+│ [≡] Fold      [● Addr] │
+├────────────────────────┤
+│ ╔══════════════════╗   │
+│ ║ All Protected    ║   │
+│ ║ Privacy: 100%    ║   │
+│ ╚══════════════════╝   │
+│                        │
+│ ┌────────┐ ┌────────┐  │
+│ │ 4 pos  │ │ENCRYPT │  │
+│ └────────┘ └────────┘  │
+│ ┌────────┐ ┌────────┐  │
+│ │ 247 ck │ │ 0 blck │  │
+│ └────────┘ └────────┘  │
+│                        │
+│ ┌──────────────────┐   │
+│ │ [K] Lending #1   │   │
+│ │ Safe  12s  Auto  │   │
+│ ├──────────────────┤   │
+│ │ [M] Lending #2   │   │
+│ │ ⚠Caut  8s  Auto  │   │
+│ └──────────────────┘   │
+│                        │
+│ ┌──────────────────┐   │
+│ │ Recent Activity  │   │
+│ │ ...              │   │
+│ └──────────────────┘   │
+└────────────────────────┘
+</pre>
+</div>
+
+<!-- ============================================ -->
+<!-- IMPLEMENTATION PRIORITY -->
+<!-- ============================================ -->
+
+<h2>Implementation Priority (for hackathon deadline)</h2>
+
+<div class="screen">
+<table>
+  <tr><th>Priority</th><th>Screen/Feature</th><th>Why</th></tr>
+  <tr><td style="color:#ff4757">P0 — Critical</td><td>Dashboard polish (index.html)</td><td>This is what judges see first</td></tr>
+  <tr><td style="color:#ff4757">P0 — Critical</td><td>Activity Log page (activity.html)</td><td>Best for demo video — shows agent working live</td></tr>
+  <tr><td style="color:#ffa502">P1 — Important</td><td>Connect page polish (connect.html)</td><td>First impression, wallet logos</td></tr>
+  <tr><td style="color:#ffa502">P1 — Important</td><td>Alert detail polish (alert.html)</td><td>Shows the "wow" moment — risk detected</td></tr>
+  <tr><td style="color:#ffa502">P1 — Important</td><td>Navigation links working between pages</td><td>Judges will click around</td></tr>
+  <tr><td style="color:#3742fa">P2 — Nice</td><td>Alerts history page (alerts.html)</td><td>Shows the product has depth</td></tr>
+  <tr><td style="color:#3742fa">P2 — Nice</td><td>Positions page (positions.html)</td><td>Full management view</td></tr>
+  <tr><td style="color:#8b949e">P3 — Bonus</td><td>Settings polish</td><td>Already pretty good</td></tr>
+  <tr><td style="color:#8b949e">P3 — Bonus</td><td>Mobile responsive</td><td>Unlikely judges test on mobile</td></tr>
+  <tr><td style="color:#8b949e">P3 — Bonus</td><td>Toast notifications</td><td>Nice polish but not core</td></tr>
+</table>
+</div>
+
+</body>
+</html>

@@ -99,10 +99,11 @@
       </div>
 
       <div class="flex items-center gap-6">
-        <a href="#" class="text-gray-400 hover:text-white transition">Dashboard</a>
-        <a href="#" class="text-gray-400 hover:text-white transition">Positions</a>
-        <a href="#" class="text-gray-400 hover:text-white transition">Alerts</a>
-        <a href="#" class="text-gray-400 hover:text-white transition">Settings</a>
+        <a href="index.html" class="text-white font-medium">Dashboard</a>
+        <a href="positions.html" class="text-gray-400 hover:text-white transition">Positions</a>
+        <a href="alerts.html" class="text-gray-400 hover:text-white transition">Alerts</a>
+        <a href="activity.html" class="text-gray-400 hover:text-white transition">Activity</a>
+        <a href="settings.html" class="text-gray-400 hover:text-white transition">Settings</a>
       </div>
 
       <button class="flex items-center gap-2 px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:border-accent-green/50 transition">
@@ -171,7 +172,7 @@
       <div class="col-span-2 bg-dark-800 rounded-xl border border-dark-600">
         <div class="p-5 border-b border-dark-600 flex items-center justify-between">
           <h2 class="text-lg font-semibold">Protected Positions</h2>
-          <button class="text-sm text-accent-green hover:text-accent-green/80 transition">+ Add Position</button>
+          <a href="positions.html" class="text-sm text-accent-green hover:text-accent-green/80 transition">+ Add Position</a>
         </div>
 
         <div class="divide-y divide-dark-600">
@@ -363,7 +364,10 @@
 
         <!-- Recent Alerts -->
         <div class="bg-dark-800 rounded-xl border border-dark-600 p-5">
-          <h2 class="text-lg font-semibold mb-4">Recent Activity</h2>
+          <div class="flex items-center justify-between mb-4">
+            <h2 class="text-lg font-semibold">Recent Activity</h2>
+            <a href="activity.html" class="text-xs text-accent-blue hover:text-accent-blue/80 transition">View All</a>
+          </div>
           <div class="space-y-3">
             <div class="flex items-start gap-3 p-3 rounded-lg bg-dark-700/50">
               <div class="w-8 h-8 rounded-full bg-accent-green/10 flex items-center justify-center flex-shrink-0">

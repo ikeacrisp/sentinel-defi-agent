@@ -96,8 +96,9 @@
 
       <div class="flex items-center gap-6">
         <a href="index.html" class="text-gray-400 hover:text-white transition">Dashboard</a>
-        <a href="#" class="text-gray-400 hover:text-white transition">Positions</a>
-        <a href="alert.html" class="text-gray-400 hover:text-white transition">Alerts</a>
+        <a href="positions.html" class="text-gray-400 hover:text-white transition">Positions</a>
+        <a href="alerts.html" class="text-gray-400 hover:text-white transition">Alerts</a>
+        <a href="activity.html" class="text-gray-400 hover:text-white transition">Activity</a>
         <a href="settings.html" class="text-white font-medium">Settings</a>
       </div>
 
@@ -343,6 +344,36 @@
           </button>
         </div>
         <p class="text-xs text-gray-500 mt-3">Higher frequency uses more Arcium compute credits</p>
+      </div>
+
+      <!-- Connected Wallet -->
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
+        <h2 class="text-lg font-semibold mb-6 flex items-center gap-2">
+          <svg class="w-5 h-5 text-accent-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/>
+          </svg>
+          Connected Wallet
+        </h2>
+        <div class="space-y-4">
+          <div class="flex items-center justify-between p-4 rounded-lg bg-dark-700">
+            <div>
+              <div class="text-sm text-gray-400 mb-1">Address</div>
+              <div class="mono text-sm">7xKp...3mNq</div>
+            </div>
+            <button class="px-3 py-1.5 rounded-lg bg-dark-600 border border-dark-600 hover:border-accent-blue/50 transition text-xs text-gray-400">Copy</button>
+          </div>
+          <div class="grid grid-cols-2 gap-4">
+            <div class="p-4 rounded-lg bg-dark-700">
+              <div class="text-sm text-gray-400 mb-1">Network</div>
+              <div class="text-sm font-medium">Solana Devnet</div>
+            </div>
+            <div class="p-4 rounded-lg bg-dark-700">
+              <div class="text-sm text-gray-400 mb-1">Agent Balance</div>
+              <div class="text-sm font-medium mono">2.34 SOL</div>
+            </div>
+          </div>
+          <button class="w-full p-3 rounded-lg bg-accent-red/10 border border-accent-red/30 text-accent-red text-sm hover:bg-accent-red/20 transition">Disconnect Wallet</button>
+        </div>
       </div>
 
       <!-- Save Button -->

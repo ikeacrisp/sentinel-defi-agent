@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fold - Alerts</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            dark: { 900: '#0a0b0d', 800: '#12141a', 700: '#1a1d26', 600: '#242833' },
+            accent: { green: '#00ff88', red: '#ff4757', yellow: '#ffa502', blue: '#3742fa', purple: '#a855f7' }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+    body { font-family: 'Inter', sans-serif; background: #0a0b0d; }
+    .mono { font-family: 'JetBrains Mono', monospace; }
+    .pulse-green { animation: pulse-green 2s infinite; }
+    @keyframes pulse-green {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(0, 255, 136, 0.4); }
+      50% { box-shadow: 0 0 0 8px rgba(0, 255, 136, 0); }
+    }
+    .pulse-red { animation: pulse-red 1.5s infinite; }
+    @keyframes pulse-red {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(255, 71, 87, 0.4); }
+      50% { box-shadow: 0 0 0 6px rgba(255, 71, 87, 0); }
+    }
+    .alert-row { transition: all 0.15s; }
+    .alert-row:hover { background: rgba(26, 29, 38, 0.5); }
+    .unread { border-left: 3px solid; }
+  </style>
+</head>
+<body class="min-h-screen text-white">
+  <!-- Navigation -->
+  <nav class="border-b border-dark-600 px-6 py-4">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-accent-green to-accent-blue flex items-center justify-center">
+          <svg class="w-6 h-6 text-dark-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+          </svg>
+        </div>
+        <span class="text-xl font-bold">Fold</span>
+        <span class="text-xs px-2 py-1 rounded-full bg-accent-purple/20 text-accent-purple font-medium">BETA</span>
+      </div>
+      <div class="flex items-center gap-6">
+        <a href="index.html" class="text-gray-400 hover:text-white transition">Dashboard</a>
+        <a href="positions.html" class="text-gray-400 hover:text-white transition">Positions</a>
+        <a href="alerts.html" class="text-white font-medium">Alerts</a>
+        <a href="activity.html" class="text-gray-400 hover:text-white transition">Activity</a>
+        <a href="settings.html" class="text-gray-400 hover:text-white transition">Settings</a>
+      </div>
+      <button class="flex items-center gap-2 px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:border-accent-green/50 transition">
+        <div class="w-2 h-2 rounded-full bg-accent-green pulse-green"></div>
+        <span class="mono text-sm">7xKp...3mNq</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="max-w-7xl mx-auto px-6 py-8">
+    <!-- Header -->
+    <div class="flex items-center justify-between mb-6">
+      <div>
+        <h1 class="text-2xl font-bold mb-1">Alerts</h1>
+        <p class="text-gray-400">Security alerts and notifications</p>
+      </div>
+      <button class="px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:border-accent-blue/50 transition text-sm">Mark All Read</button>
+    </div>
+
+    <!-- Filters -->
+    <div class="flex items-center gap-2 mb-6">
+      <button class="px-3 py-1.5 rounded-lg bg-accent-blue/10 border border-accent-blue/30 text-accent-blue text-sm font-medium">All</button>
+      <button class="px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-gray-400 text-sm hover:border-accent-red/30 transition">Critical</button>
+      <button class="px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-gray-400 text-sm hover:border-accent-yellow/30 transition">Warning</button>
+      <button class="px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-gray-400 text-sm hover:border-accent-green/30 transition">Info</button>
+      <button class="px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-gray-400 text-sm hover:border-gray-400/30 transition">Resolved</button>
+      <div class="flex-1"></div>
+      <select class="px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-sm text-gray-400 focus:outline-none">
+        <option>Last 7 days</option>
+        <option>Last 30 days</option>
+        <option>All time</option>
+      </select>
+    </div>
+
+    <!-- Alerts List -->
+    <div class="bg-dark-800 rounded-xl border border-dark-600 overflow-hidden">
+      <!-- Today -->
+      <div class="px-5 py-2.5 bg-dark-700/50 border-b border-dark-600">
+        <span class="text-xs text-gray-500 font-medium uppercase tracking-wider">Today</span>
+      </div>
+
+      <!-- Critical Alert -->
+      <a href="alert.html" class="alert-row unread border-accent-red block border-b border-dark-600">
+        <div class="px-5 py-4 flex items-start gap-4">
+          <div class="w-10 h-10 rounded-full bg-accent-red/10 flex items-center justify-center flex-shrink-0">
+            <div class="w-3 h-3 rounded-full bg-accent-red pulse-red"></div>
+          </div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-2 mb-1">
+              <span class="px-2 py-0.5 rounded bg-accent-red/20 text-accent-red text-xs font-medium">CRITICAL</span>
+              <span class="font-medium">Position at Risk</span>
+            </div>
+            <p class="text-sm text-gray-400">Lending Position #2 health factor below threshold. Auto-protect initiated.</p>
+            <div class="flex items-center gap-3 mt-2">
+              <span class="text-xs text-gray-500">12:34 UTC</span>
+              <span class="px-2 py-0.5 rounded bg-accent-yellow/10 text-accent-yellow text-xs">Auto-protecting...</span>
+            </div>
+          </div>
+          <svg class="w-5 h-5 text-gray-500 flex-shrink-0 mt-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+        </div>
+      </a>
+
+      <!-- Warning -->
+      <a href="alert.html" class="alert-row unread border-accent-yellow block border-b border-dark-600">
+        <div class="px-5 py-4 flex items-start gap-4">
+          <div class="w-10 h-10 rounded-full bg-accent-yellow/10 flex items-center justify-center flex-shrink-0">
+            <svg class="w-5 h-5 text-accent-yellow" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+          </div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-2 mb-1">
+              <span class="px-2 py-0.5 rounded bg-accent-yellow/20 text-accent-yellow text-xs font-medium">WARNING</span>
+              <span class="font-medium">Oracle Volatility Detected</span>
+            </div>
+            <p class="text-sm text-gray-400">SOL/USD price dropped 8% in 1 hour. Monitoring frequency increased to 10s.</p>
+            <div class="flex items-center gap-3 mt-2">
+              <span class="text-xs text-gray-500">09:15 UTC</span>
+              <span class="px-2 py-0.5 rounded bg-accent-blue/10 text-accent-blue text-xs">Increased monitoring</span>
+            </div>
+          </div>
+          <svg class="w-5 h-5 text-gray-500 flex-shrink-0 mt-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+        </div>
+      </a>
+
+      <!-- Info -->
+      <div class="alert-row border-b border-dark-600">
+        <div class="px-5 py-4 flex items-start gap-4">
+          <div class="w-10 h-10 rounded-full bg-accent-green/10 flex items-center justify-center flex-shrink-0">
+            <svg class="w-5 h-5 text-accent-green" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+          </div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-2 mb-1">
+              <span class="px-2 py-0.5 rounded bg-accent-green/20 text-accent-green text-xs font-medium">INFO</span>
+              <span class="font-medium">Health Check Passed</span>
+            </div>
+            <p class="text-sm text-gray-400">All 4 positions healthy. 120 encrypted checks completed this cycle.</p>
+            <div class="flex items-center gap-3 mt-2">
+              <span class="text-xs text-gray-500">08:00 UTC</span>
+              <span class="px-2 py-0.5 rounded bg-accent-green/10 text-accent-green text-xs">Resolved</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Yesterday -->
+      <div class="px-5 py-2.5 bg-dark-700/50 border-b border-dark-600">
+        <span class="text-xs text-gray-500 font-medium uppercase tracking-wider">Yesterday</span>
+      </div>
+
+      <div class="alert-row border-b border-dark-600">
+        <div class="px-5 py-4 flex items-start gap-4">
+          <div class="w-10 h-10 rounded-full bg-accent-yellow/10 flex items-center justify-center flex-shrink-0">
+            <svg class="w-5 h-5 text-accent-yellow" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+          </div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-2 mb-1">
+              <span class="px-2 py-0.5 rounded bg-accent-yellow/20 text-accent-yellow text-xs font-medium">WARNING</span>
+              <span class="font-medium">Collateral Ratio Dropping</span>
+            </div>
+            <p class="text-sm text-gray-400">Position approaching caution zone. Collateral ratio within 5% of threshold.</p>
+            <div class="flex items-center gap-3 mt-2">
+              <span class="text-xs text-gray-500">22:10 UTC</span>
+              <span class="px-2 py-0.5 rounded bg-accent-green/10 text-accent-green text-xs">Resolved — ratio recovered</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="alert-row border-b border-dark-600">
+        <div class="px-5 py-4 flex items-start gap-4">
+          <div class="w-10 h-10 rounded-full bg-accent-blue/10 flex items-center justify-center flex-shrink-0">
+            <svg class="w-5 h-5 text-accent-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+          </div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-2 mb-1">
+              <span class="px-2 py-0.5 rounded bg-accent-blue/20 text-accent-blue text-xs font-medium">INFO</span>
+              <span class="font-medium">New Position Added</span>
+            </div>
+            <p class="text-sm text-gray-400">Staking Position #1 encrypted and added to monitoring. Auto-protect: Alert Only.</p>
+            <div class="flex items-center gap-3 mt-2">
+              <span class="text-xs text-gray-500">14:30 UTC</span>
+              <span class="px-2 py-0.5 rounded bg-accent-green/10 text-accent-green text-xs">Active</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="alert-row">
+        <div class="px-5 py-4 flex items-start gap-4">
+          <div class="w-10 h-10 rounded-full bg-accent-green/10 flex items-center justify-center flex-shrink-0">
+            <svg class="w-5 h-5 text-accent-green" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+          </div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-2 mb-1">
+              <span class="px-2 py-0.5 rounded bg-accent-green/20 text-accent-green text-xs font-medium">INFO</span>
+              <span class="font-medium">Daily Summary</span>
+            </div>
+            <p class="text-sm text-gray-400">4 positions monitored, 2,880 encrypted checks, 0 threats detected, privacy 100%.</p>
+            <div class="flex items-center gap-3 mt-2">
+              <span class="text-xs text-gray-500">00:00 UTC</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Alert Stats -->
+    <div class="mt-6 grid grid-cols-4 gap-4">
+      <div class="bg-dark-800 rounded-xl p-4 border border-dark-600 text-center">
+        <div class="text-2xl font-bold text-accent-red">1</div>
+        <div class="text-xs text-gray-500 mt-1">Critical (30d)</div>
+      </div>
+      <div class="bg-dark-800 rounded-xl p-4 border border-dark-600 text-center">
+        <div class="text-2xl font-bold text-accent-yellow">7</div>
+        <div class="text-xs text-gray-500 mt-1">Warnings (30d)</div>
+      </div>
+      <div class="bg-dark-800 rounded-xl p-4 border border-dark-600 text-center">
+        <div class="text-2xl font-bold text-accent-green">142</div>
+        <div class="text-xs text-gray-500 mt-1">Info (30d)</div>
+      </div>
+      <div class="bg-dark-800 rounded-xl p-4 border border-dark-600 text-center">
+        <div class="text-2xl font-bold text-accent-blue">3</div>
+        <div class="text-xs text-gray-500 mt-1">Auto-acted (30d)</div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-dark-600 mt-12 py-6">
+    <div class="max-w-7xl mx-auto px-6 flex items-center justify-between text-sm text-gray-400">
+      <div class="flex items-center gap-4">
+        <span>Built on Solana</span>
+        <span class="text-dark-600">|</span>
+        <span>Powered by Arcium</span>
+      </div>
+      <div class="flex items-center gap-4">
+        <a href="#" class="hover:text-white transition">Docs</a>
+        <a href="#" class="hover:text-white transition">GitHub</a>
+        <a href="#" class="hover:text-white transition">Discord</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

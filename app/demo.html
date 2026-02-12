@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fold — Privacy-Preserving DeFi Security Agent</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+  :root {
+    --bg: #0a0e17;
+    --surface: #111827;
+    --surface2: #1a2235;
+    --border: #1e293b;
+    --text: #e2e8f0;
+    --text-dim: #94a3b8;
+    --green: #10b981;
+    --green-dim: #065f46;
+    --blue: #3b82f6;
+    --purple: #8b5cf6;
+    --red: #ef4444;
+    --amber: #f59e0b;
+    --cyan: #06b6d4;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow: hidden;
+    width: 1920px;
+    height: 1080px;
+  }
+
+  .slide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+    padding: 80px;
+  }
+
+  .slide.active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .slide.exit {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+
+  /* Slide 1: Title */
+  .title-slide {
+    background: radial-gradient(ellipse at 50% 50%, rgba(16,185,129,0.08) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 20%, rgba(59,130,246,0.06) 0%, transparent 40%),
+                var(--bg);
+  }
+
+  .logo-mark {
+    width: 120px;
+    height: 120px;
+    border-radius: 28px;
+    background: linear-gradient(135deg, var(--green), var(--blue));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 56px;
+    font-weight: 900;
+    color: white;
+    margin-bottom: 40px;
+    box-shadow: 0 0 60px rgba(16,185,129,0.3);
+    animation: pulse-glow 3s ease-in-out infinite;
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% { box-shadow: 0 0 40px rgba(16,185,129,0.2); }
+    50% { box-shadow: 0 0 80px rgba(16,185,129,0.4); }
+  }
+
+  .title-main {
+    font-size: 72px;
+    font-weight: 800;
+    background: linear-gradient(135deg, #fff 0%, var(--text-dim) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 20px;
+  }
+
+  .title-sub {
+    font-size: 28px;
+    color: var(--green);
+    font-weight: 500;
+    margin-bottom: 60px;
+    opacity: 0;
+    animation: fade-in-up 0.6s ease 1s forwards;
+  }
+
+  .title-tagline {
+    font-size: 22px;
+    color: var(--text-dim);
+    max-width: 700px;
+    text-align: center;
+    line-height: 1.6;
+    opacity: 0;
+    animation: fade-in-up 0.6s ease 1.5s forwards;
+  }
+
+  .badge-row {
+    display: flex;
+    gap: 16px;
+    margin-top: 40px;
+    opacity: 0;
+    animation: fade-in-up 0.6s ease 2s forwards;
+  }
+
+  .badge {
+    padding: 8px 20px;
+    border-radius: 100px;
+    font-size: 14px;
+    font-weight: 600;
+    border: 1px solid;
+  }
+
+  .badge-green { border-color: var(--green); color: var(--green); background: rgba(16,185,129,0.1); }
+  .badge-blue { border-color: var(--blue); color: var(--blue); background: rgba(59,130,246,0.1); }
+  .badge-purple { border-color: var(--purple); color: var(--purple); background: rgba(139,92,246,0.1); }
+
+  @keyframes fade-in-up {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Slide 2: Problem */
+  .problem-slide {
+    background: radial-gradient(ellipse at 50% 50%, rgba(239,68,68,0.06) 0%, transparent 60%), var(--bg);
+  }
+
+  .section-label {
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-bottom: 24px;
+  }
+
+  .section-label-red { color: var(--red); }
+  .section-label-green { color: var(--green); }
+  .section-label-blue { color: var(--blue); }
+  .section-label-purple { color: var(--purple); }
+
+  .slide-title {
+    font-size: 52px;
+    font-weight: 800;
+    margin-bottom: 60px;
+    text-align: center;
+    line-height: 1.2;
+  }
+
+  .problem-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+    max-width: 1200px;
+  }
+
+  .problem-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 40px;
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  .problem-card.animate {
+    animation: card-in 0.5s ease forwards;
+  }
+
+  .problem-card:nth-child(1).animate { animation-delay: 0.3s; }
+  .problem-card:nth-child(2).animate { animation-delay: 0.6s; }
+  .problem-card:nth-child(3).animate { animation-delay: 0.9s; }
+
+  @keyframes card-in {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .problem-icon {
+    font-size: 48px;
+    margin-bottom: 20px;
+  }
+
+  .problem-stat {
+    font-size: 36px;
+    font-weight: 800;
+    color: var(--red);
+    margin-bottom: 8px;
+  }
+
+  .problem-desc {
+    font-size: 16px;
+    color: var(--text-dim);
+    line-height: 1.6;
+  }
+
+  .problem-highlight {
+    margin-top: 50px;
+    background: rgba(239,68,68,0.1);
+    border: 1px solid rgba(239,68,68,0.2);
+    border-radius: 12px;
+    padding: 24px 40px;
+    font-size: 20px;
+    color: var(--red);
+    font-weight: 600;
+    text-align: center;
+    opacity: 0;
+  }
+
+  .problem-highlight.animate {
+    animation: fade-in-up 0.6s ease 1.5s forwards;
+  }
+
+  /* Slide 3: Solution */
+  .solution-slide {
+    background: radial-gradient(ellipse at 50% 50%, rgba(16,185,129,0.08) 0%, transparent 60%), var(--bg);
+  }
+
+  .solution-main {
+    display: flex;
+    align-items: center;
+    gap: 80px;
+    max-width: 1400px;
+  }
+
+  .solution-text {
+    flex: 1;
+  }
+
+  .solution-text .slide-title {
+    text-align: left;
+    font-size: 46px;
+    margin-bottom: 30px;
+  }
+
+  .solution-text p {
+    font-size: 20px;
+    color: var(--text-dim);
+    line-height: 1.7;
+    margin-bottom: 20px;
+  }
+
+  .solution-text .highlight {
+    color: var(--green);
+    font-weight: 600;
+  }
+
+  .solution-visual {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .solution-step {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 20px 28px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    opacity: 0;
+    transform: translateX(40px);
+  }
+
+  .solution-step.animate {
+    animation: slide-in-left 0.5s ease forwards;
+  }
+
+  .solution-step:nth-child(1).animate { animation-delay: 0.3s; }
+  .solution-step:nth-child(2).animate { animation-delay: 0.6s; }
+  .solution-step:nth-child(3).animate { animation-delay: 0.9s; }
+  .solution-step:nth-child(4).animate { animation-delay: 1.2s; }
+
+  @keyframes slide-in-left {
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  .step-num {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  .step-num-green { background: rgba(16,185,129,0.15); color: var(--green); }
+  .step-num-blue { background: rgba(59,130,246,0.15); color: var(--blue); }
+  .step-num-purple { background: rgba(139,92,246,0.15); color: var(--purple); }
+  .step-num-cyan { background: rgba(6,182,212,0.15); color: var(--cyan); }
+
+  .step-text {
+    font-size: 17px;
+    font-weight: 500;
+  }
+
+  .step-detail {
+    font-size: 13px;
+    color: var(--text-dim);
+    margin-top: 4px;
+  }
+
+  /* Slide 4: Architecture / Encryption Flow */
+  .arch-slide {
+    background: radial-gradient(ellipse at 30% 50%, rgba(59,130,246,0.06) 0%, transparent 50%),
+                radial-gradient(ellipse at 70% 50%, rgba(139,92,246,0.06) 0%, transparent 50%),
+                var(--bg);
+  }
+
+  .flow-container {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    max-width: 1500px;
+    margin-top: 20px;
+  }
+
+  .flow-node {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    opacity: 0;
+    transform: scale(0.8);
+  }
+
+  .flow-node.animate {
+    animation: node-in 0.4s ease forwards;
+  }
+
+  .flow-node:nth-child(1).animate { animation-delay: 0.2s; }
+  .flow-node:nth-child(3).animate { animation-delay: 0.6s; }
+  .flow-node:nth-child(5).animate { animation-delay: 1.0s; }
+  .flow-node:nth-child(7).animate { animation-delay: 1.4s; }
+  .flow-node:nth-child(9).animate { animation-delay: 1.8s; }
+
+  @keyframes node-in {
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  .flow-icon-box {
+    width: 90px;
+    height: 90px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+    border: 2px solid;
+  }
+
+  .flow-icon-green { border-color: var(--green); background: rgba(16,185,129,0.1); }
+  .flow-icon-blue { border-color: var(--blue); background: rgba(59,130,246,0.1); }
+  .flow-icon-purple { border-color: var(--purple); background: rgba(139,92,246,0.1); }
+  .flow-icon-cyan { border-color: var(--cyan); background: rgba(6,182,212,0.1); }
+  .flow-icon-amber { border-color: var(--amber); background: rgba(245,158,11,0.1); }
+
+  .flow-label {
+    font-size: 15px;
+    font-weight: 600;
+    text-align: center;
+  }
+
+  .flow-sublabel {
+    font-size: 12px;
+    color: var(--text-dim);
+    text-align: center;
+    max-width: 120px;
+  }
+
+  .flow-arrow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 0 12px;
+    opacity: 0;
+  }
+
+  .flow-arrow.animate {
+    animation: arrow-in 0.3s ease forwards;
+  }
+
+  .flow-arrow:nth-child(2).animate { animation-delay: 0.4s; }
+  .flow-arrow:nth-child(4).animate { animation-delay: 0.8s; }
+  .flow-arrow:nth-child(6).animate { animation-delay: 1.2s; }
+  .flow-arrow:nth-child(8).animate { animation-delay: 1.6s; }
+
+  @keyframes arrow-in {
+    to { opacity: 1; }
+  }
+
+  .arrow-line {
+    width: 60px;
+    height: 2px;
+    position: relative;
+  }
+
+  .arrow-line::after {
+    content: '';
+    position: absolute;
+    right: -2px;
+    top: -4px;
+    border: 5px solid transparent;
+  }
+
+  .arrow-green .arrow-line { background: var(--green); }
+  .arrow-green .arrow-line::after { border-left-color: var(--green); }
+  .arrow-blue .arrow-line { background: var(--blue); }
+  .arrow-blue .arrow-line::after { border-left-color: var(--blue); }
+  .arrow-purple .arrow-line { background: var(--purple); }
+  .arrow-purple .arrow-line::after { border-left-color: var(--purple); }
+  .arrow-cyan .arrow-line { background: var(--cyan); }
+  .arrow-cyan .arrow-line::after { border-left-color: var(--cyan); }
+
+  .arrow-label {
+    font-size: 11px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .arrow-green .arrow-label { color: var(--green); }
+  .arrow-blue .arrow-label { color: var(--blue); }
+  .arrow-purple .arrow-label { color: var(--purple); }
+  .arrow-cyan .arrow-label { color: var(--cyan); }
+
+  /* Slide 5: Terminal Demo */
+  .demo-slide {
+    background: radial-gradient(ellipse at 50% 50%, rgba(16,185,129,0.05) 0%, transparent 60%), var(--bg);
+    align-items: center;
+  }
+
+  .terminal {
+    width: 1000px;
+    background: #0d1117;
+    border-radius: 12px;
+    border: 1px solid #30363d;
+    overflow: hidden;
+    box-shadow: 0 25px 80px rgba(0,0,0,0.5);
+    margin-top: 30px;
+  }
+
+  .terminal-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 16px;
+    background: #161b22;
+    border-bottom: 1px solid #30363d;
+  }
+
+  .terminal-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+  }
+
+  .dot-red { background: #ff5f57; }
+  .dot-yellow { background: #febc2e; }
+  .dot-green { background: #28c840; }
+
+  .terminal-title {
+    flex: 1;
+    text-align: center;
+    font-size: 13px;
+    color: #8b949e;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .terminal-body {
+    padding: 24px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    line-height: 1.8;
+    min-height: 420px;
+  }
+
+  .term-line {
+    opacity: 0;
+    white-space: pre;
+  }
+
+  .term-line.show {
+    animation: type-in 0.3s ease forwards;
+  }
+
+  @keyframes type-in {
+    from { opacity: 0; transform: translateX(-5px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  .t-green { color: #3fb950; }
+  .t-blue { color: #58a6ff; }
+  .t-purple { color: #bc8cff; }
+  .t-yellow { color: #d29922; }
+  .t-red { color: #f85149; }
+  .t-dim { color: #6e7681; }
+  .t-cyan { color: #39d353; }
+  .t-white { color: #e6edf3; }
+  .t-bold { font-weight: 600; }
+
+  /* Slide 6: Tech Stack */
+  .tech-slide {
+    background: radial-gradient(ellipse at 50% 50%, rgba(139,92,246,0.06) 0%, transparent 60%), var(--bg);
+  }
+
+  .tech-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+    max-width: 1200px;
+    margin-top: 10px;
+  }
+
+  .tech-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px;
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  .tech-card.animate {
+    animation: card-in 0.4s ease forwards;
+  }
+
+  .tech-card:nth-child(1).animate { animation-delay: 0.2s; }
+  .tech-card:nth-child(2).animate { animation-delay: 0.35s; }
+  .tech-card:nth-child(3).animate { animation-delay: 0.5s; }
+  .tech-card:nth-child(4).animate { animation-delay: 0.65s; }
+  .tech-card:nth-child(5).animate { animation-delay: 0.8s; }
+  .tech-card:nth-child(6).animate { animation-delay: 0.95s; }
+
+  .tech-card-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 16px;
+  }
+
+  .tech-card-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+  }
+
+  .tech-card h3 {
+    font-size: 18px;
+    font-weight: 700;
+  }
+
+  .tech-card p {
+    font-size: 14px;
+    color: var(--text-dim);
+    line-height: 1.6;
+  }
+
+  .tech-card code {
+    display: inline-block;
+    margin-top: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    background: rgba(255,255,255,0.05);
+    padding: 4px 10px;
+    border-radius: 6px;
+    color: var(--green);
+  }
+
+  /* Slide 7: Results / CTA */
+  .results-slide {
+    background: radial-gradient(ellipse at 50% 50%, rgba(16,185,129,0.08) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 80%, rgba(59,130,246,0.06) 0%, transparent 40%),
+                var(--bg);
+  }
+
+  .results-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 28px;
+    max-width: 1200px;
+    margin-bottom: 50px;
+  }
+
+  .result-card {
+    text-align: center;
+    padding: 32px 20px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    opacity: 0;
+  }
+
+  .result-card.animate {
+    animation: card-in 0.4s ease forwards;
+  }
+
+  .result-card:nth-child(1).animate { animation-delay: 0.2s; }
+  .result-card:nth-child(2).animate { animation-delay: 0.4s; }
+  .result-card:nth-child(3).animate { animation-delay: 0.6s; }
+  .result-card:nth-child(4).animate { animation-delay: 0.8s; }
+
+  .result-value {
+    font-size: 44px;
+    font-weight: 800;
+    margin-bottom: 8px;
+  }
+
+  .result-label {
+    font-size: 15px;
+    color: var(--text-dim);
+    font-weight: 500;
+  }
+
+  .cta-box {
+    text-align: center;
+    opacity: 0;
+  }
+
+  .cta-box.animate {
+    animation: fade-in-up 0.6s ease 1.2s forwards;
+  }
+
+  .cta-links {
+    display: flex;
+    gap: 20px;
+    margin-top: 24px;
+    justify-content: center;
+  }
+
+  .cta-link {
+    padding: 14px 32px;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .cta-primary {
+    background: linear-gradient(135deg, var(--green), #059669);
+    color: white;
+  }
+
+  .cta-secondary {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text);
+  }
+
+  /* Progress bar */
+  .progress-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--green), var(--blue));
+    transition: width 0.8s ease;
+    z-index: 100;
+  }
+
+  .slide-counter {
+    position: fixed;
+    bottom: 20px;
+    right: 30px;
+    font-size: 14px;
+    color: var(--text-dim);
+    font-weight: 500;
+    z-index: 100;
+  }
+
+  /* Controls hint */
+  .controls-hint {
+    position: fixed;
+    bottom: 20px;
+    left: 30px;
+    font-size: 13px;
+    color: var(--text-dim);
+    z-index: 100;
+    opacity: 0.6;
+  }
+</style>
+</head>
+<body>
+
+<!-- Slide 1: Title -->
+<div class="slide title-slide active" id="slide-1">
+  <div class="logo-mark">F</div>
+  <div class="title-main">Fold</div>
+  <div class="title-sub">Privacy-Preserving DeFi Security Agent</div>
+  <div class="title-tagline">
+    An autonomous agent that monitors your DeFi positions 24/7 using encrypted computation &mdash; detecting threats and executing protective actions <em>without ever seeing your data</em>.
+  </div>
+  <div class="badge-row">
+    <span class="badge badge-green">Arcium MPC</span>
+    <span class="badge badge-blue">Solana</span>
+    <span class="badge badge-purple">Colosseum Hackathon 2026</span>
+  </div>
+</div>
+
+<!-- Slide 2: Problem -->
+<div class="slide problem-slide" id="slide-2">
+  <div class="section-label section-label-red">THE PROBLEM</div>
+  <div class="slide-title">DeFi Security Has a Privacy Paradox</div>
+  <div class="problem-grid">
+    <div class="problem-card">
+      <div class="problem-icon">&#x1F4B8;</div>
+      <div class="problem-stat">$3.8B+</div>
+      <div class="problem-desc">Lost to DeFi exploits, rug pulls, and liquidations in 2025 alone. Users can't monitor positions 24/7.</div>
+    </div>
+    <div class="problem-card">
+      <div class="problem-icon">&#x1F441;</div>
+      <div class="problem-stat">100%</div>
+      <div class="problem-desc">of current monitoring tools (DeBank, Zapper, bots) require full portfolio visibility. To protect your money, you must expose it.</div>
+    </div>
+    <div class="problem-card">
+      <div class="problem-icon">&#x1F3AF;</div>
+      <div class="problem-stat">Honeypot</div>
+      <div class="problem-desc">Monitoring services that see large portfolios become attack targets. Your security tool becomes your vulnerability.</div>
+    </div>
+  </div>
+  <div class="problem-highlight">
+    To protect your money, you have to show it to someone. Until now.
+  </div>
+</div>
+
+<!-- Slide 3: Solution -->
+<div class="slide solution-slide" id="slide-3">
+  <div class="section-label section-label-green">THE SOLUTION</div>
+  <div class="solution-main">
+    <div class="solution-text">
+      <div class="slide-title">The Agent That<br>Can't See Your Data</div>
+      <p>Fold uses <span class="highlight">Arcium's Multi-Party Computation</span> network on Solana to monitor your DeFi positions without ever accessing the plaintext data.</p>
+      <p>Your positions stay encrypted end-to-end. Multiple MPC nodes compute risk scores cooperatively &mdash; no single node, and not even Fold itself, can see your portfolio.</p>
+    </div>
+    <div class="solution-visual">
+      <div class="solution-step">
+        <div class="step-num step-num-green">1</div>
+        <div>
+          <div class="step-text">Encrypt Position Data</div>
+          <div class="step-detail">x25519 ECDH key exchange with MPC network</div>
+        </div>
+      </div>
+      <div class="solution-step">
+        <div class="step-num step-num-blue">2</div>
+        <div>
+          <div class="step-text">Submit to Arcium MPC</div>
+          <div class="step-detail">Encrypted ciphertext sent on-chain to MPC nodes</div>
+        </div>
+      </div>
+      <div class="solution-step">
+        <div class="step-num step-num-purple">3</div>
+        <div>
+          <div class="step-text">Compute Risk Privately</div>
+          <div class="step-detail">MPC nodes evaluate health without decrypting</div>
+        </div>
+      </div>
+      <div class="solution-step">
+        <div class="step-num step-num-cyan">4</div>
+        <div>
+          <div class="step-text">Act on Results</div>
+          <div class="step-detail">Agent receives boolean risk signal, triggers alerts or emergency actions</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 4: Encryption Flow -->
+<div class="slide arch-slide" id="slide-4">
+  <div class="section-label section-label-blue">ENCRYPTION FLOW</div>
+  <div class="slide-title">How Fold Protects Your Data</div>
+  <div class="flow-container">
+    <div class="flow-node">
+      <div class="flow-icon-box flow-icon-green">&#x1F512;</div>
+      <div class="flow-label">User Wallet</div>
+      <div class="flow-sublabel">Derives x25519 keypair from signature</div>
+    </div>
+    <div class="flow-arrow arrow-green">
+      <div class="arrow-label">ENCRYPT</div>
+      <div class="arrow-line"></div>
+    </div>
+    <div class="flow-node">
+      <div class="flow-icon-box flow-icon-blue">&#x1F510;</div>
+      <div class="flow-label">RescueCipher</div>
+      <div class="flow-sublabel">Shared secret via ECDH + MXE pubkey</div>
+    </div>
+    <div class="flow-arrow arrow-blue">
+      <div class="arrow-label">CIPHERTEXT</div>
+      <div class="arrow-line"></div>
+    </div>
+    <div class="flow-node">
+      <div class="flow-icon-box flow-icon-purple">&#x26D3;</div>
+      <div class="flow-label">Solana Program</div>
+      <div class="flow-sublabel">Queues computation to Arcium MXE</div>
+    </div>
+    <div class="flow-arrow arrow-purple">
+      <div class="arrow-label">MPC COMPUTE</div>
+      <div class="arrow-line"></div>
+    </div>
+    <div class="flow-node">
+      <div class="flow-icon-box flow-icon-cyan">&#x1F5A7;</div>
+      <div class="flow-label">MPC Network</div>
+      <div class="flow-sublabel">Nodes compute risk without seeing data</div>
+    </div>
+    <div class="flow-arrow arrow-cyan">
+      <div class="arrow-label">RESULT</div>
+      <div class="arrow-line"></div>
+    </div>
+    <div class="flow-node">
+      <div class="flow-icon-box flow-icon-amber">&#x26A0;</div>
+      <div class="flow-label">Risk Alert</div>
+      <div class="flow-sublabel">Boolean: safe or at-risk (no data leaked)</div>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 5: Terminal Demo -->
+<div class="slide demo-slide" id="slide-5">
+  <div class="section-label section-label-green">LIVE AGENT</div>
+  <div class="slide-title" style="font-size:40px;">Fold Agent — Devnet Deployment</div>
+  <div class="terminal">
+    <div class="terminal-bar">
+      <div class="terminal-dot dot-red"></div>
+      <div class="terminal-dot dot-yellow"></div>
+      <div class="terminal-dot dot-green"></div>
+      <div class="terminal-title">fold-agent &mdash; devnet</div>
+    </div>
+    <div class="terminal-body" id="terminal-body">
+      <div class="term-line"><span class="t-dim">[00:01]</span> <span class="t-green t-bold">Fold DeFi Security Agent v1.0</span></div>
+      <div class="term-line"><span class="t-dim">[00:01]</span> <span class="t-white">Connecting to Solana devnet...</span></div>
+      <div class="term-line"><span class="t-dim">[00:02]</span> <span class="t-green">&#x2713;</span> <span class="t-white">Program: ABDZr..QbJC</span></div>
+      <div class="term-line"><span class="t-dim">[00:02]</span> <span class="t-white">Deriving encryption keys from wallet signature...</span></div>
+      <div class="term-line"><span class="t-dim">[00:03]</span> <span class="t-green">&#x2713;</span> <span class="t-blue">x25519 keypair derived</span></div>
+      <div class="term-line"><span class="t-dim">[00:03]</span> <span class="t-white">Fetching MXE public key...</span></div>
+      <div class="term-line"><span class="t-dim">[00:04]</span> <span class="t-green">&#x2713;</span> <span class="t-blue">ECDH shared secret computed</span></div>
+      <div class="term-line"><span class="t-dim">[00:04]</span> <span class="t-green">&#x2713;</span> <span class="t-purple">RescueCipher initialized</span></div>
+      <div class="term-line"><span class="t-dim">[00:05]</span> <span class="t-white">Monitoring position #1: $5,000 at 115% collateral</span></div>
+      <div class="term-line"><span class="t-dim">[00:05]</span> <span class="t-yellow">&#x25B6;</span> <span class="t-white">Encrypting position data...</span> <span class="t-dim">[3 fields, 48 bytes ciphertext]</span></div>
+      <div class="term-line"><span class="t-dim">[00:06]</span> <span class="t-yellow">&#x25B6;</span> <span class="t-white">Submitting encrypted health check to Arcium MPC...</span></div>
+      <div class="term-line"><span class="t-dim">[00:06]</span> <span class="t-dim">  tx: 4xR7k...signed and confirmed</span></div>
+      <div class="term-line"><span class="t-dim">[00:12]</span> <span class="t-purple">&#x25CF;</span> <span class="t-white">MPC computation processing... (2 nodes)</span></div>
+      <div class="term-line"><span class="t-dim">[00:18]</span> <span class="t-green">&#x2713;</span> <span class="t-white">Health check callback received</span></div>
+      <div class="term-line"><span class="t-dim">[00:19]</span> <span class="t-yellow">&#x25B6;</span> <span class="t-white">Revealing risk status...</span></div>
+      <div class="term-line"><span class="t-dim">[00:25]</span> <span class="t-red t-bold">&#x26A0; RISK DETECTED</span> <span class="t-white">Position #1 at risk (115% &lt; 120% threshold)</span></div>
+      <div class="term-line"><span class="t-dim">[00:25]</span> <span class="t-yellow">&#x25B6;</span> <span class="t-white">Sending Telegram alert...</span></div>
+      <div class="term-line"><span class="t-dim">[00:26]</span> <span class="t-green">&#x2713;</span> <span class="t-white">Alert sent. Evaluating emergency actions...</span></div>
+      <div class="term-line"><span class="t-dim">[00:26]</span> <span class="t-dim">---</span></div>
+      <div class="term-line"><span class="t-green t-bold">&#x2713; All data encrypted end-to-end. Zero plaintext exposure.</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 6: Tech Stack -->
+<div class="slide tech-slide" id="slide-6">
+  <div class="section-label section-label-purple">ARCHITECTURE</div>
+  <div class="slide-title" style="font-size:42px;">Three-Layer Privacy Stack</div>
+  <div class="tech-grid">
+    <div class="tech-card">
+      <div class="tech-card-header">
+        <div class="tech-card-icon" style="background:rgba(139,92,246,0.15); color:var(--purple);">&#x1F510;</div>
+        <h3>Arcis MPC Circuits</h3>
+      </div>
+      <p>Rust DSL circuits compiled for Arcium's MPC network. Computes risk scores on encrypted data.</p>
+      <code>init_risk_state | check_health | reveal_risk</code>
+    </div>
+    <div class="tech-card">
+      <div class="tech-card-header">
+        <div class="tech-card-icon" style="background:rgba(59,130,246,0.15); color:var(--blue);">&#x26D3;</div>
+        <h3>Anchor Program</h3>
+      </div>
+      <p>On-chain Solana program managing computation lifecycle, callbacks, and encrypted state.</p>
+      <code>Program ID: ABDZr3Dv...QbJC</code>
+    </div>
+    <div class="tech-card">
+      <div class="tech-card-header">
+        <div class="tech-card-icon" style="background:rgba(16,185,129,0.15); color:var(--green);">&#x1F916;</div>
+        <h3>Agent Service</h3>
+      </div>
+      <p>TypeScript monitoring loop with encryption, event listeners, and alert dispatch.</p>
+      <code>monitor.ts | alerts.ts | actions.ts</code>
+    </div>
+    <div class="tech-card">
+      <div class="tech-card-header">
+        <div class="tech-card-icon" style="background:rgba(6,182,212,0.15); color:var(--cyan);">&#x1F511;</div>
+        <h3>x25519 + RescueCipher</h3>
+      </div>
+      <p>ECDH key exchange with MPC network. Deterministic key derivation from wallet signature.</p>
+      <code>getSharedSecret() &#x2192; RescueCipher.encrypt()</code>
+    </div>
+    <div class="tech-card">
+      <div class="tech-card-header">
+        <div class="tech-card-icon" style="background:rgba(245,158,11,0.15); color:var(--amber);">&#x1F4CA;</div>
+        <h3>Pyth + Helius</h3>
+      </div>
+      <p>Real-time oracle price feeds and webhook-based event monitoring for instant reactions.</p>
+      <code>Pyth oracles | Helius webhooks</code>
+    </div>
+    <div class="tech-card">
+      <div class="tech-card-header">
+        <div class="tech-card-icon" style="background:rgba(239,68,68,0.15); color:var(--red);">&#x1F6E1;</div>
+        <h3>Emergency Actions</h3>
+      </div>
+      <p>Pre-authorized protective actions: collateral top-up, position unwinding via Jupiter swaps.</p>
+      <code>Jupiter swap | Telegram alert</code>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 7: Results / CTA -->
+<div class="slide results-slide" id="slide-7">
+  <div class="section-label section-label-green">BUILT ON SOLANA + ARCIUM</div>
+  <div class="slide-title" style="margin-bottom:40px;">Deployed on Devnet. Ready to Protect.</div>
+  <div class="results-grid">
+    <div class="result-card">
+      <div class="result-value" style="color:var(--green);">3</div>
+      <div class="result-label">MPC Circuits Deployed</div>
+    </div>
+    <div class="result-card">
+      <div class="result-value" style="color:var(--blue);">8</div>
+      <div class="result-label">On-chain Instructions</div>
+    </div>
+    <div class="result-card">
+      <div class="result-value" style="color:var(--purple);">0</div>
+      <div class="result-label">Bytes of Plaintext Exposed</div>
+    </div>
+    <div class="result-card">
+      <div class="result-value" style="color:var(--amber);">24/7</div>
+      <div class="result-label">Autonomous Monitoring</div>
+    </div>
+  </div>
+  <div class="cta-box">
+    <div style="font-size:28px; font-weight:700; margin-bottom:8px;">The agent that protects your money can't see it.</div>
+    <div style="font-size:18px; color:var(--text-dim);">github.com/ikeacrisp/fold-defi-agent</div>
+  </div>
+</div>
+
+<!-- Progress bar -->
+<div class="progress-bar" id="progress-bar"></div>
+<div class="slide-counter" id="slide-counter">1 / 7</div>
+<div class="controls-hint">Space / Arrow keys to navigate &bull; A = auto-play</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const totalSlides = slides.length;
+  let currentSlide = 0;
+  let autoPlayInterval = null;
+  const AUTO_PLAY_DELAY = 8000; // 8 seconds per slide
+  const TERMINAL_LINE_DELAY = 300;
+
+  function updateProgress() {
+    const pct = ((currentSlide + 1) / totalSlides) * 100;
+    document.getElementById('progress-bar').style.width = pct + '%';
+    document.getElementById('slide-counter').textContent = (currentSlide + 1) + ' / ' + totalSlides;
+  }
+
+  function animateElements(slide) {
+    const elements = slide.querySelectorAll('.problem-card, .problem-highlight, .solution-step, .flow-node, .flow-arrow, .tech-card, .result-card, .cta-box');
+    elements.forEach(el => el.classList.add('animate'));
+
+    // Terminal slide special handling
+    if (slide.id === 'slide-5') {
+      const lines = slide.querySelectorAll('.term-line');
+      lines.forEach((line, i) => {
+        setTimeout(() => line.classList.add('show'), i * TERMINAL_LINE_DELAY);
+      });
+    }
+  }
+
+  function resetAnimations(slide) {
+    const elements = slide.querySelectorAll('.animate');
+    elements.forEach(el => el.classList.remove('animate'));
+    const lines = slide.querySelectorAll('.term-line.show');
+    lines.forEach(el => el.classList.remove('show'));
+  }
+
+  function goToSlide(index) {
+    if (index < 0 || index >= totalSlides || index === currentSlide) return;
+
+    const current = slides[currentSlide];
+    const next = slides[index];
+
+    current.classList.remove('active');
+    current.classList.add('exit');
+    resetAnimations(current);
+
+    setTimeout(() => {
+      current.classList.remove('exit');
+      next.classList.add('active');
+      animateElements(next);
+      currentSlide = index;
+      updateProgress();
+    }, 400);
+  }
+
+  function nextSlide() {
+    if (currentSlide < totalSlides - 1) {
+      goToSlide(currentSlide + 1);
+    } else {
+      stopAutoPlay();
+    }
+  }
+
+  function prevSlide() {
+    goToSlide(currentSlide - 1);
+  }
+
+  function toggleAutoPlay() {
+    if (autoPlayInterval) {
+      stopAutoPlay();
+    } else {
+      startAutoPlay();
+    }
+  }
+
+  function startAutoPlay() {
+    if (autoPlayInterval) return;
+    autoPlayInterval = setInterval(nextSlide, AUTO_PLAY_DELAY);
+    document.querySelector('.controls-hint').textContent = 'AUTO-PLAYING \u2022 Press A to pause';
+  }
+
+  function stopAutoPlay() {
+    if (autoPlayInterval) {
+      clearInterval(autoPlayInterval);
+      autoPlayInterval = null;
+      document.querySelector('.controls-hint').textContent = 'Space / Arrow keys to navigate \u2022 A = auto-play';
+    }
+  }
+
+  // Keyboard controls
+  document.addEventListener('keydown', (e) => {
+    switch(e.key) {
+      case 'ArrowRight':
+      case ' ':
+        e.preventDefault();
+        nextSlide();
+        break;
+      case 'ArrowLeft':
+        e.preventDefault();
+        prevSlide();
+        break;
+      case 'a':
+      case 'A':
+        toggleAutoPlay();
+        break;
+    }
+  });
+
+  // Click to advance
+  document.addEventListener('click', (e) => {
+    if (e.clientX > window.innerWidth / 2) {
+      nextSlide();
+    } else {
+      prevSlide();
+    }
+  });
+
+  // Initialize first slide
+  animateElements(slides[0]);
+  updateProgress();
+</script>
+
+</body>
+</html>
