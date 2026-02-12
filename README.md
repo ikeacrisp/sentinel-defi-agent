@@ -2,6 +2,8 @@
 
 > An autonomous agent that monitors DeFi positions 24/7 using Arcium's MPC network — your portfolio is protected by an agent that literally cannot see your money.
 
+**[Live App](https://fold-defi-agent.vercel.app)** | **[Demo Presentation](https://fold-defi-agent.vercel.app/demo.html)**
+
 ## The Problem
 
 DeFi users lose billions annually to exploits, rug pulls, and liquidations. Current monitoring tools require exposing your entire portfolio — creating a privacy contradiction. You shouldn't have to sacrifice privacy for security.
@@ -97,11 +99,23 @@ arcium deploy --cluster-offset 456 --keypair-path ~/.config/solana/id.json --rec
 arcium finalize-mxe-keys ABDZr3DvUSnugBNrAj8vaAhKt3tHafA82MDja812QbJC --cluster-offset 456 --keypair-path ~/.config/solana/id.json --rpc-url devnet
 ```
 
+## Live App
+
+**https://fold-defi-agent.vercel.app** — Connect with Phantom, Solflare, or Backpack wallet on Solana Devnet.
+
+Features:
+- Real wallet connection with session persistence across pages
+- Live on-chain position data from the deployed Anchor program
+- Real-time agent activity feed with on-chain event subscription
+- Privacy-preserving encryption flow visualization
+
 ## Devnet Deployment
 
 | Component | Address / Link |
 |-----------|---------------|
 | Program ID | `ABDZr3DvUSnugBNrAj8vaAhKt3tHafA82MDja812QbJC` |
+| Live App | [fold-defi-agent.vercel.app](https://fold-defi-agent.vercel.app) |
+| Demo | [Presentation](https://fold-defi-agent.vercel.app/demo.html) |
 | Deploy TX | [Explorer](https://explorer.solana.com/tx/2Uj4F8sjCdyyGpC4kbRpPH6RgEmZaM6rkg4t5JtcqAd1V6mNtmUpq4bHtkqHPwYFbSfSr2wp8QesWH1ML9fSEEiE?cluster=devnet) |
 | MXE Init TX | [Explorer](https://explorer.solana.com/tx/3R8ZzhTaHkttJLcNjynKGCXLEMavdgVgeL8nqGimu4zo6EiMozgWRKkDPohfsLogahFEx8QKEcgMNtZqEwWguB9U?cluster=devnet) |
 | MXE Keys TX | [Explorer](https://explorer.solana.com/tx/xRNSM7Spnnz8Ecv23zxaNWzu9kp5wknRKfBZ8eZXqg994haYHjL2cNUeygp3SCE3mhU8KKfuxeQeyJ1F5W4hvXr?cluster=devnet) |
