@@ -83,6 +83,9 @@
       100% { background-position: -200% 0; }
     }
   </style>
+  <script src="https://unpkg.com/@solana/web3.js@1.98.0/lib/index.iife.min.js"></script>
+  <script src="wallet.js"></script>
+  <script src="program.js"></script>
 </head>
 <body class="min-h-screen text-white">
   <!-- Navigation -->
@@ -108,7 +111,7 @@
 
       <button class="flex items-center gap-2 px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:border-accent-green/50 transition">
         <div class="w-2 h-2 rounded-full bg-accent-green pulse-green"></div>
-        <span class="mono text-sm">7xKp...3mNq</span>
+        <span id="nav-wallet-addr" class="mono text-sm">Connecting...</span>
       </button>
     </div>
   </nav>
@@ -142,7 +145,7 @@
     <div class="grid grid-cols-4 gap-4 mb-8">
       <div class="bg-dark-800 rounded-xl p-5 border border-dark-600">
         <div class="text-gray-400 text-sm mb-2">Protected Positions</div>
-        <div class="text-3xl font-bold">4</div>
+        <div id="stat-position-count" class="text-3xl font-bold">4</div>
         <div class="text-xs text-gray-500 mt-1">Across 3 protocols</div>
       </div>
       <div class="bg-dark-800 rounded-xl p-5 border border-dark-600">
@@ -489,18 +492,66 @@
   </footer>
 
   <script>
-    // Simulate live updates
-    setInterval(() => {
-      const times = document.querySelectorAll('.mono');
-      times.forEach(el => {
-        if (el.textContent.includes('s ago')) {
-          const current = parseInt(el.textContent);
-          if (!isNaN(current)) {
-            el.textContent = (current + 1) + 's ago';
-          }
+    (async function() {
+      await FoldWallet.init();
+      if (!FoldWallet.isConnected()) { window.location.href = 'connect.html'; return; }
+
+      document.getElementById('nav-wallet-addr').textContent = FoldWallet.shortenAddress(FoldWallet.publicKey);
+
+      // Fetch real positions from devnet
+      try {
+        const positions = await FoldProgram.fetchPositionsByOwner(FoldWallet.publicKey);
+        document.getElementById('stat-position-count').textContent = positions.length;
+
+        const posContainer = document.querySelector('.divide-y.divide-dark-600');
+        if (positions.length > 0 && posContainer) {
+          posContainer.innerHTML = '';
+          const colors = ['from-blue-500 to-purple-500','from-orange-500 to-red-500','from-green-500 to-teal-500','from-pink-500 to-purple-500'];
+          positions.forEach((pos, i) => {
+            const lastCheckAgo = pos.lastCheck > 0 ? Math.floor(Date.now()/1000 - pos.lastCheck) : null;
+            const timeText = lastCheckAgo !== null ? lastCheckAgo + 's ago' : 'Never';
+            const statusClass = pos.isActive ? 'bg-accent-green/10 text-accent-green' : 'bg-gray-500/10 text-gray-500';
+            const statusText = pos.isActive ? 'Active' : 'Inactive';
+            posContainer.innerHTML += '<div class="p-5 hover:bg-dark-700/50 transition">' +
+              '<div class="flex items-center justify-between mb-3">' +
+                '<div class="flex items-center gap-3">' +
+                  '<div class="w-10 h-10 rounded-full bg-gradient-to-br ' + colors[i%colors.length] + ' flex items-center justify-center font-bold">' + pos.positionId + '</div>' +
+                  '<div><div class="font-medium">Position #' + pos.positionId + '</div>' +
+                  '<div class="text-sm text-gray-400">PDA: <span class="mono text-xs">' + pos.address.toBase58().slice(0,8) + '...</span></div></div>' +
+                '</div>' +
+                '<span class="px-2 py-1 rounded-full ' + statusClass + ' text-xs font-medium">' + statusText + '</span>' +
+              '</div>' +
+              '<div class="grid grid-cols-4 gap-4 text-sm">' +
+                '<div><div class="text-gray-400 mb-1">Value</div><div class="mono encrypted-text">\u2588\u2588\u2588\u2588\u2588\u2588</div></div>' +
+                '<div><div class="text-gray-400 mb-1">Risk State</div><div class="mono encrypted-text">\u2588\u2588\u2588\u2588</div></div>' +
+                '<div><div class="text-gray-400 mb-1">Last Check</div><div class="mono" data-last-check="' + pos.lastCheck + '">' + timeText + '</div></div>' +
+                '<div><div class="text-gray-400 mb-1">Active</div><div class="' + (pos.isActive ? 'text-accent-green' : 'text-gray-400') + '">' + (pos.isActive ? 'Monitoring' : 'Paused') + '</div></div>' +
+              '</div></div>';
+          });
+        } else if (positions.length === 0 && posContainer) {
+          posContainer.innerHTML = '<div class="p-8 text-center text-gray-500">' +
+            '<p class="mb-2">No positions found on-chain for this wallet.</p>' +
+            '<a href="positions.html" class="text-accent-green hover:underline">Register your first position</a></div>';
         }
-      });
-    }, 1000);
+      } catch (err) {
+        console.error('Failed to fetch positions:', err);
+      }
+
+      // Live timer
+      setInterval(() => {
+        document.querySelectorAll('[data-last-check]').forEach(el => {
+          const ts = parseInt(el.dataset.lastCheck);
+          if (ts > 0) el.textContent = Math.floor(Date.now()/1000 - ts) + 's ago';
+        });
+        // Also tick any existing mock times
+        document.querySelectorAll('.mono').forEach(el => {
+          if (el.dataset.lastCheck) return;
+          if (el.textContent.match(/^\d+s ago$/)) {
+            el.textContent = (parseInt(el.textContent) + 1) + 's ago';
+          }
+        });
+      }, 1000);
+    })();
   </script>
 </body>
 </html>

@@ -79,6 +79,8 @@
       50% { box-shadow: 0 0 0 8px rgba(0, 255, 136, 0); }
     }
   </style>
+  <script src="https://unpkg.com/@solana/web3.js@1.98.0/lib/index.iife.min.js"></script>
+  <script src="wallet.js"></script>
 </head>
 <body class="min-h-screen text-white">
   <!-- Navigation -->
@@ -104,7 +106,7 @@
 
       <button class="flex items-center gap-2 px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:border-accent-green/50 transition">
         <div class="w-2 h-2 rounded-full bg-accent-green pulse-green"></div>
-        <span class="mono text-sm">7xKp...3mNq</span>
+        <span id="nav-wallet-addr" class="mono text-sm">Connecting...</span>
       </button>
     </div>
   </nav>
@@ -358,7 +360,7 @@
           <div class="flex items-center justify-between p-4 rounded-lg bg-dark-700">
             <div>
               <div class="text-sm text-gray-400 mb-1">Address</div>
-              <div class="mono text-sm">7xKp...3mNq</div>
+              <div id="settings-wallet-addr" class="mono text-sm">Loading...</div>
             </div>
             <button class="px-3 py-1.5 rounded-lg bg-dark-600 border border-dark-600 hover:border-accent-blue/50 transition text-xs text-gray-400">Copy</button>
           </div>
@@ -369,10 +371,10 @@
             </div>
             <div class="p-4 rounded-lg bg-dark-700">
               <div class="text-sm text-gray-400 mb-1">Agent Balance</div>
-              <div class="text-sm font-medium mono">2.34 SOL</div>
+              <div id="settings-wallet-balance" class="text-sm font-medium mono">Loading...</div>
             </div>
           </div>
-          <button class="w-full p-3 rounded-lg bg-accent-red/10 border border-accent-red/30 text-accent-red text-sm hover:bg-accent-red/20 transition">Disconnect Wallet</button>
+          <button id="settings-disconnect-btn" class="w-full p-3 rounded-lg bg-accent-red/10 border border-accent-red/30 text-accent-red text-sm hover:bg-accent-red/20 transition">Disconnect Wallet</button>
         </div>
       </div>
 
@@ -403,5 +405,40 @@
       </div>
     </div>
   </footer>
+
+  <script>
+    (async function() {
+      await FoldWallet.init();
+      if (!FoldWallet.isConnected()) { window.location.href = 'connect.html'; return; }
+
+      var pubStr = FoldWallet.publicKey.toBase58();
+      var short = FoldWallet.shortenAddress(FoldWallet.publicKey);
+      document.getElementById('nav-wallet-addr').textContent = short;
+      document.getElementById('settings-wallet-addr').textContent = short;
+
+      try {
+        var bal = await FoldWallet.getBalance();
+        document.getElementById('settings-wallet-balance').textContent = bal.toFixed(4) + ' SOL';
+      } catch(e) {
+        document.getElementById('settings-wallet-balance').textContent = 'Error';
+      }
+
+      // Copy address
+      var copyBtn = document.getElementById('settings-wallet-addr').parentElement.querySelector('button');
+      if (copyBtn) {
+        copyBtn.addEventListener('click', async function() {
+          await navigator.clipboard.writeText(pubStr);
+          copyBtn.textContent = 'Copied!';
+          copyBtn.style.color = '#00ff88';
+          setTimeout(function() { copyBtn.textContent = 'Copy'; copyBtn.style.color = ''; }, 1500);
+        });
+      }
+
+      // Disconnect
+      document.getElementById('settings-disconnect-btn').addEventListener('click', function() {
+        FoldWallet.disconnect();
+      });
+    })();
+  </script>
 </body>
 </html>

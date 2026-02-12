@@ -83,6 +83,8 @@
       box-shadow: 0 0 60px rgba(255, 71, 87, 0.3);
     }
   </style>
+  <script src="https://unpkg.com/@solana/web3.js@1.98.0/lib/index.iife.min.js"></script>
+  <script src="wallet.js"></script>
 </head>
 <body class="min-h-screen text-white">
   <!-- Navigation -->
@@ -108,7 +110,7 @@
 
       <button class="flex items-center gap-2 px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:border-accent-red/50 transition">
         <div class="w-2 h-2 rounded-full bg-accent-red pulse-red"></div>
-        <span class="mono text-sm">7xKp...3mNq</span>
+        <span id="nav-wallet-addr" class="mono text-sm">Connecting...</span>
       </button>
     </div>
   </nav>
@@ -406,5 +408,11 @@
       </div>
     </div>
   </footer>
+  <script>
+    FoldWallet.init().then(function() {
+      if (!FoldWallet.isConnected()) { window.location.href = 'connect.html'; return; }
+      document.getElementById('nav-wallet-addr').textContent = FoldWallet.shortenAddress(FoldWallet.publicKey);
+    });
+  </script>
 </body>
 </html>

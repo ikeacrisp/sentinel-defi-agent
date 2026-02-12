@@ -87,6 +87,8 @@
       100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
     }
   </style>
+  <script src="https://unpkg.com/@solana/web3.js@1.98.0/lib/index.iife.min.js"></script>
+  <script src="wallet.js"></script>
 </head>
 <body class="min-h-screen text-white overflow-hidden">
   <!-- Particles Background -->
@@ -188,7 +190,7 @@
             </div>
 
             <div class="space-y-3">
-              <button onclick="location.href='index.html'" class="w-full p-4 rounded-xl bg-dark-700 border border-dark-600 hover:border-accent-purple/50 hover:bg-dark-600 transition flex items-center gap-4">
+              <button onclick="connectWallet('phantom')" class="w-full p-4 rounded-xl bg-dark-700 border border-dark-600 hover:border-accent-purple/50 hover:bg-dark-600 transition flex items-center gap-4" data-wallet="phantom">
                 <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-purple-500 to-purple-700 flex items-center justify-center">
                   <span class="text-xl">P</span>
                 </div>
@@ -198,7 +200,7 @@
                 </div>
               </button>
 
-              <button onclick="location.href='index.html'" class="w-full p-4 rounded-xl bg-dark-700 border border-dark-600 hover:border-accent-blue/50 hover:bg-dark-600 transition flex items-center gap-4">
+              <button onclick="connectWallet('solflare')" class="w-full p-4 rounded-xl bg-dark-700 border border-dark-600 hover:border-accent-blue/50 hover:bg-dark-600 transition flex items-center gap-4" data-wallet="solflare">
                 <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center">
                   <span class="text-xl">S</span>
                 </div>
@@ -208,7 +210,7 @@
                 </div>
               </button>
 
-              <button onclick="location.href='index.html'" class="w-full p-4 rounded-xl bg-dark-700 border border-dark-600 hover:border-accent-yellow/50 hover:bg-dark-600 transition flex items-center gap-4">
+              <button onclick="connectWallet('backpack')" class="w-full p-4 rounded-xl bg-dark-700 border border-dark-600 hover:border-accent-yellow/50 hover:bg-dark-600 transition flex items-center gap-4" data-wallet="backpack">
                 <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-yellow-500 to-orange-500 flex items-center justify-center">
                   <span class="text-xl">B</span>
                 </div>
@@ -252,5 +254,45 @@
       </div>
     </div>
   </main>
+
+  <script>
+    FoldWallet.init().then(() => {
+      if (FoldWallet.isConnected()) {
+        window.location.href = 'index.html';
+        return;
+      }
+      // Gray out unavailable wallets
+      const avail = FoldWallet.getProviderAvailability();
+      document.querySelectorAll('[data-wallet]').forEach(btn => {
+        const name = btn.dataset.wallet;
+        if (!avail[name]) {
+          btn.style.opacity = '0.4';
+          const sub = btn.querySelector('.text-xs');
+          if (sub) sub.textContent = 'Not detected \u2014 install to connect';
+        }
+      });
+    });
+
+    async function connectWallet(providerName) {
+      const btn = document.querySelector('[data-wallet="' + providerName + '"]');
+      btn.style.opacity = '0.6';
+      btn.style.pointerEvents = 'none';
+      try {
+        await FoldWallet.connect(providerName);
+        window.location.href = 'index.html';
+      } catch (err) {
+        console.error('Connect failed:', err);
+        btn.style.opacity = '1';
+        btn.style.pointerEvents = 'auto';
+        const label = btn.querySelector('.font-medium');
+        if (label) {
+          const orig = label.textContent;
+          label.textContent = 'Connection failed \u2014 try again';
+          label.style.color = '#ff4757';
+          setTimeout(() => { label.textContent = orig; label.style.color = ''; }, 2000);
+        }
+      }
+    }
+  </script>
 </body>
 </html>

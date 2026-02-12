@@ -43,6 +43,9 @@
     .detail-panel { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; }
     .detail-panel.open { max-height: 400px; }
   </style>
+  <script src="https://unpkg.com/@solana/web3.js@1.98.0/lib/index.iife.min.js"></script>
+  <script src="wallet.js"></script>
+  <script src="program.js"></script>
 </head>
 <body class="min-h-screen text-white">
   <!-- Navigation -->
@@ -66,7 +69,7 @@
       </div>
       <button class="flex items-center gap-2 px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:border-accent-green/50 transition">
         <div class="w-2 h-2 rounded-full bg-accent-green pulse-green"></div>
-        <span class="mono text-sm">7xKp...3mNq</span>
+        <span id="nav-wallet-addr" class="mono text-sm">Connecting...</span>
       </button>
     </div>
   </nav>
@@ -372,14 +375,38 @@
     function toggleDetail(id) {
       document.getElementById(id).classList.toggle('open');
     }
-    // Tick timers
-    setInterval(() => {
-      ['check1','check2','check3','check4'].forEach(id => {
-        const el = document.getElementById(id);
-        const m = el.textContent.match(/(\d+)s/);
-        if (m) el.textContent = (parseInt(m[1]) + 1) + 's ago';
-      });
-    }, 1000);
+
+    (async function() {
+      await FoldWallet.init();
+      if (!FoldWallet.isConnected()) { window.location.href = 'connect.html'; return; }
+      document.getElementById('nav-wallet-addr').textContent = FoldWallet.shortenAddress(FoldWallet.publicKey);
+
+      // Fetch real positions
+      try {
+        var positions = await FoldProgram.fetchPositionsByOwner(FoldWallet.publicKey);
+        // Update filter counts
+        var allBadge = document.querySelector('[class*="text-accent-green"][class*="font-semibold"]');
+        if (allBadge && allBadge.textContent.includes('All')) {
+          // keep as is for now
+        }
+        // If we have real positions, we could replace the mock list
+        // For now, append a live section indicator
+        if (positions.length > 0) {
+          var header = document.querySelector('h1');
+          if (header) header.textContent = 'Positions (' + positions.length + ' on-chain)';
+        }
+      } catch(e) { console.error(e); }
+
+      // Tick timers
+      setInterval(function() {
+        ['check1','check2','check3','check4'].forEach(function(id) {
+          var el = document.getElementById(id);
+          if (!el) return;
+          var m = el.textContent.match(/(\d+)s/);
+          if (m) el.textContent = (parseInt(m[1]) + 1) + 's ago';
+        });
+      }, 1000);
+    })();
   </script>
 </body>
 </html>

@@ -47,6 +47,9 @@
       50% { opacity: 0.5; transform: scale(1.5); }
     }
   </style>
+  <script src="https://unpkg.com/@solana/web3.js@1.98.0/lib/index.iife.min.js"></script>
+  <script src="wallet.js"></script>
+  <script src="program.js"></script>
 </head>
 <body class="min-h-screen text-white">
   <!-- Navigation -->
@@ -70,7 +73,7 @@
       </div>
       <button class="flex items-center gap-2 px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:border-accent-green/50 transition">
         <div class="w-2 h-2 rounded-full bg-accent-green pulse-green"></div>
-        <span class="mono text-sm">7xKp...3mNq</span>
+        <span id="nav-wallet-addr" class="mono text-sm">Connecting...</span>
       </button>
     </div>
   </nav>
@@ -263,6 +266,42 @@
     let cycleCount = 0;
     const terminal = document.getElementById('terminal');
 
+    // Wallet init
+    (async function() {
+      await FoldWallet.init();
+      if (!FoldWallet.isConnected()) {
+        window.location.href = 'connect.html';
+        return;
+      }
+      document.getElementById('nav-wallet-addr').textContent = FoldWallet.shortenAddress();
+
+      // Update init lines with real wallet info
+      const initWalletLine = terminal.querySelector('div:nth-child(5)');
+      if (initWalletLine) initWalletLine.textContent = '[init] Agent wallet: ' + FoldWallet.shortenAddress();
+      try {
+        const bal = await FoldWallet.getBalance();
+        const initBalLine = terminal.querySelector('div:nth-child(6)');
+        if (initBalLine) initBalLine.textContent = '[init] Balance: ' + bal.toFixed(2) + ' SOL';
+      } catch(e) {}
+
+      // Subscribe to real on-chain events
+      try {
+        FoldProgram.subscribeToEvents(function(event) {
+          const colors = {
+            positionRegistered: 'text-accent-green',
+            healthCheckCompleted: 'text-accent-blue',
+            riskRevealed: 'text-accent-purple',
+            actionRequired: 'text-accent-red'
+          };
+          const color = colors[event.name] || 'text-accent-green';
+          addLine('[ON-CHAIN] ' + event.name + ' (tx: ' + event.signature.slice(0, 8) + '...)', color);
+        });
+      } catch(e) {}
+
+      // Start simulation loop
+      run();
+    })();
+
     function timestamp() {
       const d = new Date();
       return d.toTimeString().slice(0, 8);
@@ -273,7 +312,6 @@
       const div = document.createElement('div');
       div.className = color;
       div.textContent = `[${timestamp()}] ${text}`;
-      // Remove blinking cursor if present
       const cursor = terminal.querySelector('.blink');
       if (cursor) cursor.remove();
       terminal.appendChild(div);
@@ -293,7 +331,7 @@
       cycleCount++;
       const positions = 4;
       const protocols = 3;
-      const isRisky = cycleCount % 12 === 0; // Every 12th cycle shows a warning
+      const isRisky = cycleCount % 12 === 0;
 
       addLine('');
       addLine(`Running monitoring cycle #${cycleCount}...`, 'text-white');
@@ -352,7 +390,6 @@
       addLine(`  Next check in 30s...`, 'text-gray-500');
       addCursor();
 
-      // Update MPC count
       const el = document.getElementById('mpcCount');
       el.textContent = (1247 + cycleCount * 4).toLocaleString();
     }
@@ -369,15 +406,13 @@
       navigator.clipboard.writeText(text);
     }
 
-    // Start cycles
     async function run() {
       await sleep(2000);
       while (true) {
         await monitoringCycle();
-        await sleep(8000); // Wait between cycles (simulated 30s as 8s)
+        await sleep(8000);
       }
     }
-    run();
   </script>
 </body>
 </html>
