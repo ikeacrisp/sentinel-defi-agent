@@ -5,292 +5,165 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Fold - Connect Wallet</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            dark: {
-              900: '#0a0b0d',
-              800: '#12141a',
-              700: '#1a1d26',
-              600: '#242833',
-            },
-            accent: {
-              green: '#00ff88',
-              red: '#ff4757',
-              yellow: '#ffa502',
-              blue: '#3742fa',
-              purple: '#a855f7',
-            }
-          }
-        }
-      }
-    }
-  </script>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
-
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
     body {
-      font-family: 'Inter', sans-serif;
-      background: #0a0b0d;
+      font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
+      background: #0b0e14;
+      color: #fff;
     }
-
-    .mono {
-      font-family: 'JetBrains Mono', monospace;
-    }
-
-    .gradient-text {
-      background: linear-gradient(135deg, #00ff88 0%, #3742fa 50%, #a855f7 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .gradient-border {
-      background: linear-gradient(135deg, #00ff88 0%, #3742fa 50%, #a855f7 100%);
-      padding: 1px;
-      border-radius: 12px;
-    }
-
-    .gradient-border-inner {
-      background: #12141a;
-      border-radius: 11px;
-    }
-
-    .float {
-      animation: float 6s ease-in-out infinite;
-    }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-20px); }
-    }
-
-    .glow {
-      box-shadow: 0 0 100px rgba(0, 255, 136, 0.2);
-    }
-
-    .particle {
-      position: absolute;
-      width: 4px;
-      height: 4px;
-      background: #00ff88;
-      border-radius: 50%;
-      opacity: 0.3;
-      animation: particle 20s linear infinite;
-    }
-
-    @keyframes particle {
-      0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
-      10% { opacity: 0.3; }
-      90% { opacity: 0.3; }
-      100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
-    }
+    .fold-card { background: rgba(255,255,255,0.05); border-radius: 24px; overflow: hidden; }
+    .footer-bar { backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); background: rgba(255,255,255,0.02); border-radius: 42px 42px 0 0; }
+    .particle { position: absolute; width: 4px; height: 4px; background: #00EAFF; border-radius: 50%; opacity: 0.2; animation: particle 20s linear infinite; }
+    @keyframes particle { 0% { transform: translateY(100vh); opacity: 0; } 10% { opacity: 0.2; } 90% { opacity: 0.2; } 100% { transform: translateY(-100vh); opacity: 0; } }
+    .float { animation: float 6s ease-in-out infinite; }
+    @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-20px); } }
+    .wallet-btn { transition: all 0.15s; }
+    .wallet-btn:hover { background: rgba(255,255,255,0.08) !important; }
   </style>
   <script src="https://unpkg.com/@solana/web3.js@1.98.0/lib/index.iife.min.js"></script>
   <script src="wallet.js"></script>
 </head>
-<body class="min-h-screen text-white overflow-hidden">
-  <!-- Particles Background -->
+<body class="min-h-screen flex flex-col overflow-hidden">
+  <!-- Particles -->
   <div class="fixed inset-0 pointer-events-none overflow-hidden">
-    <div class="particle" style="left: 10%; animation-delay: 0s;"></div>
-    <div class="particle" style="left: 20%; animation-delay: 2s;"></div>
-    <div class="particle" style="left: 30%; animation-delay: 4s;"></div>
-    <div class="particle" style="left: 40%; animation-delay: 6s;"></div>
-    <div class="particle" style="left: 50%; animation-delay: 8s;"></div>
-    <div class="particle" style="left: 60%; animation-delay: 10s;"></div>
-    <div class="particle" style="left: 70%; animation-delay: 12s;"></div>
-    <div class="particle" style="left: 80%; animation-delay: 14s;"></div>
-    <div class="particle" style="left: 90%; animation-delay: 16s;"></div>
+    <div class="particle" style="left:10%;animation-delay:0s;"></div>
+    <div class="particle" style="left:20%;animation-delay:2s;"></div>
+    <div class="particle" style="left:35%;animation-delay:4s;"></div>
+    <div class="particle" style="left:50%;animation-delay:6s;"></div>
+    <div class="particle" style="left:65%;animation-delay:8s;"></div>
+    <div class="particle" style="left:80%;animation-delay:10s;"></div>
+    <div class="particle" style="left:90%;animation-delay:12s;"></div>
   </div>
 
   <!-- Navigation -->
-  <nav class="border-b border-dark-600 px-6 py-4 relative z-10">
-    <div class="max-w-7xl mx-auto flex items-center justify-between">
+  <nav class="px-[42px] py-[42px] flex items-center justify-between relative z-10">
+    <div class="flex items-center gap-[42px]">
       <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-accent-green to-accent-blue flex items-center justify-center">
-          <svg class="w-6 h-6 text-dark-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
-          </svg>
-        </div>
-        <span class="text-xl font-bold">Fold</span>
+        <svg width="90" height="22" viewBox="0 0 90 22" fill="none">
+          <path d="M0 11C0 4.925 4.925 0 11 0C17.075 0 22 4.925 22 11C22 17.075 17.075 22 11 22C4.925 22 0 17.075 0 11Z" fill="#00EAFF" opacity="0.2"/>
+          <path d="M7 8.5L11 6L15 8.5V13.5L11 16L7 13.5V8.5Z" stroke="#00EAFF" stroke-width="1.5" fill="none"/>
+          <path d="M11 6V16M7 8.5L15 13.5M15 8.5L7 13.5" stroke="#00EAFF" stroke-width="0.75" opacity="0.5"/>
+          <text x="28" y="16" fill="white" font-family="'SF Pro Display',-apple-system,BlinkMacSystemFont,'Inter',sans-serif" font-weight="600" font-size="18" letter-spacing="-0.5">fold</text>
+        </svg>
+        <div class="flex items-center justify-center px-3 py-1.5 rounded-md" style="background:rgba(255,255,255,0.1);"><span style="font-size:15px;font-weight:500;color:rgba(255,255,255,0.5);">beta</span></div>
       </div>
-
-      <div class="flex items-center gap-4">
-        <a href="#" class="text-gray-400 hover:text-white transition">Docs</a>
-        <a href="https://github.com/ikeacrisp/fold-defi-agent" class="text-gray-400 hover:text-white transition">GitHub</a>
-      </div>
+    </div>
+    <div class="flex items-center">
+      <a href="#" class="px-6 py-3 text-[15px] font-medium" style="color:rgba(255,255,255,0.6);text-decoration:none;">Docs</a>
+      <a href="https://github.com/ikeacrisp/fold-defi-agent" class="px-6 py-3 text-[15px] font-medium" style="color:rgba(255,255,255,0.6);text-decoration:none;">Github</a>
     </div>
   </nav>
 
   <!-- Main Content -->
-  <main class="min-h-[calc(100vh-80px)] flex items-center justify-center px-6 relative z-10">
-    <div class="max-w-4xl w-full">
-      <div class="grid grid-cols-2 gap-12 items-center">
-        <!-- Left: Hero -->
-        <div>
-          <h1 class="text-5xl font-bold mb-6 leading-tight">
-            DeFi Security
-            <br/>
-            <span class="gradient-text">Without Surveillance</span>
-          </h1>
-          <p class="text-xl text-gray-400 mb-8">
-            The first security agent that protects your positions 24/7 without ever seeing your portfolio.
-          </p>
-          <div class="space-y-4 mb-8">
-            <div class="flex items-center gap-3">
-              <div class="w-8 h-8 rounded-full bg-accent-green/10 flex items-center justify-center">
-                <svg class="w-4 h-4 text-accent-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                </svg>
-              </div>
-              <span class="text-gray-300">Encrypted position monitoring via Arcium MPC</span>
+  <main class="flex-1 flex items-center justify-center px-[42px] relative z-10">
+    <div class="max-w-5xl w-full grid grid-cols-2 gap-16 items-center">
+      <!-- Left: Hero -->
+      <div>
+        <h1 class="text-5xl font-semibold mb-6 leading-tight">
+          DeFi Security
+          <br/><span style="color:#00EAFF;">Without Surveillance</span>
+        </h1>
+        <p class="text-xl mb-10" style="color:rgba(255,255,255,0.6);">
+          The first security agent that protects your positions 24/7 without ever seeing your portfolio.
+        </p>
+        <div class="space-y-5 mb-10">
+          <div class="flex items-center gap-4">
+            <div class="w-8 h-8 rounded-full flex items-center justify-center" style="background:rgba(43,174,218,0.1);">
+              <svg width="16" height="16" fill="none" stroke="#00EAFF" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
             </div>
-            <div class="flex items-center gap-3">
-              <div class="w-8 h-8 rounded-full bg-accent-green/10 flex items-center justify-center">
-                <svg class="w-4 h-4 text-accent-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                </svg>
-              </div>
-              <span class="text-gray-300">Automated protection against liquidations</span>
-            </div>
-            <div class="flex items-center gap-3">
-              <div class="w-8 h-8 rounded-full bg-accent-green/10 flex items-center justify-center">
-                <svg class="w-4 h-4 text-accent-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                </svg>
-              </div>
-              <span class="text-gray-300">Agent never sees your actual data</span>
-            </div>
+            <span style="color:rgba(255,255,255,0.7);">Encrypted position monitoring via Arcium MPC</span>
           </div>
-          <div class="flex items-center gap-4 text-sm text-gray-500">
-            <div class="flex items-center gap-2">
-              <img src="https://cryptologos.cc/logos/solana-sol-logo.svg" class="w-5 h-5" alt="Solana" onerror="this.style.display='none'">
-              <span>Built on Solana</span>
+          <div class="flex items-center gap-4">
+            <div class="w-8 h-8 rounded-full flex items-center justify-center" style="background:rgba(43,174,218,0.1);">
+              <svg width="16" height="16" fill="none" stroke="#00EAFF" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
             </div>
-            <span class="text-dark-600">|</span>
-            <div class="flex items-center gap-2">
-              <div class="w-5 h-5 rounded bg-gradient-to-br from-purple-500 to-blue-500"></div>
-              <span>Powered by Arcium</span>
+            <span style="color:rgba(255,255,255,0.7);">Automated protection against liquidations</span>
+          </div>
+          <div class="flex items-center gap-4">
+            <div class="w-8 h-8 rounded-full flex items-center justify-center" style="background:rgba(43,174,218,0.1);">
+              <svg width="16" height="16" fill="none" stroke="#00EAFF" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
             </div>
+            <span style="color:rgba(255,255,255,0.7);">Agent never sees your actual data</span>
           </div>
         </div>
-
-        <!-- Right: Connect Card -->
-        <div class="gradient-border glow">
-          <div class="gradient-border-inner p-8">
-            <div class="text-center mb-8">
-              <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-accent-green/20 to-accent-blue/20 flex items-center justify-center mx-auto mb-4 float">
-                <svg class="w-10 h-10 text-accent-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
-                </svg>
-              </div>
-              <h2 class="text-2xl font-bold mb-2">Connect Your Wallet</h2>
-              <p class="text-gray-400">Start protecting your DeFi positions</p>
-            </div>
-
-            <div class="space-y-3">
-              <button onclick="connectWallet('phantom')" class="w-full p-4 rounded-xl bg-dark-700 border border-dark-600 hover:border-accent-purple/50 hover:bg-dark-600 transition flex items-center gap-4" data-wallet="phantom">
-                <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-purple-500 to-purple-700 flex items-center justify-center">
-                  <span class="text-xl">P</span>
-                </div>
-                <div class="text-left">
-                  <div class="font-medium">Phantom</div>
-                  <div class="text-xs text-gray-400">Solana's most popular wallet</div>
-                </div>
-              </button>
-
-              <button onclick="connectWallet('solflare')" class="w-full p-4 rounded-xl bg-dark-700 border border-dark-600 hover:border-accent-blue/50 hover:bg-dark-600 transition flex items-center gap-4" data-wallet="solflare">
-                <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center">
-                  <span class="text-xl">S</span>
-                </div>
-                <div class="text-left">
-                  <div class="font-medium">Solflare</div>
-                  <div class="text-xs text-gray-400">Non-custodial Solana wallet</div>
-                </div>
-              </button>
-
-              <button onclick="connectWallet('backpack')" class="w-full p-4 rounded-xl bg-dark-700 border border-dark-600 hover:border-accent-yellow/50 hover:bg-dark-600 transition flex items-center gap-4" data-wallet="backpack">
-                <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-yellow-500 to-orange-500 flex items-center justify-center">
-                  <span class="text-xl">B</span>
-                </div>
-                <div class="text-left">
-                  <div class="font-medium">Backpack</div>
-                  <div class="text-xs text-gray-400">xNFT-enabled wallet</div>
-                </div>
-              </button>
-            </div>
-
-            <div class="mt-6 pt-6 border-t border-dark-600">
-              <div class="flex items-center justify-center gap-2 text-sm text-gray-500">
-                <svg class="w-4 h-4 text-accent-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
-                </svg>
-                <span>Your keys, your crypto. Always.</span>
-              </div>
-            </div>
-          </div>
+        <div class="flex items-center gap-3 text-[15px]" style="color:rgba(255,255,255,0.5);">
+          <span>built on</span><span class="text-white font-semibold">SOLANA</span>
+          <div style="width:2px;height:16px;background:rgba(217,217,217,0.2);"></div>
+          <span>powered by</span><span class="text-white font-semibold">ARCIUM</span>
         </div>
       </div>
 
-      <!-- Bottom Stats -->
-      <div class="mt-16 grid grid-cols-4 gap-6">
-        <div class="text-center">
-          <div class="text-3xl font-bold gradient-text">$0</div>
-          <div class="text-sm text-gray-500 mt-1">User funds lost</div>
+      <!-- Right: Connect Card -->
+      <div class="fold-card p-8">
+        <div class="text-center mb-8">
+          <div class="w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-6 float" style="background:rgba(43,174,218,0.1);">
+            <svg width="40" height="40" viewBox="0 0 20 20" fill="none"><path d="M14.167 8.333V6.667a4.167 4.167 0 00-8.334 0v1.666m2.084 4.584v1.25m4.166-1.25v1.25M5 8.333h10c.92 0 1.667.746 1.667 1.667v5.833c0 .92-.747 1.667-1.667 1.667H5c-.92 0-1.667-.746-1.667-1.667V10c0-.92.747-1.667 1.667-1.667z" stroke="#00EAFF" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <h2 class="text-2xl font-medium mb-3">Connect Your Wallet</h2>
+          <p style="color:rgba(255,255,255,0.5);">Start protecting your DeFi positions</p>
         </div>
-        <div class="text-center">
-          <div class="text-3xl font-bold text-white">100%</div>
-          <div class="text-sm text-gray-500 mt-1">Privacy preserved</div>
+
+        <div class="space-y-3">
+          <button onclick="connectWallet('phantom')" class="wallet-btn w-full p-4 rounded-xl flex items-center gap-4" style="background:rgba(255,255,255,0.05);border:none;cursor:pointer;" data-wallet="phantom">
+            <div class="w-10 h-10 rounded-lg flex items-center justify-center" style="background:linear-gradient(135deg,#ab9ff2,#6e56cf);"><span class="text-xl font-bold text-white">P</span></div>
+            <div class="text-left"><div class="font-medium text-white">Phantom</div><div class="text-sm" style="color:rgba(255,255,255,0.5);">Solana's most popular wallet</div></div>
+          </button>
+          <button onclick="connectWallet('solflare')" class="wallet-btn w-full p-4 rounded-xl flex items-center gap-4" style="background:rgba(255,255,255,0.05);border:none;cursor:pointer;" data-wallet="solflare">
+            <div class="w-10 h-10 rounded-lg flex items-center justify-center" style="background:linear-gradient(135deg,#fc9b45,#f77338);"><span class="text-xl font-bold text-white">S</span></div>
+            <div class="text-left"><div class="font-medium text-white">Solflare</div><div class="text-sm" style="color:rgba(255,255,255,0.5);">Non-custodial Solana wallet</div></div>
+          </button>
+          <button onclick="connectWallet('backpack')" class="wallet-btn w-full p-4 rounded-xl flex items-center gap-4" style="background:rgba(255,255,255,0.05);border:none;cursor:pointer;" data-wallet="backpack">
+            <div class="w-10 h-10 rounded-lg flex items-center justify-center" style="background:linear-gradient(135deg,#e8544e,#c73c37);"><span class="text-xl font-bold text-white">B</span></div>
+            <div class="text-left"><div class="font-medium text-white">Backpack</div><div class="text-sm" style="color:rgba(255,255,255,0.5);">xNFT-enabled wallet</div></div>
+          </button>
         </div>
-        <div class="text-center">
-          <div class="text-3xl font-bold text-white">24/7</div>
-          <div class="text-sm text-gray-500 mt-1">Automated protection</div>
+
+        <div class="mt-6 pt-6" style="border-top:1px solid rgba(255,255,255,0.1);">
+          <div class="flex items-center justify-center gap-2 text-sm" style="color:rgba(255,255,255,0.5);">
+            <svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M14.167 8.333V6.667a4.167 4.167 0 00-8.334 0v1.666M5 8.333h10c.92 0 1.667.746 1.667 1.667v5.833c0 .92-.747 1.667-1.667 1.667H5c-.92 0-1.667-.746-1.667-1.667V10c0-.92.747-1.667 1.667-1.667z" stroke="#00EAFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span>Your keys, your crypto. Always.</span>
+          </div>
         </div>
-        <div class="text-center">
-          <div class="text-3xl font-bold text-white">&lt;1s</div>
-          <div class="text-sm text-gray-500 mt-1">Response time</div>
-        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Stats -->
+    <div class="absolute bottom-12 left-[42px] right-[42px]">
+      <div class="grid grid-cols-4 gap-6">
+        <div class="text-center"><div class="text-3xl font-semibold" style="color:#00EAFF;">$0</div><div class="text-sm mt-1" style="color:rgba(255,255,255,0.5);">User funds lost</div></div>
+        <div class="text-center"><div class="text-3xl font-semibold text-white">100%</div><div class="text-sm mt-1" style="color:rgba(255,255,255,0.5);">Privacy preserved</div></div>
+        <div class="text-center"><div class="text-3xl font-semibold text-white">24/7</div><div class="text-sm mt-1" style="color:rgba(255,255,255,0.5);">Automated protection</div></div>
+        <div class="text-center"><div class="text-3xl font-semibold text-white">&lt;1s</div><div class="text-sm mt-1" style="color:rgba(255,255,255,0.5);">Response time</div></div>
       </div>
     </div>
   </main>
 
   <script>
     FoldWallet.init().then(() => {
-      if (FoldWallet.isConnected()) {
-        window.location.href = 'index.html';
-        return;
-      }
-      // Gray out unavailable wallets
+      if (FoldWallet.isConnected()) { window.location.href = 'index.html'; return; }
       const avail = FoldWallet.getProviderAvailability();
       document.querySelectorAll('[data-wallet]').forEach(btn => {
         const name = btn.dataset.wallet;
         if (!avail[name]) {
           btn.style.opacity = '0.4';
-          const sub = btn.querySelector('.text-xs');
-          if (sub) sub.textContent = 'Not detected \u2014 install to connect';
+          const sub = btn.querySelector('.text-sm');
+          if (sub) sub.textContent = 'Not detected — install to connect';
         }
       });
     });
 
     async function connectWallet(providerName) {
       const btn = document.querySelector('[data-wallet="' + providerName + '"]');
-      btn.style.opacity = '0.6';
-      btn.style.pointerEvents = 'none';
+      btn.style.opacity = '0.6'; btn.style.pointerEvents = 'none';
       try {
         await FoldWallet.connect(providerName);
         window.location.href = 'index.html';
       } catch (err) {
         console.error('Connect failed:', err);
-        btn.style.opacity = '1';
-        btn.style.pointerEvents = 'auto';
+        btn.style.opacity = '1'; btn.style.pointerEvents = 'auto';
         const label = btn.querySelector('.font-medium');
-        if (label) {
-          const orig = label.textContent;
-          label.textContent = 'Connection failed \u2014 try again';
-          label.style.color = '#ff4757';
-          setTimeout(() => { label.textContent = orig; label.style.color = ''; }, 2000);
-        }
+        if (label) { const orig = label.textContent; label.textContent = 'Connection failed — try again'; label.style.color = '#FF3E8F'; setTimeout(() => { label.textContent = orig; label.style.color = ''; }, 2000); }
       }
     }
   </script>

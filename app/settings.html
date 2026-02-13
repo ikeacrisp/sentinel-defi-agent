@@ -5,403 +5,335 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Fold - Settings</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            dark: {
-              900: '#0a0b0d',
-              800: '#12141a',
-              700: '#1a1d26',
-              600: '#242833',
-            },
-            accent: {
-              green: '#00ff88',
-              red: '#ff4757',
-              yellow: '#ffa502',
-              blue: '#3742fa',
-              purple: '#a855f7',
-            }
-          }
-        }
-      }
-    }
-  </script>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
-
-    body {
-      font-family: 'Inter', sans-serif;
-      background: #0a0b0d;
-    }
-
-    .mono {
-      font-family: 'JetBrains Mono', monospace;
-    }
-
-    .toggle {
-      position: relative;
-      width: 48px;
-      height: 24px;
-      background: #242833;
-      border-radius: 12px;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-
-    .toggle.active {
-      background: #00ff88;
-    }
-
-    .toggle::after {
-      content: '';
-      position: absolute;
-      top: 2px;
-      left: 2px;
-      width: 20px;
-      height: 20px;
-      background: white;
-      border-radius: 50%;
-      transition: transform 0.3s;
-    }
-
-    .toggle.active::after {
-      transform: translateX(24px);
-    }
-
-    .pulse-green {
-      animation: pulse-green 2s infinite;
-    }
-
-    @keyframes pulse-green {
-      0%, 100% { box-shadow: 0 0 0 0 rgba(0, 255, 136, 0.4); }
-      50% { box-shadow: 0 0 0 8px rgba(0, 255, 136, 0); }
-    }
+    body { font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Inter', sans-serif; background: #0b0e14; color: #fff; }
+    .fold-card { background: rgba(255,255,255,0.05); border-radius: 24px; }
+    .footer-bar { backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); background: rgba(255,255,255,0.02); border-radius: 42px 42px 0 0; }
+    .toggle { position: relative; width: 48px; height: 24px; background: rgba(255,255,255,0.1); border-radius: 12px; cursor: pointer; transition: background 0.3s; }
+    .toggle.active { background: #00EAFF; }
+    .toggle::after { content: ''; position: absolute; top: 2px; left: 2px; width: 20px; height: 20px; background: white; border-radius: 50%; transition: transform 0.3s; }
+    .toggle.active::after { transform: translateX(24px); }
+    .mono { font-family: 'SF Mono', 'JetBrains Mono', monospace; }
+    input[type="range"] { accent-color: #FBFB99; }
+    input[type="range"]::-webkit-slider-runnable-track { background: rgba(255,255,255,0.1); border-radius: 4px; height: 6px; }
+    input[type="range"]::-webkit-slider-thumb { margin-top: -5px; }
   </style>
   <script src="https://unpkg.com/@solana/web3.js@1.98.0/lib/index.iife.min.js"></script>
   <script src="wallet.js"></script>
 </head>
 <body class="min-h-screen text-white">
   <!-- Navigation -->
-  <nav class="border-b border-dark-600 px-6 py-4">
-    <div class="max-w-7xl mx-auto flex items-center justify-between">
+  <nav class="px-[42px] py-[42px] flex items-center justify-between">
+    <div class="flex items-center gap-[42px]">
       <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-accent-green to-accent-blue flex items-center justify-center">
-          <svg class="w-6 h-6 text-dark-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
-          </svg>
-        </div>
-        <span class="text-xl font-bold">Fold</span>
-        <span class="text-xs px-2 py-1 rounded-full bg-accent-purple/20 text-accent-purple font-medium">BETA</span>
+        <svg width="90" height="22" viewBox="0 0 90 22" fill="none"><path d="M0 11C0 4.925 4.925 0 11 0C17.075 0 22 4.925 22 11C22 17.075 17.075 22 11 22C4.925 22 0 17.075 0 11Z" fill="#00EAFF" opacity="0.2"/><path d="M7 8.5L11 6L15 8.5V13.5L11 16L7 13.5V8.5Z" stroke="#00EAFF" stroke-width="1.5" fill="none"/><path d="M11 6V16M7 8.5L15 13.5M15 8.5L7 13.5" stroke="#00EAFF" stroke-width="0.75" opacity="0.5"/><text x="28" y="16" fill="white" font-family="'SF Pro Display',-apple-system,BlinkMacSystemFont,'Inter',sans-serif" font-weight="600" font-size="18" letter-spacing="-0.5">fold</text></svg>
+        <div class="flex items-center justify-center px-3 py-1.5 rounded-md" style="background:rgba(255,255,255,0.1);"><span style="font-size:15px;font-weight:500;color:rgba(255,255,255,0.5);">beta</span></div>
       </div>
-
-      <div class="flex items-center gap-6">
-        <a href="index.html" class="text-gray-400 hover:text-white transition">Dashboard</a>
-        <a href="positions.html" class="text-gray-400 hover:text-white transition">Positions</a>
-        <a href="alerts.html" class="text-gray-400 hover:text-white transition">Alerts</a>
-        <a href="activity.html" class="text-gray-400 hover:text-white transition">Activity</a>
-        <a href="settings.html" class="text-white font-medium">Settings</a>
+      <div class="flex items-center">
+        <a href="index.html" class="px-6 py-3 text-[15px] font-medium" style="color:rgba(255,255,255,0.6);">Dashboard</a>
+        <a href="activity.html" class="px-6 py-3 text-[15px] font-medium" style="color:rgba(255,255,255,0.6);">Activity</a>
+        <a href="alerts.html" class="px-6 py-3 text-[15px] font-medium" style="color:rgba(255,255,255,0.6);">Alerts</a>
       </div>
-
-      <button class="flex items-center gap-2 px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:border-accent-green/50 transition">
-        <div class="w-2 h-2 rounded-full bg-accent-green pulse-green"></div>
-        <span id="nav-wallet-addr" class="mono text-sm">Connecting...</span>
-      </button>
+    </div>
+    <div class="flex items-center gap-3">
+      <a href="settings.html" style="color:#00EAFF;"><svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg></a>
+      <button id="connect-btn" class="px-6 py-3 rounded-xl text-[15px] font-medium cursor-pointer" style="background:rgba(43,174,218,0.1);color:#00EAFF;border:none;"><span id="nav-wallet-addr">Connect</span></button>
     </div>
   </nav>
 
   <!-- Main Content -->
-  <main class="max-w-4xl mx-auto px-6 py-8">
+  <main class="max-w-4xl mx-auto px-[42px] py-8">
     <div class="mb-8">
       <h1 class="text-2xl font-bold mb-2">Settings</h1>
-      <p class="text-gray-400">Configure your protection preferences and notification settings</p>
+      <p style="color:rgba(255,255,255,0.6);">Configure your protection preferences and notification settings</p>
     </div>
 
-    <div class="space-y-6">
-      <!-- Alert Notifications -->
-      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
-        <h2 class="text-lg font-semibold mb-6 flex items-center gap-2">
-          <svg class="w-5 h-5 text-accent-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
-          </svg>
-          Alert Notifications
-        </h2>
+    <!-- Alert Notifications -->
+    <div class="fold-card p-8 mb-6">
+      <h2 class="text-lg font-semibold mb-6 flex items-center gap-2">
+        <svg class="w-5 h-5" style="color:#2BAEDA;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+        </svg>
+        Alert Notifications
+      </h2>
 
-        <div class="space-y-4">
-          <div class="flex items-center justify-between p-4 rounded-lg bg-dark-700">
-            <div class="flex items-center gap-4">
-              <div class="w-10 h-10 rounded-lg bg-accent-blue/10 flex items-center justify-center">
-                <svg class="w-5 h-5 text-accent-blue" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                </svg>
-              </div>
-              <div>
-                <div class="font-medium">Telegram Alerts</div>
-                <div class="text-sm text-gray-400">Receive alerts via Telegram bot</div>
-              </div>
+      <div class="space-y-4">
+        <!-- Telegram -->
+        <div class="flex items-center justify-between p-4 rounded-xl" style="background:rgba(255,255,255,0.05);">
+          <div class="flex items-center gap-4">
+            <div class="w-10 h-10 rounded-lg flex items-center justify-center" style="background:rgba(43,174,218,0.1);">
+              <svg class="w-5 h-5" style="color:#2BAEDA;" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+              </svg>
             </div>
-            <div class="flex items-center gap-3">
-              <span class="text-sm text-accent-green">Connected</span>
-              <div class="toggle active" onclick="this.classList.toggle('active')"></div>
+            <div>
+              <div class="font-medium">Telegram Alerts</div>
+              <div class="text-sm" style="color:rgba(255,255,255,0.5);">Receive alerts via Telegram bot</div>
             </div>
           </div>
-
-          <div class="flex items-center justify-between p-4 rounded-lg bg-dark-700">
-            <div class="flex items-center gap-4">
-              <div class="w-10 h-10 rounded-lg bg-accent-purple/10 flex items-center justify-center">
-                <svg class="w-5 h-5 text-accent-purple" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/>
-                </svg>
-              </div>
-              <div>
-                <div class="font-medium">Discord Alerts</div>
-                <div class="text-sm text-gray-400">Receive alerts via Discord webhook</div>
-              </div>
-            </div>
-            <div class="flex items-center gap-3">
-              <span class="text-sm text-gray-500">Not connected</span>
-              <div class="toggle" onclick="this.classList.toggle('active')"></div>
-            </div>
-          </div>
-
-          <div class="flex items-center justify-between p-4 rounded-lg bg-dark-700">
-            <div class="flex items-center gap-4">
-              <div class="w-10 h-10 rounded-lg bg-gray-500/10 flex items-center justify-center">
-                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-                </svg>
-              </div>
-              <div>
-                <div class="font-medium">Email Alerts</div>
-                <div class="text-sm text-gray-400">Receive alerts via email</div>
-              </div>
-            </div>
-            <div class="flex items-center gap-3">
-              <span class="text-sm text-gray-500">Coming soon</span>
-              <div class="toggle opacity-50 cursor-not-allowed"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Automated Actions -->
-      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
-        <h2 class="text-lg font-semibold mb-6 flex items-center gap-2">
-          <svg class="w-5 h-5 text-accent-yellow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-          </svg>
-          Automated Actions
-        </h2>
-
-        <div class="p-4 rounded-lg bg-accent-yellow/5 border border-accent-yellow/20 mb-6">
-          <div class="flex items-start gap-3">
-            <svg class="w-5 h-5 text-accent-yellow flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
-            </svg>
-            <div class="text-sm text-gray-300">
-              <strong class="text-accent-yellow">Important:</strong> Automated actions require you to pre-sign transactions.
-              Fold can only execute actions you've explicitly authorized. You can revoke permissions at any time.
-            </div>
+          <div class="flex items-center gap-3">
+            <span class="text-sm" style="color:#00EAFF;">Connected</span>
+            <div class="toggle active" onclick="this.classList.toggle('active')"></div>
           </div>
         </div>
 
-        <div class="space-y-4">
-          <div class="flex items-center justify-between p-4 rounded-lg bg-dark-700">
-            <div>
-              <div class="font-medium">Emergency Withdraw</div>
-              <div class="text-sm text-gray-400">Auto-withdraw collateral when health factor is critical</div>
+        <!-- Discord -->
+        <div class="flex items-center justify-between p-4 rounded-xl" style="background:rgba(255,255,255,0.05);">
+          <div class="flex items-center gap-4">
+            <div class="w-10 h-10 rounded-lg flex items-center justify-center" style="background:rgba(255,255,255,0.05);">
+              <svg class="w-5 h-5" style="color:rgba(255,255,255,0.5);" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/>
+              </svg>
             </div>
-            <div class="toggle active" onclick="this.classList.toggle('active')"></div>
+            <div>
+              <div class="font-medium">Discord Alerts</div>
+              <div class="text-sm" style="color:rgba(255,255,255,0.5);">Receive alerts via Discord webhook</div>
+            </div>
           </div>
-
-          <div class="flex items-center justify-between p-4 rounded-lg bg-dark-700">
-            <div>
-              <div class="font-medium">Convert to Stablecoin</div>
-              <div class="text-sm text-gray-400">Swap volatile assets to USDC during emergencies</div>
-            </div>
-            <div class="toggle active" onclick="this.classList.toggle('active')"></div>
-          </div>
-
-          <div class="flex items-center justify-between p-4 rounded-lg bg-dark-700">
-            <div>
-              <div class="font-medium">Revoke Approvals</div>
-              <div class="text-sm text-gray-400">Auto-revoke token approvals if exploit detected</div>
-            </div>
+          <div class="flex items-center gap-3">
+            <span class="text-sm" style="color:rgba(255,255,255,0.5);">Not connected</span>
             <div class="toggle" onclick="this.classList.toggle('active')"></div>
           </div>
         </div>
-      </div>
 
-      <!-- Risk Thresholds -->
-      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
-        <h2 class="text-lg font-semibold mb-6 flex items-center gap-2">
-          <svg class="w-5 h-5 text-accent-red" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <!-- Email -->
+        <div class="flex items-center justify-between p-4 rounded-xl" style="background:rgba(255,255,255,0.05);">
+          <div class="flex items-center gap-4">
+            <div class="w-10 h-10 rounded-lg flex items-center justify-center" style="background:rgba(255,255,255,0.05);">
+              <svg class="w-5 h-5" style="color:rgba(255,255,255,0.4);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+              </svg>
+            </div>
+            <div>
+              <div class="font-medium">Email Alerts</div>
+              <div class="text-sm" style="color:rgba(255,255,255,0.5);">Receive alerts via email</div>
+            </div>
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="text-sm" style="color:rgba(255,255,255,0.5);">Coming soon</span>
+            <div class="toggle opacity-50 cursor-not-allowed"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Automated Actions -->
+    <div class="fold-card p-8 mb-6">
+      <h2 class="text-lg font-semibold mb-6 flex items-center gap-2">
+        <svg class="w-5 h-5" style="color:#FBFB99;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+        </svg>
+        Automated Actions
+      </h2>
+
+      <!-- Warning banner -->
+      <div class="p-4 rounded-xl mb-6" style="background:rgba(251,251,153,0.05);border:1px solid rgba(251,251,153,0.2);">
+        <div class="flex items-start gap-3">
+          <svg class="w-5 h-5 flex-shrink-0 mt-0.5" style="color:#FBFB99;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
           </svg>
-          Risk Thresholds
-        </h2>
+          <div class="text-sm" style="color:rgba(255,255,255,0.6);">
+            <strong style="color:#FBFB99;">Important:</strong> Automated actions require you to pre-sign transactions.
+            Fold can only execute actions you've explicitly authorized. You can revoke permissions at any time.
+          </div>
+        </div>
+      </div>
 
-        <div class="space-y-6">
+      <div class="space-y-4">
+        <div class="flex items-center justify-between p-4 rounded-xl" style="background:rgba(255,255,255,0.05);">
           <div>
-            <div class="flex items-center justify-between mb-2">
-              <label class="font-medium">Health Factor Alert</label>
-              <span class="mono text-accent-yellow">1.25</span>
-            </div>
-            <input type="range" min="1.1" max="2" step="0.05" value="1.25" class="w-full h-2 bg-dark-700 rounded-lg appearance-none cursor-pointer accent-accent-yellow">
-            <div class="flex justify-between text-xs text-gray-500 mt-1">
-              <span>Aggressive (1.1)</span>
-              <span>Conservative (2.0)</span>
-            </div>
+            <div class="font-medium">Emergency Withdraw</div>
+            <div class="text-sm" style="color:rgba(255,255,255,0.5);">Auto-withdraw collateral when health factor is critical</div>
           </div>
+          <div class="toggle active" onclick="this.classList.toggle('active')"></div>
+        </div>
 
+        <div class="flex items-center justify-between p-4 rounded-xl" style="background:rgba(255,255,255,0.05);">
           <div>
-            <div class="flex items-center justify-between mb-2">
-              <label class="font-medium">Price Drop Alert</label>
-              <span class="mono text-accent-yellow">10%</span>
-            </div>
-            <input type="range" min="5" max="30" step="1" value="10" class="w-full h-2 bg-dark-700 rounded-lg appearance-none cursor-pointer accent-accent-yellow">
-            <div class="flex justify-between text-xs text-gray-500 mt-1">
-              <span>5%</span>
-              <span>30%</span>
-            </div>
+            <div class="font-medium">Convert to Stablecoin</div>
+            <div class="text-sm" style="color:rgba(255,255,255,0.5);">Swap volatile assets to USDC during emergencies</div>
           </div>
+          <div class="toggle active" onclick="this.classList.toggle('active')"></div>
+        </div>
 
+        <div class="flex items-center justify-between p-4 rounded-xl" style="background:rgba(255,255,255,0.05);">
           <div>
-            <div class="flex items-center justify-between mb-2">
-              <label class="font-medium">TVL Drop Alert</label>
-              <span class="mono text-accent-yellow">20%</span>
-            </div>
-            <input type="range" min="10" max="50" step="5" value="20" class="w-full h-2 bg-dark-700 rounded-lg appearance-none cursor-pointer accent-accent-yellow">
-            <div class="flex justify-between text-xs text-gray-500 mt-1">
-              <span>10%</span>
-              <span>50%</span>
-            </div>
+            <div class="font-medium">Revoke Approvals</div>
+            <div class="text-sm" style="color:rgba(255,255,255,0.5);">Auto-revoke token approvals if exploit detected</div>
+          </div>
+          <div class="toggle" onclick="this.classList.toggle('active')"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Risk Thresholds -->
+    <div class="fold-card p-8 mb-6">
+      <h2 class="text-lg font-semibold mb-6 flex items-center gap-2">
+        <svg class="w-5 h-5" style="color:#FF3E8F;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+        </svg>
+        Risk Thresholds
+      </h2>
+
+      <div class="space-y-6">
+        <div>
+          <div class="flex items-center justify-between mb-2">
+            <label class="font-medium">Health Factor Alert</label>
+            <span class="mono" style="color:#FBFB99;">1.25</span>
+          </div>
+          <input type="range" min="1.1" max="2" step="0.05" value="1.25" class="w-full h-2 rounded-lg appearance-none cursor-pointer" style="background:rgba(255,255,255,0.1);">
+          <div class="flex justify-between text-xs mt-1" style="color:rgba(255,255,255,0.5);">
+            <span>Aggressive (1.1)</span>
+            <span>Conservative (2.0)</span>
+          </div>
+        </div>
+
+        <div>
+          <div class="flex items-center justify-between mb-2">
+            <label class="font-medium">Price Drop Alert</label>
+            <span class="mono" style="color:#FBFB99;">10%</span>
+          </div>
+          <input type="range" min="5" max="30" step="1" value="10" class="w-full h-2 rounded-lg appearance-none cursor-pointer" style="background:rgba(255,255,255,0.1);">
+          <div class="flex justify-between text-xs mt-1" style="color:rgba(255,255,255,0.5);">
+            <span>5%</span>
+            <span>30%</span>
+          </div>
+        </div>
+
+        <div>
+          <div class="flex items-center justify-between mb-2">
+            <label class="font-medium">TVL Drop Alert</label>
+            <span class="mono" style="color:#FBFB99;">20%</span>
+          </div>
+          <input type="range" min="10" max="50" step="5" value="20" class="w-full h-2 rounded-lg appearance-none cursor-pointer" style="background:rgba(255,255,255,0.1);">
+          <div class="flex justify-between text-xs mt-1" style="color:rgba(255,255,255,0.5);">
+            <span>10%</span>
+            <span>50%</span>
           </div>
         </div>
       </div>
+    </div>
 
-      <!-- Privacy Settings -->
-      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
-        <h2 class="text-lg font-semibold mb-6 flex items-center gap-2">
-          <svg class="w-5 h-5 text-accent-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
-          </svg>
-          Privacy & Encryption
-        </h2>
+    <!-- Privacy & Encryption -->
+    <div class="fold-card p-8 mb-6">
+      <h2 class="text-lg font-semibold mb-6 flex items-center gap-2">
+        <svg class="w-5 h-5" style="color:#00EAFF;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+        </svg>
+        Privacy & Encryption
+      </h2>
 
-        <div class="space-y-4">
-          <div class="flex items-center justify-between p-4 rounded-lg bg-dark-700">
-            <div>
-              <div class="font-medium flex items-center gap-2">
-                Arcium MPC Encryption
-                <span class="text-xs px-2 py-0.5 rounded bg-accent-green/20 text-accent-green">Required</span>
-              </div>
-              <div class="text-sm text-gray-400">All position data encrypted via Arcium MPC network</div>
+      <div class="space-y-4">
+        <div class="flex items-center justify-between p-4 rounded-xl" style="background:rgba(255,255,255,0.05);">
+          <div>
+            <div class="font-medium flex items-center gap-2">
+              Arcium MPC Encryption
+              <span class="text-xs px-2 py-0.5 rounded" style="background:rgba(0,234,255,0.15);color:#00EAFF;">Required</span>
             </div>
-            <div class="toggle active cursor-not-allowed opacity-75"></div>
+            <div class="text-sm" style="color:rgba(255,255,255,0.5);">All position data encrypted via Arcium MPC network</div>
           </div>
+          <div class="toggle active cursor-not-allowed opacity-75"></div>
+        </div>
 
-          <div class="flex items-center justify-between p-4 rounded-lg bg-dark-700">
-            <div>
-              <div class="font-medium">Anonymous Alerts</div>
-              <div class="text-sm text-gray-400">Use stealth addresses for alert delivery</div>
-            </div>
-            <div class="toggle active" onclick="this.classList.toggle('active')"></div>
+        <div class="flex items-center justify-between p-4 rounded-xl" style="background:rgba(255,255,255,0.05);">
+          <div>
+            <div class="font-medium">Anonymous Alerts</div>
+            <div class="text-sm" style="color:rgba(255,255,255,0.5);">Use stealth addresses for alert delivery</div>
           </div>
+          <div class="toggle active" onclick="this.classList.toggle('active')"></div>
+        </div>
 
-          <div class="p-4 rounded-lg bg-accent-green/5 border border-accent-green/20">
-            <div class="flex items-center gap-2 mb-2">
-              <svg class="w-5 h-5 text-accent-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
-              </svg>
-              <span class="font-medium text-accent-green">Maximum Privacy Enabled</span>
-            </div>
-            <p class="text-sm text-gray-400">Fold cannot see your position values, protocol names, wallet address, or portfolio composition. Only encrypted risk assessments are computed.</p>
+        <div class="p-4 rounded-xl" style="background:rgba(0,234,255,0.05);border:1px solid rgba(0,234,255,0.2);">
+          <div class="flex items-center gap-2 mb-2">
+            <svg class="w-5 h-5" style="color:#00EAFF;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+            </svg>
+            <span class="font-medium" style="color:#00EAFF;">Maximum Privacy Enabled</span>
           </div>
+          <p class="text-sm" style="color:rgba(255,255,255,0.5);">Fold cannot see your position values, protocol names, wallet address, or portfolio composition. Only encrypted risk assessments are computed.</p>
         </div>
       </div>
+    </div>
 
-      <!-- Monitoring Frequency -->
-      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
-        <h2 class="text-lg font-semibold mb-6 flex items-center gap-2">
-          <svg class="w-5 h-5 text-accent-purple" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-          </svg>
-          Monitoring Frequency
-        </h2>
+    <!-- Monitoring Frequency -->
+    <div class="fold-card p-8 mb-6">
+      <h2 class="text-lg font-semibold mb-6 flex items-center gap-2">
+        <svg class="w-5 h-5" style="color:#2BAEDA;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+        </svg>
+        Monitoring Frequency
+      </h2>
 
-        <div class="grid grid-cols-3 gap-3">
-          <button class="p-4 rounded-lg bg-dark-700 border border-dark-600 hover:border-accent-purple/50 transition text-center">
-            <div class="text-2xl font-bold mb-1">60s</div>
-            <div class="text-xs text-gray-400">Standard</div>
-          </button>
-          <button class="p-4 rounded-lg bg-accent-purple/10 border border-accent-purple transition text-center">
-            <div class="text-2xl font-bold mb-1 text-accent-purple">30s</div>
-            <div class="text-xs text-accent-purple">Active</div>
-          </button>
-          <button class="p-4 rounded-lg bg-dark-700 border border-dark-600 hover:border-accent-purple/50 transition text-center">
-            <div class="text-2xl font-bold mb-1">10s</div>
-            <div class="text-xs text-gray-400">High Alert</div>
-          </button>
-        </div>
-        <p class="text-xs text-gray-500 mt-3">Higher frequency uses more Arcium compute credits</p>
-      </div>
-
-      <!-- Connected Wallet -->
-      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
-        <h2 class="text-lg font-semibold mb-6 flex items-center gap-2">
-          <svg class="w-5 h-5 text-accent-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/>
-          </svg>
-          Connected Wallet
-        </h2>
-        <div class="space-y-4">
-          <div class="flex items-center justify-between p-4 rounded-lg bg-dark-700">
-            <div>
-              <div class="text-sm text-gray-400 mb-1">Address</div>
-              <div id="settings-wallet-addr" class="mono text-sm">Loading...</div>
-            </div>
-            <button class="px-3 py-1.5 rounded-lg bg-dark-600 border border-dark-600 hover:border-accent-blue/50 transition text-xs text-gray-400">Copy</button>
-          </div>
-          <div class="grid grid-cols-2 gap-4">
-            <div class="p-4 rounded-lg bg-dark-700">
-              <div class="text-sm text-gray-400 mb-1">Network</div>
-              <div class="text-sm font-medium">Solana Devnet</div>
-            </div>
-            <div class="p-4 rounded-lg bg-dark-700">
-              <div class="text-sm text-gray-400 mb-1">Agent Balance</div>
-              <div id="settings-wallet-balance" class="text-sm font-medium mono">Loading...</div>
-            </div>
-          </div>
-          <button id="settings-disconnect-btn" class="w-full p-3 rounded-lg bg-accent-red/10 border border-accent-red/30 text-accent-red text-sm hover:bg-accent-red/20 transition">Disconnect Wallet</button>
-        </div>
-      </div>
-
-      <!-- Save Button -->
-      <div class="flex justify-end gap-4">
-        <button class="px-6 py-3 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition">
-          Reset to Defaults
+      <div class="grid grid-cols-3 gap-3">
+        <button class="p-4 rounded-xl text-center transition" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);">
+          <div class="text-2xl font-bold mb-1">60s</div>
+          <div class="text-xs" style="color:rgba(255,255,255,0.5);">Standard</div>
         </button>
-        <button class="px-6 py-3 rounded-lg bg-accent-green text-dark-900 font-medium hover:bg-accent-green/90 transition">
-          Save Changes
+        <button class="p-4 rounded-xl text-center transition" style="background:rgba(0,234,255,0.1);border:1px solid #00EAFF;">
+          <div class="text-2xl font-bold mb-1" style="color:#00EAFF;">30s</div>
+          <div class="text-xs" style="color:#00EAFF;">Active</div>
+        </button>
+        <button class="p-4 rounded-xl text-center transition" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);">
+          <div class="text-2xl font-bold mb-1">10s</div>
+          <div class="text-xs" style="color:rgba(255,255,255,0.5);">High Alert</div>
         </button>
       </div>
+      <p class="text-xs mt-3" style="color:rgba(255,255,255,0.5);">Higher frequency uses more Arcium compute credits</p>
+    </div>
+
+    <!-- Connected Wallet -->
+    <div class="fold-card p-8 mb-6">
+      <h2 class="text-lg font-semibold mb-6 flex items-center gap-2">
+        <svg class="w-5 h-5" style="color:#2BAEDA;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/>
+        </svg>
+        Connected Wallet
+      </h2>
+      <div class="space-y-4">
+        <div class="flex items-center justify-between p-4 rounded-xl" style="background:rgba(255,255,255,0.05);">
+          <div>
+            <div class="text-sm mb-1" style="color:rgba(255,255,255,0.5);">Address</div>
+            <div id="settings-wallet-addr" class="mono text-sm">Loading...</div>
+          </div>
+          <button id="copy-addr-btn" class="px-3 py-1.5 rounded-lg text-xs transition" style="background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.6);border:1px solid rgba(255,255,255,0.1);">Copy</button>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div class="p-4 rounded-xl" style="background:rgba(255,255,255,0.05);">
+            <div class="text-sm mb-1" style="color:rgba(255,255,255,0.5);">Network</div>
+            <div class="text-sm font-medium">Solana Devnet</div>
+          </div>
+          <div class="p-4 rounded-xl" style="background:rgba(255,255,255,0.05);">
+            <div class="text-sm mb-1" style="color:rgba(255,255,255,0.5);">Agent Balance</div>
+            <div id="settings-wallet-balance" class="text-sm font-medium mono">Loading...</div>
+          </div>
+        </div>
+        <button id="settings-disconnect-btn" class="w-full p-3 rounded-xl text-sm transition" style="background:rgba(255,62,143,0.1);color:#FF3E8F;border:none;cursor:pointer;">Disconnect Wallet</button>
+      </div>
+    </div>
+
+    <!-- Save Buttons -->
+    <div class="flex justify-end gap-4 mb-8">
+      <button class="px-6 py-3 rounded-xl font-medium transition" style="background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.6);border:1px solid rgba(255,255,255,0.1);cursor:pointer;">
+        Reset to Defaults
+      </button>
+      <button class="px-6 py-3 rounded-xl font-medium transition" style="background:rgba(43,174,218,0.1);color:#00EAFF;border:none;cursor:pointer;">
+        Save Changes
+      </button>
     </div>
   </main>
 
   <!-- Footer -->
-  <footer class="border-t border-dark-600 mt-12 py-6">
-    <div class="max-w-7xl mx-auto px-6 flex items-center justify-between text-sm text-gray-400">
-      <div class="flex items-center gap-4">
-        <span>Built on Solana</span>
-        <span class="text-dark-600">|</span>
-        <span>Powered by Arcium</span>
+  <footer class="footer-bar px-[42px] py-6 mt-8">
+    <div class="flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="flex items-center"><span class="px-3 py-1.5 text-[15px] font-medium" style="color:rgba(255,255,255,0.5);">built on</span><span class="text-white text-[15px] font-semibold tracking-wide pr-3">SOLANA</span></div>
+        <div style="width:2px;height:20px;background:rgba(217,217,217,0.2);"></div>
+        <div class="flex items-center"><span class="px-3 py-1.5 text-[15px] font-medium" style="color:rgba(255,255,255,0.5);">powered by</span><span class="text-white text-[15px] font-semibold tracking-wide pr-3">ARCIUM</span></div>
       </div>
-      <div class="flex items-center gap-4">
-        <a href="#" class="hover:text-white transition">Docs</a>
-        <a href="#" class="hover:text-white transition">GitHub</a>
-        <a href="#" class="hover:text-white transition">Discord</a>
+      <div class="flex items-center">
+        <a href="#" class="px-6 py-3 text-[15px] font-medium" style="color:rgba(255,255,255,0.6);text-decoration:none;">Docs</a>
+        <a href="https://github.com/ikeacrisp/fold-defi-agent" class="px-6 py-3 text-[15px] font-medium" style="color:rgba(255,255,255,0.6);text-decoration:none;">Github</a>
+        <a href="#" class="px-6 py-3 text-[15px] font-medium" style="color:rgba(255,255,255,0.6);text-decoration:none;">Discord</a>
       </div>
     </div>
   </footer>
@@ -424,12 +356,12 @@
       }
 
       // Copy address
-      var copyBtn = document.getElementById('settings-wallet-addr').parentElement.querySelector('button');
+      var copyBtn = document.getElementById('copy-addr-btn');
       if (copyBtn) {
         copyBtn.addEventListener('click', async function() {
           await navigator.clipboard.writeText(pubStr);
           copyBtn.textContent = 'Copied!';
-          copyBtn.style.color = '#00ff88';
+          copyBtn.style.color = '#00EAFF';
           setTimeout(function() { copyBtn.textContent = 'Copy'; copyBtn.style.color = ''; }, 1500);
         });
       }

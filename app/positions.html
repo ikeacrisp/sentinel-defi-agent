@@ -5,41 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Fold - Positions</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            dark: { 900: '#0a0b0d', 800: '#12141a', 700: '#1a1d26', 600: '#242833' },
-            accent: { green: '#00ff88', red: '#ff4757', yellow: '#ffa502', blue: '#3742fa', purple: '#a855f7' }
-          }
-        }
-      }
-    }
-  </script>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
-    body { font-family: 'Inter', sans-serif; background: #0a0b0d; }
-    .mono { font-family: 'JetBrains Mono', monospace; }
-    .pulse-green { animation: pulse-green 2s infinite; }
-    @keyframes pulse-green {
-      0%, 100% { box-shadow: 0 0 0 0 rgba(0, 255, 136, 0.4); }
-      50% { box-shadow: 0 0 0 8px rgba(0, 255, 136, 0); }
-    }
-    .encrypted-text {
-      background: linear-gradient(90deg, #666 0%, #888 50%, #666 100%);
-      background-size: 200% 100%;
-      animation: shimmer 2s infinite;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    @keyframes shimmer {
-      0% { background-position: 200% 0; }
-      100% { background-position: -200% 0; }
-    }
+    body { font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Inter', sans-serif; background: #0b0e14; color: #fff; }
+    .fold-card { background: rgba(255,255,255,0.05); border-radius: 24px; }
+    .footer-bar { backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); background: rgba(255,255,255,0.02); border-radius: 42px 42px 0 0; }
+    .encrypted-text { background: linear-gradient(90deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.5) 50%, rgba(255,255,255,0.3) 100%); background-size: 200% 100%; animation: shimmer 2s infinite; -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
     .modal-backdrop { background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); }
     .position-row { transition: all 0.2s; }
-    .position-row:hover { background: rgba(26, 29, 38, 0.5); }
+    .position-row:hover { background: rgba(255,255,255,0.03); }
     .detail-panel { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; }
     .detail-panel.open { max-height: 400px; }
   </style>
@@ -48,69 +22,60 @@
   <script src="program.js"></script>
 </head>
 <body class="min-h-screen text-white">
+
   <!-- Navigation -->
-  <nav class="border-b border-dark-600 px-6 py-4">
-    <div class="max-w-7xl mx-auto flex items-center justify-between">
+  <nav class="px-[42px] py-[42px] flex items-center justify-between">
+    <div class="flex items-center gap-[42px]">
       <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-accent-green to-accent-blue flex items-center justify-center">
-          <svg class="w-6 h-6 text-dark-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
-          </svg>
-        </div>
-        <span class="text-xl font-bold">Fold</span>
-        <span class="text-xs px-2 py-1 rounded-full bg-accent-purple/20 text-accent-purple font-medium">BETA</span>
+        <svg width="90" height="22" viewBox="0 0 90 22" fill="none"><path d="M0 11C0 4.925 4.925 0 11 0C17.075 0 22 4.925 22 11C22 17.075 17.075 22 11 22C4.925 22 0 17.075 0 11Z" fill="#00EAFF" opacity="0.2"/><path d="M7 8.5L11 6L15 8.5V13.5L11 16L7 13.5V8.5Z" stroke="#00EAFF" stroke-width="1.5" fill="none"/><path d="M11 6V16M7 8.5L15 13.5M15 8.5L7 13.5" stroke="#00EAFF" stroke-width="0.75" opacity="0.5"/><text x="28" y="16" fill="white" font-family="'SF Pro Display',-apple-system,BlinkMacSystemFont,'Inter',sans-serif" font-weight="600" font-size="18" letter-spacing="-0.5">fold</text></svg>
+        <div class="flex items-center justify-center px-3 py-1.5 rounded-md" style="background:rgba(255,255,255,0.1);"><span style="font-size:15px;font-weight:500;color:rgba(255,255,255,0.5);">beta</span></div>
       </div>
-      <div class="flex items-center gap-6">
-        <a href="index.html" class="text-gray-400 hover:text-white transition">Dashboard</a>
-        <a href="positions.html" class="text-white font-medium">Positions</a>
-        <a href="alerts.html" class="text-gray-400 hover:text-white transition">Alerts</a>
-        <a href="activity.html" class="text-gray-400 hover:text-white transition">Activity</a>
-        <a href="settings.html" class="text-gray-400 hover:text-white transition">Settings</a>
+      <div class="flex items-center">
+        <a href="index.html" class="px-6 py-3 text-[15px] font-medium" style="color:rgba(255,255,255,0.6);">Dashboard</a>
+        <a href="activity.html" class="px-6 py-3 text-[15px] font-medium" style="color:rgba(255,255,255,0.6);">Activity</a>
+        <a href="alerts.html" class="px-6 py-3 text-[15px] font-medium" style="color:rgba(255,255,255,0.6);">Alerts</a>
       </div>
-      <button class="flex items-center gap-2 px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:border-accent-green/50 transition">
-        <div class="w-2 h-2 rounded-full bg-accent-green pulse-green"></div>
-        <span id="nav-wallet-addr" class="mono text-sm">Connecting...</span>
-      </button>
+    </div>
+    <div class="flex items-center gap-3">
+      <a href="settings.html" style="color:rgba(255,255,255,0.5);"><svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg></a>
+      <button id="connect-btn" class="px-6 py-3 rounded-xl text-[15px] font-medium cursor-pointer" style="background:rgba(43,174,218,0.1);color:#00EAFF;border:none;"><span id="nav-wallet-addr">Connect</span></button>
     </div>
   </nav>
 
   <!-- Main Content -->
-  <main class="max-w-7xl mx-auto px-6 py-8">
+  <main class="px-[42px] pb-8">
+
     <!-- Header -->
-    <div class="flex items-center justify-between mb-6">
+    <div class="flex items-center justify-between mb-8">
       <div>
-        <h1 class="text-2xl font-bold mb-1">Positions</h1>
-        <p class="text-gray-400">Manage your monitored DeFi positions</p>
+        <h1 class="text-[32px] font-semibold tracking-tight mb-1">Positions</h1>
+        <p class="text-[15px]" style="color:rgba(255,255,255,0.5);">Manage your monitored DeFi positions</p>
       </div>
       <div class="flex items-center gap-3">
-        <button class="px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:border-accent-blue/50 transition text-sm flex items-center gap-2">
+        <button class="px-5 py-3 rounded-xl text-[15px] font-medium flex items-center gap-2 cursor-pointer" style="background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.6);border:none;">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
           Refresh
         </button>
-        <button onclick="document.getElementById('addModal').classList.remove('hidden')" class="px-4 py-2 rounded-lg bg-accent-green text-dark-900 font-medium hover:bg-accent-green/90 transition text-sm flex items-center gap-2">
+        <button onclick="document.getElementById('addModal').classList.remove('hidden')" class="px-5 py-3 rounded-xl text-[15px] font-medium flex items-center gap-2 cursor-pointer" style="background:rgba(43,174,218,0.1);color:#00EAFF;border:none;">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/></svg>
           Add Position
         </button>
       </div>
     </div>
 
-    <!-- Filters -->
-    <div class="flex items-center gap-2 mb-6">
-      <button class="px-3 py-1.5 rounded-lg bg-accent-green/10 border border-accent-green/30 text-accent-green text-sm font-medium">All (4)</button>
-      <button class="px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-gray-400 text-sm hover:border-accent-green/30 transition">Healthy (3)</button>
-      <button class="px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-gray-400 text-sm hover:border-accent-yellow/30 transition">Caution (1)</button>
-      <button class="px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-gray-400 text-sm hover:border-accent-red/30 transition">Critical (0)</button>
-      <div class="flex-1"></div>
-      <div class="relative">
-        <svg class="w-4 h-4 text-gray-500 absolute left-3 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-        <input type="text" placeholder="Search positions..." class="pl-9 pr-4 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-accent-green/50 w-64">
-      </div>
+    <!-- Filter Pills -->
+    <div class="flex items-center gap-3 mb-6">
+      <button class="px-5 py-2.5 rounded-xl text-[14px] font-medium cursor-pointer" style="background:rgba(43,174,218,0.1);color:#00EAFF;border:1px solid rgba(0,234,255,0.3);">All (4)</button>
+      <button class="px-5 py-2.5 rounded-xl text-[14px] font-medium cursor-pointer" style="background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.5);border:1px solid transparent;">Healthy (3)</button>
+      <button class="px-5 py-2.5 rounded-xl text-[14px] font-medium cursor-pointer" style="background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.5);border:1px solid transparent;">Caution (1)</button>
+      <button class="px-5 py-2.5 rounded-xl text-[14px] font-medium cursor-pointer" style="background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.5);border:1px solid transparent;">Critical (0)</button>
     </div>
 
-    <!-- Positions List -->
-    <div class="bg-dark-800 rounded-xl border border-dark-600 overflow-hidden">
-      <!-- Header Row -->
-      <div class="grid grid-cols-12 gap-4 px-5 py-3 text-xs text-gray-500 font-medium uppercase tracking-wider border-b border-dark-600 bg-dark-700/50">
+    <!-- Positions Table -->
+    <div class="fold-card overflow-hidden">
+
+      <!-- Table Header -->
+      <div class="grid grid-cols-12 gap-4 px-6 py-4 text-[13px] font-medium uppercase tracking-wider" style="color:rgba(255,255,255,0.35);border-bottom:1px solid rgba(255,255,255,0.06);">
         <div class="col-span-3">Position</div>
         <div class="col-span-2">Health</div>
         <div class="col-span-2">Value</div>
@@ -119,254 +84,269 @@
         <div class="col-span-1"></div>
       </div>
 
-      <!-- Position 1 -->
-      <div class="position-row border-b border-dark-600 cursor-pointer" onclick="toggleDetail('detail1')">
-        <div class="grid grid-cols-12 gap-4 px-5 py-4 items-center">
+      <!-- Position 1: Kamino Lending -->
+      <div class="position-row cursor-pointer" style="border-bottom:1px solid rgba(255,255,255,0.06);" onclick="toggleDetail('detail1')">
+        <div class="grid grid-cols-12 gap-4 px-6 py-4 items-center">
           <div class="col-span-3 flex items-center gap-3">
-            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center font-bold text-sm">K</div>
+            <div class="w-10 h-10 rounded-full flex items-center justify-center font-bold text-[14px]" style="background:linear-gradient(135deg,#3b82f6,#8b5cf6);">K</div>
             <div>
-              <div class="font-medium">Lending Position #1</div>
-              <div class="text-xs text-gray-500">Kamino</div>
+              <div class="font-medium text-[15px]">Lending Position #1</div>
+              <div class="text-[13px]" style="color:rgba(255,255,255,0.35);">Kamino</div>
             </div>
           </div>
           <div class="col-span-2">
-            <span class="px-2 py-1 rounded-full bg-accent-green/10 text-accent-green text-xs font-medium">Healthy</span>
+            <span class="px-3 py-1 rounded-full text-[13px] font-medium" style="background:rgba(43,174,218,0.1);color:#00EAFF;">Healthy</span>
           </div>
-          <div class="col-span-2 mono text-sm encrypted-text">██████</div>
-          <div class="col-span-2 mono text-sm" id="check1">12s ago</div>
-          <div class="col-span-2 text-sm text-accent-green">Auto-Protect</div>
+          <div class="col-span-2 text-[14px] encrypted-text">██████</div>
+          <div class="col-span-2 text-[14px]" style="color:rgba(255,255,255,0.6);" id="check1">12s ago</div>
+          <div class="col-span-2 text-[14px]" style="color:#00EAFF;">Auto-Protect</div>
           <div class="col-span-1 text-right">
-            <svg class="w-5 h-5 text-gray-500 inline-block transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            <svg class="w-5 h-5 inline-block" style="color:rgba(255,255,255,0.3);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
           </div>
         </div>
         <div id="detail1" class="detail-panel">
-          <div class="px-5 pb-5 pt-1 border-t border-dark-600/50">
+          <div class="px-6 pb-5 pt-2" style="border-top:1px solid rgba(255,255,255,0.04);">
             <div class="grid grid-cols-4 gap-4 mb-4">
-              <div class="bg-dark-700 rounded-lg p-3">
-                <div class="text-xs text-gray-400 mb-1">Value</div>
-                <div class="mono text-sm encrypted-text">██████</div>
-                <div class="text-[10px] text-accent-green flex items-center gap-1 mt-1">
+              <div class="rounded-xl p-4" style="background:rgba(255,255,255,0.05);">
+                <div class="text-[12px] mb-1" style="color:rgba(255,255,255,0.4);">Value</div>
+                <div class="text-[14px] encrypted-text">██████</div>
+                <div class="flex items-center gap-1 mt-1.5" style="color:#00EAFF;font-size:11px;">
                   <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/></svg>
                   encrypted
                 </div>
               </div>
-              <div class="bg-dark-700 rounded-lg p-3">
-                <div class="text-xs text-gray-400 mb-1">Collateral</div>
-                <div class="mono text-sm encrypted-text">██████</div>
-                <div class="text-[10px] text-accent-green flex items-center gap-1 mt-1">
+              <div class="rounded-xl p-4" style="background:rgba(255,255,255,0.05);">
+                <div class="text-[12px] mb-1" style="color:rgba(255,255,255,0.4);">Collateral</div>
+                <div class="text-[14px] encrypted-text">██████</div>
+                <div class="flex items-center gap-1 mt-1.5" style="color:#00EAFF;font-size:11px;">
                   <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/></svg>
                   encrypted
                 </div>
               </div>
-              <div class="bg-dark-700 rounded-lg p-3">
-                <div class="text-xs text-gray-400 mb-1">Liq. Threshold</div>
-                <div class="mono text-sm encrypted-text">██████</div>
-                <div class="text-[10px] text-accent-green flex items-center gap-1 mt-1">
+              <div class="rounded-xl p-4" style="background:rgba(255,255,255,0.05);">
+                <div class="text-[12px] mb-1" style="color:rgba(255,255,255,0.4);">Liq. Threshold</div>
+                <div class="text-[14px] encrypted-text">██████</div>
+                <div class="flex items-center gap-1 mt-1.5" style="color:#00EAFF;font-size:11px;">
                   <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/></svg>
                   encrypted
                 </div>
               </div>
-              <div class="bg-dark-700 rounded-lg p-3">
-                <div class="text-xs text-gray-400 mb-1">Health Factor</div>
-                <div class="mono text-sm text-accent-green">Safe</div>
-                <div class="text-[10px] text-gray-500 mt-1">MPC-computed</div>
+              <div class="rounded-xl p-4" style="background:rgba(255,255,255,0.05);">
+                <div class="text-[12px] mb-1" style="color:rgba(255,255,255,0.4);">Health Factor</div>
+                <div class="text-[14px]" style="color:#00EAFF;">Safe</div>
+                <div class="mt-1.5" style="color:rgba(255,255,255,0.3);font-size:11px;">MPC-computed</div>
               </div>
             </div>
             <div class="flex items-center gap-3">
-              <button class="px-3 py-1.5 rounded-lg bg-accent-blue/10 border border-accent-blue/30 text-accent-blue text-xs hover:bg-accent-blue/20 transition">Force Check</button>
-              <button class="px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-gray-400 text-xs hover:border-accent-yellow/30 transition">Pause</button>
-              <button class="px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-gray-400 text-xs hover:border-accent-red/30 transition">Remove</button>
+              <button class="px-4 py-2 rounded-xl text-[13px] font-medium cursor-pointer" style="background:rgba(43,174,218,0.1);color:#2BAEDA;border:none;">Force Check</button>
+              <button class="px-4 py-2 rounded-xl text-[13px] font-medium cursor-pointer" style="background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.5);border:none;">Pause</button>
+              <button class="px-4 py-2 rounded-xl text-[13px] font-medium cursor-pointer" style="background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.5);border:none;">Remove</button>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Position 2 -->
-      <div class="position-row border-b border-dark-600 cursor-pointer" onclick="toggleDetail('detail2')">
-        <div class="grid grid-cols-12 gap-4 px-5 py-4 items-center">
+      <!-- Position 2: MarginFi Lending -->
+      <div class="position-row cursor-pointer" style="border-bottom:1px solid rgba(255,255,255,0.06);" onclick="toggleDetail('detail2')">
+        <div class="grid grid-cols-12 gap-4 px-6 py-4 items-center">
           <div class="col-span-3 flex items-center gap-3">
-            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center font-bold text-sm">M</div>
+            <div class="w-10 h-10 rounded-full flex items-center justify-center font-bold text-[14px]" style="background:linear-gradient(135deg,#f97316,#ef4444);">M</div>
             <div>
-              <div class="font-medium">Lending Position #2</div>
-              <div class="text-xs text-gray-500">MarginFi</div>
+              <div class="font-medium text-[15px]">Lending Position #2</div>
+              <div class="text-[13px]" style="color:rgba(255,255,255,0.35);">MarginFi</div>
             </div>
           </div>
           <div class="col-span-2">
-            <span class="px-2 py-1 rounded-full bg-accent-yellow/10 text-accent-yellow text-xs font-medium">Caution</span>
+            <span class="px-3 py-1 rounded-full text-[13px] font-medium" style="background:rgba(251,251,153,0.1);color:#FBFB99;">Caution</span>
           </div>
-          <div class="col-span-2 mono text-sm encrypted-text">██████</div>
-          <div class="col-span-2 mono text-sm" id="check2">8s ago</div>
-          <div class="col-span-2 text-sm text-accent-green">Auto-Protect</div>
+          <div class="col-span-2 text-[14px] encrypted-text">██████</div>
+          <div class="col-span-2 text-[14px]" style="color:rgba(255,255,255,0.6);" id="check2">8s ago</div>
+          <div class="col-span-2 text-[14px]" style="color:#00EAFF;">Auto-Protect</div>
           <div class="col-span-1 text-right">
-            <svg class="w-5 h-5 text-gray-500 inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            <svg class="w-5 h-5 inline-block" style="color:rgba(255,255,255,0.3);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
           </div>
         </div>
         <div id="detail2" class="detail-panel">
-          <div class="px-5 pb-5 pt-1 border-t border-dark-600/50">
+          <div class="px-6 pb-5 pt-2" style="border-top:1px solid rgba(255,255,255,0.04);">
             <div class="grid grid-cols-4 gap-4 mb-4">
-              <div class="bg-dark-700 rounded-lg p-3"><div class="text-xs text-gray-400 mb-1">Value</div><div class="mono text-sm encrypted-text">██████</div></div>
-              <div class="bg-dark-700 rounded-lg p-3"><div class="text-xs text-gray-400 mb-1">Collateral</div><div class="mono text-sm encrypted-text">██████</div></div>
-              <div class="bg-dark-700 rounded-lg p-3"><div class="text-xs text-gray-400 mb-1">Liq. Threshold</div><div class="mono text-sm encrypted-text">██████</div></div>
-              <div class="bg-dark-700 rounded-lg p-3"><div class="text-xs text-gray-400 mb-1">Health Factor</div><div class="mono text-sm text-accent-yellow">Caution</div></div>
+              <div class="rounded-xl p-4" style="background:rgba(255,255,255,0.05);"><div class="text-[12px] mb-1" style="color:rgba(255,255,255,0.4);">Value</div><div class="text-[14px] encrypted-text">██████</div></div>
+              <div class="rounded-xl p-4" style="background:rgba(255,255,255,0.05);"><div class="text-[12px] mb-1" style="color:rgba(255,255,255,0.4);">Collateral</div><div class="text-[14px] encrypted-text">██████</div></div>
+              <div class="rounded-xl p-4" style="background:rgba(255,255,255,0.05);"><div class="text-[12px] mb-1" style="color:rgba(255,255,255,0.4);">Liq. Threshold</div><div class="text-[14px] encrypted-text">██████</div></div>
+              <div class="rounded-xl p-4" style="background:rgba(255,255,255,0.05);"><div class="text-[12px] mb-1" style="color:rgba(255,255,255,0.4);">Health Factor</div><div class="text-[14px]" style="color:#FBFB99;">Caution</div></div>
             </div>
             <div class="flex items-center gap-3">
-              <button class="px-3 py-1.5 rounded-lg bg-accent-blue/10 border border-accent-blue/30 text-accent-blue text-xs">Force Check</button>
-              <button class="px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-gray-400 text-xs">Pause</button>
-              <button class="px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-gray-400 text-xs">Remove</button>
+              <button class="px-4 py-2 rounded-xl text-[13px] font-medium cursor-pointer" style="background:rgba(43,174,218,0.1);color:#2BAEDA;border:none;">Force Check</button>
+              <button class="px-4 py-2 rounded-xl text-[13px] font-medium cursor-pointer" style="background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.5);border:none;">Pause</button>
+              <button class="px-4 py-2 rounded-xl text-[13px] font-medium cursor-pointer" style="background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.5);border:none;">Remove</button>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Position 3 -->
-      <div class="position-row border-b border-dark-600 cursor-pointer" onclick="toggleDetail('detail3')">
-        <div class="grid grid-cols-12 gap-4 px-5 py-4 items-center">
+      <!-- Position 3: Jupiter LP -->
+      <div class="position-row cursor-pointer" style="border-bottom:1px solid rgba(255,255,255,0.06);" onclick="toggleDetail('detail3')">
+        <div class="grid grid-cols-12 gap-4 px-6 py-4 items-center">
           <div class="col-span-3 flex items-center gap-3">
-            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-green-500 to-teal-500 flex items-center justify-center font-bold text-sm">J</div>
+            <div class="w-10 h-10 rounded-full flex items-center justify-center font-bold text-[14px]" style="background:linear-gradient(135deg,#22c55e,#14b8a6);">J</div>
             <div>
-              <div class="font-medium">LP Position #1</div>
-              <div class="text-xs text-gray-500">Jupiter</div>
+              <div class="font-medium text-[15px]">LP Position #1</div>
+              <div class="text-[13px]" style="color:rgba(255,255,255,0.35);">Jupiter</div>
             </div>
           </div>
-          <div class="col-span-2"><span class="px-2 py-1 rounded-full bg-accent-green/10 text-accent-green text-xs font-medium">Healthy</span></div>
-          <div class="col-span-2 mono text-sm encrypted-text">██████</div>
-          <div class="col-span-2 mono text-sm" id="check3">3s ago</div>
-          <div class="col-span-2 text-sm text-accent-green">Auto-Protect</div>
-          <div class="col-span-1 text-right"><svg class="w-5 h-5 text-gray-500 inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg></div>
+          <div class="col-span-2">
+            <span class="px-3 py-1 rounded-full text-[13px] font-medium" style="background:rgba(43,174,218,0.1);color:#00EAFF;">Healthy</span>
+          </div>
+          <div class="col-span-2 text-[14px] encrypted-text">██████</div>
+          <div class="col-span-2 text-[14px]" style="color:rgba(255,255,255,0.6);" id="check3">3s ago</div>
+          <div class="col-span-2 text-[14px]" style="color:#00EAFF;">Auto-Protect</div>
+          <div class="col-span-1 text-right">
+            <svg class="w-5 h-5 inline-block" style="color:rgba(255,255,255,0.3);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </div>
         </div>
         <div id="detail3" class="detail-panel">
-          <div class="px-5 pb-5 pt-1 border-t border-dark-600/50">
+          <div class="px-6 pb-5 pt-2" style="border-top:1px solid rgba(255,255,255,0.04);">
             <div class="grid grid-cols-4 gap-4 mb-4">
-              <div class="bg-dark-700 rounded-lg p-3"><div class="text-xs text-gray-400 mb-1">Value</div><div class="mono text-sm encrypted-text">██████</div></div>
-              <div class="bg-dark-700 rounded-lg p-3"><div class="text-xs text-gray-400 mb-1">Pool Share</div><div class="mono text-sm encrypted-text">██████</div></div>
-              <div class="bg-dark-700 rounded-lg p-3"><div class="text-xs text-gray-400 mb-1">IL Risk</div><div class="mono text-sm encrypted-text">██████</div></div>
-              <div class="bg-dark-700 rounded-lg p-3"><div class="text-xs text-gray-400 mb-1">Health</div><div class="mono text-sm text-accent-green">Safe</div></div>
+              <div class="rounded-xl p-4" style="background:rgba(255,255,255,0.05);"><div class="text-[12px] mb-1" style="color:rgba(255,255,255,0.4);">Value</div><div class="text-[14px] encrypted-text">██████</div></div>
+              <div class="rounded-xl p-4" style="background:rgba(255,255,255,0.05);"><div class="text-[12px] mb-1" style="color:rgba(255,255,255,0.4);">Pool Share</div><div class="text-[14px] encrypted-text">██████</div></div>
+              <div class="rounded-xl p-4" style="background:rgba(255,255,255,0.05);"><div class="text-[12px] mb-1" style="color:rgba(255,255,255,0.4);">IL Risk</div><div class="text-[14px] encrypted-text">██████</div></div>
+              <div class="rounded-xl p-4" style="background:rgba(255,255,255,0.05);"><div class="text-[12px] mb-1" style="color:rgba(255,255,255,0.4);">Health</div><div class="text-[14px]" style="color:#00EAFF;">Safe</div></div>
             </div>
             <div class="flex items-center gap-3">
-              <button class="px-3 py-1.5 rounded-lg bg-accent-blue/10 border border-accent-blue/30 text-accent-blue text-xs">Force Check</button>
-              <button class="px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-gray-400 text-xs">Pause</button>
-              <button class="px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-gray-400 text-xs">Remove</button>
+              <button class="px-4 py-2 rounded-xl text-[13px] font-medium cursor-pointer" style="background:rgba(43,174,218,0.1);color:#2BAEDA;border:none;">Force Check</button>
+              <button class="px-4 py-2 rounded-xl text-[13px] font-medium cursor-pointer" style="background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.5);border:none;">Pause</button>
+              <button class="px-4 py-2 rounded-xl text-[13px] font-medium cursor-pointer" style="background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.5);border:none;">Remove</button>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Position 4 -->
+      <!-- Position 4: Drift Staking -->
       <div class="position-row cursor-pointer" onclick="toggleDetail('detail4')">
-        <div class="grid grid-cols-12 gap-4 px-5 py-4 items-center">
+        <div class="grid grid-cols-12 gap-4 px-6 py-4 items-center">
           <div class="col-span-3 flex items-center gap-3">
-            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-pink-500 to-purple-500 flex items-center justify-center font-bold text-sm">D</div>
+            <div class="w-10 h-10 rounded-full flex items-center justify-center font-bold text-[14px]" style="background:linear-gradient(135deg,#ec4899,#8b5cf6);">D</div>
             <div>
-              <div class="font-medium">Staking Position #1</div>
-              <div class="text-xs text-gray-500">Drift</div>
+              <div class="font-medium text-[15px]">Staking Position #1</div>
+              <div class="text-[13px]" style="color:rgba(255,255,255,0.35);">Drift</div>
             </div>
           </div>
-          <div class="col-span-2"><span class="px-2 py-1 rounded-full bg-accent-green/10 text-accent-green text-xs font-medium">Healthy</span></div>
-          <div class="col-span-2 mono text-sm encrypted-text">██████</div>
-          <div class="col-span-2 mono text-sm" id="check4">18s ago</div>
-          <div class="col-span-2 text-sm text-gray-400">Alert Only</div>
-          <div class="col-span-1 text-right"><svg class="w-5 h-5 text-gray-500 inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg></div>
+          <div class="col-span-2">
+            <span class="px-3 py-1 rounded-full text-[13px] font-medium" style="background:rgba(43,174,218,0.1);color:#00EAFF;">Healthy</span>
+          </div>
+          <div class="col-span-2 text-[14px] encrypted-text">██████</div>
+          <div class="col-span-2 text-[14px]" style="color:rgba(255,255,255,0.6);" id="check4">18s ago</div>
+          <div class="col-span-2 text-[14px]" style="color:rgba(255,255,255,0.5);">Alert Only</div>
+          <div class="col-span-1 text-right">
+            <svg class="w-5 h-5 inline-block" style="color:rgba(255,255,255,0.3);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </div>
         </div>
         <div id="detail4" class="detail-panel">
-          <div class="px-5 pb-5 pt-1 border-t border-dark-600/50">
+          <div class="px-6 pb-5 pt-2" style="border-top:1px solid rgba(255,255,255,0.04);">
             <div class="grid grid-cols-4 gap-4 mb-4">
-              <div class="bg-dark-700 rounded-lg p-3"><div class="text-xs text-gray-400 mb-1">Staked</div><div class="mono text-sm encrypted-text">██████</div></div>
-              <div class="bg-dark-700 rounded-lg p-3"><div class="text-xs text-gray-400 mb-1">Rewards</div><div class="mono text-sm encrypted-text">██████</div></div>
-              <div class="bg-dark-700 rounded-lg p-3"><div class="text-xs text-gray-400 mb-1">APY</div><div class="mono text-sm encrypted-text">██████</div></div>
-              <div class="bg-dark-700 rounded-lg p-3"><div class="text-xs text-gray-400 mb-1">Health</div><div class="mono text-sm text-accent-green">Safe</div></div>
+              <div class="rounded-xl p-4" style="background:rgba(255,255,255,0.05);"><div class="text-[12px] mb-1" style="color:rgba(255,255,255,0.4);">Staked</div><div class="text-[14px] encrypted-text">██████</div></div>
+              <div class="rounded-xl p-4" style="background:rgba(255,255,255,0.05);"><div class="text-[12px] mb-1" style="color:rgba(255,255,255,0.4);">Rewards</div><div class="text-[14px] encrypted-text">██████</div></div>
+              <div class="rounded-xl p-4" style="background:rgba(255,255,255,0.05);"><div class="text-[12px] mb-1" style="color:rgba(255,255,255,0.4);">APY</div><div class="text-[14px] encrypted-text">██████</div></div>
+              <div class="rounded-xl p-4" style="background:rgba(255,255,255,0.05);"><div class="text-[12px] mb-1" style="color:rgba(255,255,255,0.4);">Health</div><div class="text-[14px]" style="color:#00EAFF;">Safe</div></div>
             </div>
             <div class="flex items-center gap-3">
-              <button class="px-3 py-1.5 rounded-lg bg-accent-blue/10 border border-accent-blue/30 text-accent-blue text-xs">Force Check</button>
-              <button class="px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-gray-400 text-xs">Pause</button>
-              <button class="px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-gray-400 text-xs">Remove</button>
+              <button class="px-4 py-2 rounded-xl text-[13px] font-medium cursor-pointer" style="background:rgba(43,174,218,0.1);color:#2BAEDA;border:none;">Force Check</button>
+              <button class="px-4 py-2 rounded-xl text-[13px] font-medium cursor-pointer" style="background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.5);border:none;">Pause</button>
+              <button class="px-4 py-2 rounded-xl text-[13px] font-medium cursor-pointer" style="background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.5);border:none;">Remove</button>
             </div>
           </div>
         </div>
       </div>
+
     </div>
   </main>
 
   <!-- Add Position Modal -->
   <div id="addModal" class="hidden fixed inset-0 z-50 flex items-center justify-center modal-backdrop">
-    <div class="bg-dark-800 rounded-2xl border border-dark-600 w-full max-w-lg p-6 shadow-2xl">
-      <div class="flex items-center justify-between mb-6">
-        <h2 class="text-xl font-bold">Add Position to Monitor</h2>
-        <button onclick="document.getElementById('addModal').classList.add('hidden')" class="text-gray-400 hover:text-white transition">
+    <div class="w-full max-w-lg p-8 shadow-2xl" style="background:rgba(20,24,32,0.95);border-radius:24px;">
+      <div class="flex items-center justify-between mb-8">
+        <h2 class="text-[22px] font-semibold tracking-tight">Add Position to Monitor</h2>
+        <button onclick="document.getElementById('addModal').classList.add('hidden')" style="color:rgba(255,255,255,0.4);background:none;border:none;cursor:pointer;">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
         </button>
       </div>
 
-      <div class="space-y-5">
+      <div class="space-y-6">
+        <!-- Protocol -->
         <div>
-          <label class="text-sm text-gray-400 mb-2 block">Protocol</label>
+          <label class="text-[13px] mb-3 block" style="color:rgba(255,255,255,0.4);">Protocol</label>
           <div class="grid grid-cols-4 gap-2">
-            <button class="p-3 rounded-lg bg-dark-700 border border-accent-blue text-sm text-center hover:bg-dark-600 transition">Kamino</button>
-            <button class="p-3 rounded-lg bg-dark-700 border border-dark-600 text-sm text-center hover:border-accent-blue/50 transition">MarginFi</button>
-            <button class="p-3 rounded-lg bg-dark-700 border border-dark-600 text-sm text-center hover:border-accent-blue/50 transition">Drift</button>
-            <button class="p-3 rounded-lg bg-dark-700 border border-dark-600 text-sm text-center hover:border-accent-blue/50 transition">Other</button>
+            <button class="p-3 rounded-xl text-[14px] text-center cursor-pointer" style="background:rgba(255,255,255,0.05);border:1px solid #00EAFF;color:#fff;">Kamino</button>
+            <button class="p-3 rounded-xl text-[14px] text-center cursor-pointer" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);color:rgba(255,255,255,0.6);">MarginFi</button>
+            <button class="p-3 rounded-xl text-[14px] text-center cursor-pointer" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);color:rgba(255,255,255,0.6);">Drift</button>
+            <button class="p-3 rounded-xl text-[14px] text-center cursor-pointer" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);color:rgba(255,255,255,0.6);">Other</button>
           </div>
         </div>
 
+        <!-- Position Type -->
         <div>
-          <label class="text-sm text-gray-400 mb-2 block">Position Type</label>
+          <label class="text-[13px] mb-3 block" style="color:rgba(255,255,255,0.4);">Position Type</label>
           <div class="grid grid-cols-2 gap-2">
-            <button class="p-3 rounded-lg bg-dark-700 border border-accent-green text-sm text-left hover:bg-dark-600 transition">
-              <div class="font-medium">Lending / Borrowing</div>
-              <div class="text-xs text-gray-500">Collateralized loans</div>
+            <button class="p-4 rounded-xl text-left cursor-pointer" style="background:rgba(255,255,255,0.05);border:1px solid #00EAFF;">
+              <div class="font-medium text-[14px] text-white">Lending / Borrowing</div>
+              <div class="text-[12px] mt-0.5" style="color:rgba(255,255,255,0.35);">Collateralized loans</div>
             </button>
-            <button class="p-3 rounded-lg bg-dark-700 border border-dark-600 text-sm text-left hover:border-accent-green/50 transition">
-              <div class="font-medium">Liquidity Pool</div>
-              <div class="text-xs text-gray-500">LP positions</div>
+            <button class="p-4 rounded-xl text-left cursor-pointer" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);">
+              <div class="font-medium text-[14px]" style="color:rgba(255,255,255,0.6);">Liquidity Pool</div>
+              <div class="text-[12px] mt-0.5" style="color:rgba(255,255,255,0.35);">LP positions</div>
             </button>
           </div>
         </div>
 
+        <!-- Position Identifier -->
         <div>
-          <label class="text-sm text-gray-400 mb-2 block">Position Identifier</label>
-          <input type="text" placeholder="Account address or position ID..." class="w-full px-4 py-3 rounded-lg bg-dark-700 border border-dark-600 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-accent-green/50 mono">
+          <label class="text-[13px] mb-3 block" style="color:rgba(255,255,255,0.4);">Position Identifier</label>
+          <input type="text" placeholder="Account address or position ID..." class="w-full px-4 py-3.5 rounded-xl text-[14px] text-white placeholder-gray-500 focus:outline-none" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);font-family:'SF Pro Display',-apple-system,BlinkMacSystemFont,'Inter',sans-serif;">
         </div>
 
+        <!-- Protection Level -->
         <div>
-          <label class="text-sm text-gray-400 mb-2 block">Protection Level</label>
+          <label class="text-[13px] mb-3 block" style="color:rgba(255,255,255,0.4);">Protection Level</label>
           <div class="grid grid-cols-2 gap-2">
-            <button class="p-3 rounded-lg bg-dark-700 border border-dark-600 text-sm text-left hover:border-accent-green/50 transition">
-              <div class="font-medium">Alert Only</div>
-              <div class="text-xs text-gray-500">Notify when at risk</div>
+            <button class="p-4 rounded-xl text-left cursor-pointer" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);">
+              <div class="font-medium text-[14px]" style="color:rgba(255,255,255,0.6);">Alert Only</div>
+              <div class="text-[12px] mt-0.5" style="color:rgba(255,255,255,0.35);">Notify when at risk</div>
             </button>
-            <button class="p-3 rounded-lg bg-dark-700 border border-accent-green text-sm text-left">
-              <div class="font-medium text-accent-green">Auto-Protect</div>
-              <div class="text-xs text-gray-500">Act automatically on risk</div>
+            <button class="p-4 rounded-xl text-left cursor-pointer" style="background:rgba(255,255,255,0.05);border:1px solid #00EAFF;">
+              <div class="font-medium text-[14px]" style="color:#00EAFF;">Auto-Protect</div>
+              <div class="text-[12px] mt-0.5" style="color:rgba(255,255,255,0.35);">Act automatically on risk</div>
             </button>
           </div>
         </div>
 
-        <div class="p-3 rounded-lg bg-accent-green/5 border border-accent-green/20">
-          <div class="flex items-center gap-2 text-sm">
-            <svg class="w-4 h-4 text-accent-green flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
-            <span class="text-gray-400">Position data will be encrypted before leaving your device. Fold never sees your values.</span>
+        <!-- Privacy Note -->
+        <div class="p-4 rounded-xl" style="background:rgba(43,174,218,0.05);border:1px solid rgba(43,174,218,0.2);">
+          <div class="flex items-center gap-2.5 text-[13px]">
+            <svg class="w-4 h-4 flex-shrink-0" style="color:#00EAFF;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+            <span style="color:rgba(255,255,255,0.5);">Position data will be encrypted before leaving your device. Fold never sees your values.</span>
           </div>
         </div>
 
-        <div class="flex gap-3 pt-2">
-          <button onclick="document.getElementById('addModal').classList.add('hidden')" class="flex-1 px-4 py-3 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition font-medium">Cancel</button>
-          <button onclick="document.getElementById('addModal').classList.add('hidden')" class="flex-1 px-4 py-3 rounded-lg bg-accent-green text-dark-900 font-medium hover:bg-accent-green/90 transition">Add & Monitor</button>
+        <!-- Action Buttons -->
+        <div class="flex gap-3 pt-1">
+          <button onclick="document.getElementById('addModal').classList.add('hidden')" class="flex-1 px-4 py-3.5 rounded-xl font-medium text-[15px] cursor-pointer" style="background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.6);border:none;">Cancel</button>
+          <button onclick="document.getElementById('addModal').classList.add('hidden')" class="flex-1 px-4 py-3.5 rounded-xl font-medium text-[15px] cursor-pointer" style="background:rgba(43,174,218,0.1);color:#00EAFF;border:none;">Add & Monitor</button>
         </div>
       </div>
     </div>
   </div>
 
   <!-- Footer -->
-  <footer class="border-t border-dark-600 mt-12 py-6">
-    <div class="max-w-7xl mx-auto px-6 flex items-center justify-between text-sm text-gray-400">
-      <div class="flex items-center gap-4">
-        <span>Built on Solana</span>
-        <span class="text-dark-600">|</span>
-        <span>Powered by Arcium</span>
+  <footer class="footer-bar px-[42px] py-6 mt-8">
+    <div class="flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="flex items-center"><span class="px-3 py-1.5 text-[15px] font-medium" style="color:rgba(255,255,255,0.5);">built on</span><span class="text-white text-[15px] font-semibold tracking-wide pr-3">SOLANA</span></div>
+        <div style="width:2px;height:20px;background:rgba(217,217,217,0.2);"></div>
+        <div class="flex items-center"><span class="px-3 py-1.5 text-[15px] font-medium" style="color:rgba(255,255,255,0.5);">powered by</span><span class="text-white text-[15px] font-semibold tracking-wide pr-3">ARCIUM</span></div>
       </div>
-      <div class="flex items-center gap-4">
-        <a href="#" class="hover:text-white transition">Docs</a>
-        <a href="#" class="hover:text-white transition">GitHub</a>
-        <a href="#" class="hover:text-white transition">Discord</a>
+      <div class="flex items-center">
+        <a href="#" class="px-6 py-3 text-[15px] font-medium" style="color:rgba(255,255,255,0.6);text-decoration:none;">Docs</a>
+        <a href="https://github.com/ikeacrisp/fold-defi-agent" class="px-6 py-3 text-[15px] font-medium" style="color:rgba(255,255,255,0.6);text-decoration:none;">Github</a>
+        <a href="#" class="px-6 py-3 text-[15px] font-medium" style="color:rgba(255,255,255,0.6);text-decoration:none;">Discord</a>
       </div>
     </div>
   </footer>
