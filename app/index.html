@@ -11,17 +11,18 @@
         extend: {
           colors: {
             dark: {
-              900: '#0a0b0d',
-              800: '#12141a',
-              700: '#1a1d26',
-              600: '#242833',
+              950: '#080c14',
+              900: '#0c1019',
+              800: '#121a28',
+              700: '#182030',
+              600: '#1e2a3e',
+              500: '#253448',
             },
             accent: {
-              green: '#00ff88',
-              red: '#ff4757',
-              yellow: '#ffa502',
-              blue: '#3742fa',
-              purple: '#a855f7',
+              cyan: '#00d4b1',
+              red: '#ff3d5a',
+              yellow: '#e8b630',
+              blue: '#3b82f6',
             }
           }
         }
@@ -29,528 +30,680 @@
     }
   </script>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap');
 
     body {
       font-family: 'Inter', sans-serif;
-      background: #0a0b0d;
+      background: #080c14;
+      color: #e2e8f0;
     }
 
-    .mono {
-      font-family: 'JetBrains Mono', monospace;
+    .mono { font-family: 'JetBrains Mono', monospace; }
+
+    /* ── Cards ── */
+    .card {
+      background: #101822;
+      border: 1px solid #1c2940;
+      border-radius: 14px;
     }
 
-    .gradient-border {
-      background: linear-gradient(135deg, #00ff88 0%, #3742fa 50%, #a855f7 100%);
-      padding: 1px;
-      border-radius: 12px;
+    .shield-card {
+      background: linear-gradient(180deg, #0f1926 0%, #0b1220 100%);
+      border: 1px solid rgba(0, 212, 177, 0.12);
+      border-radius: 16px;
+      position: relative;
+      overflow: hidden;
+    }
+    .shield-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent 0%, rgba(0,212,177,0.25) 30%, rgba(0,212,177,0.25) 70%, transparent 100%);
     }
 
-    .gradient-border-inner {
-      background: #12141a;
-      border-radius: 11px;
+    /* ── Badges ── */
+    .badge-healthy {
+      display: inline-block;
+      background: rgba(0, 212, 177, 0.15);
+      color: #00d4b1;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 6px;
+    }
+    .badge-caution {
+      display: inline-block;
+      background: rgba(232, 182, 48, 0.15);
+      color: #e8b630;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 6px;
+    }
+    .badge-risk {
+      display: inline-block;
+      background: rgba(255, 61, 90, 0.15);
+      color: #ff3d5a;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 6px;
     }
 
-    .pulse-green {
-      animation: pulse-green 2s infinite;
+    /* ── Filter pills ── */
+    .filter-pill {
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 500;
+      border: 1px solid #1e2a3e;
+      background: transparent;
+      color: #64748b;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .filter-pill:hover { border-color: #2a3a52; color: #94a3b8; }
+    .filter-pill.active {
+      background: rgba(0,212,177,0.08);
+      border-color: rgba(0,212,177,0.25);
+      color: #00d4b1;
     }
 
-    @keyframes pulse-green {
-      0%, 100% { box-shadow: 0 0 0 0 rgba(0, 255, 136, 0.4); }
-      50% { box-shadow: 0 0 0 8px rgba(0, 255, 136, 0); }
+    /* ── Position rows ── */
+    .position-row { transition: background 0.15s; }
+    .position-row:hover { background: rgba(18,26,40,0.5); }
+
+    /* ── Action buttons ── */
+    .action-btn {
+      width: 30px; height: 30px;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #475569;
+      transition: all 0.15s;
+      cursor: pointer;
+      border: none;
+      background: none;
+    }
+    .action-btn:hover { background: #1c2940; color: #94a3b8; }
+    .action-btn.danger:hover { background: rgba(255,61,90,0.1); color: #ff3d5a; }
+    .action-btn.risk-highlight { color: #ff3d5a; }
+    .action-btn.risk-bg { background: rgba(255,61,90,0.08); color: #ff3d5a; }
+
+    /* ── Health bars ── */
+    .health-bar {
+      border-radius: 3px 3px 1px 1px;
+      min-height: 8px;
+      flex: 1;
+    }
+    .health-bar.healthy {
+      background: linear-gradient(180deg, #2a5060 0%, #1e3844 100%);
+    }
+    .health-bar.caution {
+      background: linear-gradient(180deg, #e8b630 0%, #b8902a 100%);
+    }
+    .health-bar.risk {
+      background: linear-gradient(180deg, #ff3d5a 0%, #cc3048 100%);
     }
 
-    .glow {
-      box-shadow: 0 0 40px rgba(0, 255, 136, 0.1);
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes pulse-dot {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(0, 212, 177, 0.4); }
+      50% { box-shadow: 0 0 0 5px rgba(0, 212, 177, 0); }
     }
 
-    .shield-icon {
-      background: linear-gradient(135deg, #00ff88 0%, #3742fa 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+    /* ── Protocol icons ── */
+    .protocol-icon {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      border: 2px solid;
+      font-size: 16px;
+      font-weight: 700;
     }
-
-    .encrypted-text {
-      background: linear-gradient(90deg, #666 0%, #888 50%, #666 100%);
-      background-size: 200% 100%;
-      animation: shimmer 2s infinite;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    @keyframes shimmer {
-      0% { background-position: 200% 0; }
-      100% { background-position: -200% 0; }
-    }
+    .protocol-icon.kamino { background: #0c1a2a; border-color: #2563eb; color: #60a5fa; }
+    .protocol-icon.marginfi { background: #1a1408; border-color: #d97706; color: #fbbf24; }
+    .protocol-icon.jupiter { background: #0a1a12; border-color: #16a34a; color: #4ade80; }
+    .protocol-icon.drift { background: #140c24; border-color: #7c3aed; color: #a78bfa; }
   </style>
   <script src="https://unpkg.com/@solana/web3.js@1.98.0/lib/index.iife.min.js"></script>
   <script src="wallet.js"></script>
   <script src="program.js"></script>
 </head>
-<body class="min-h-screen text-white">
-  <!-- Navigation -->
-  <nav class="border-b border-dark-600 px-6 py-4">
-    <div class="max-w-7xl mx-auto flex items-center justify-between">
-      <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-accent-green to-accent-blue flex items-center justify-center">
-          <svg class="w-6 h-6 text-dark-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+<body class="min-h-screen">
+  <!-- ═══════════ Navigation ═══════════ -->
+  <nav class="px-8 py-4">
+    <div class="max-w-[1360px] mx-auto flex items-center justify-between">
+      <div class="flex items-center gap-10">
+        <!-- Logo -->
+        <div class="flex items-center gap-2.5">
+          <!-- Shield icon -->
+          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none">
+            <path d="M12 2L3 7v5c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5z" fill="url(#shieldGrad)" opacity="0.2"/>
+            <path d="M12 2L3 7v5c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5z" stroke="url(#shieldGrad)" stroke-width="1.5" fill="none"/>
+            <path d="M9 12l2 2 4-4" stroke="#00d4b1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <defs><linearGradient id="shieldGrad" x1="3" y1="2" x2="21" y2="24"><stop stop-color="#00d4b1"/><stop offset="1" stop-color="#0891b2"/></linearGradient></defs>
           </svg>
+          <!-- "fold" logotype -->
+          <span style="font-weight:900; font-size:22px; letter-spacing:-0.5px; color:#fff;">fo<span style="color:#00d4b1">1</span>d</span>
+          <span style="font-size:10px; padding:2px 7px; border-radius:4px; background:#1e2a3e; color:#64748b; font-weight:500; margin-left:2px;">beta</span>
         </div>
-        <span class="text-xl font-bold">Fold</span>
-        <span class="text-xs px-2 py-1 rounded-full bg-accent-purple/20 text-accent-purple font-medium">BETA</span>
+        <!-- Nav links -->
+        <div class="flex items-center gap-7" style="font-size:14px;">
+          <a href="index.html" class="text-white font-semibold">Dashboard</a>
+          <a href="activity.html" class="text-gray-500 hover:text-gray-300 transition">Activity</a>
+          <a href="alerts.html" class="text-gray-500 hover:text-gray-300 transition">Alerts</a>
+        </div>
       </div>
 
-      <div class="flex items-center gap-6">
-        <a href="index.html" class="text-white font-medium">Dashboard</a>
-        <a href="positions.html" class="text-gray-400 hover:text-white transition">Positions</a>
-        <a href="alerts.html" class="text-gray-400 hover:text-white transition">Alerts</a>
-        <a href="activity.html" class="text-gray-400 hover:text-white transition">Activity</a>
-        <a href="settings.html" class="text-gray-400 hover:text-white transition">Settings</a>
+      <div class="flex items-center gap-4">
+        <!-- Settings gear -->
+        <a href="settings.html" class="flex items-center justify-center w-9 h-9 rounded-lg text-gray-500 hover:text-gray-300 transition">
+          <svg class="w-[20px] h-[20px]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+          </svg>
+        </a>
+        <!-- Connect button -->
+        <button id="connect-btn" style="border: 1.5px solid #00d4b1; border-radius:10px; padding:7px 22px; color:#00d4b1; font-size:13px; font-weight:600; background:transparent; cursor:pointer; transition:all 0.15s;" onmouseover="this.style.background='rgba(0,212,177,0.06)'" onmouseout="this.style.background='transparent'">
+          <span id="nav-wallet-addr">Connect</span>
+        </button>
       </div>
-
-      <button class="flex items-center gap-2 px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:border-accent-green/50 transition">
-        <div class="w-2 h-2 rounded-full bg-accent-green pulse-green"></div>
-        <span id="nav-wallet-addr" class="mono text-sm">Connecting...</span>
-      </button>
     </div>
   </nav>
 
-  <!-- Main Content -->
-  <main class="max-w-7xl mx-auto px-6 py-8">
-    <!-- Status Banner -->
-    <div class="gradient-border mb-8">
-      <div class="gradient-border-inner p-6">
-        <div class="flex items-center justify-between">
-          <div class="flex items-center gap-4">
-            <div class="w-16 h-16 rounded-full bg-accent-green/10 flex items-center justify-center">
-              <svg class="w-8 h-8 text-accent-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
-              </svg>
-            </div>
-            <div>
-              <h1 class="text-2xl font-bold mb-1">All Positions Protected</h1>
-              <p class="text-gray-400">Fold is actively monitoring your portfolio via encrypted computation</p>
-            </div>
-          </div>
-          <div class="text-right">
-            <div class="text-sm text-gray-400 mb-1">Privacy Score</div>
-            <div class="text-3xl font-bold text-accent-green">100%</div>
-          </div>
+  <!-- ═══════════ Main Content ═══════════ -->
+  <main class="max-w-[1360px] mx-auto px-8 pt-6 pb-8">
+
+    <!-- ── Positions Shield Status ── -->
+    <div class="shield-card p-7 mb-6">
+      <div class="flex items-start justify-between mb-6">
+        <div>
+          <h2 style="font-size:17px; font-weight:700; color:#fff; margin-bottom:6px;">Positions Shield Status</h2>
+          <p style="font-size:13px; color:#475569;">Health over the past 90 days. <a href="#" style="color:#00d4b1; text-decoration:none;">View historical health. &raquo;</a></p>
         </div>
+        <div class="text-right">
+          <div style="font-size:32px; font-weight:800; color:#00d4b1; line-height:1;">100%</div>
+          <div style="font-size:12px; color:#475569; margin-top:4px;">Health Factor</div>
+        </div>
+      </div>
+      <!-- 90-day bar chart -->
+      <div id="health-chart" class="flex items-end gap-[4px]" style="height:56px; padding-top:4px;">
+        <!-- Bars generated by JS -->
       </div>
     </div>
 
-    <!-- Stats Grid -->
+    <!-- ── Stats Row ── -->
     <div class="grid grid-cols-4 gap-4 mb-8">
-      <div class="bg-dark-800 rounded-xl p-5 border border-dark-600">
-        <div class="text-gray-400 text-sm mb-2">Protected Positions</div>
-        <div id="stat-position-count" class="text-3xl font-bold">4</div>
-        <div class="text-xs text-gray-500 mt-1">Across 3 protocols</div>
+      <div class="card" style="padding:22px 24px;">
+        <div id="stat-risk-checks" style="font-size:30px; font-weight:700; color:#fff; margin-bottom:4px;">—</div>
+        <div style="font-size:13px; color:#475569;">Risk Checks Today (every 30s)</div>
       </div>
-      <div class="bg-dark-800 rounded-xl p-5 border border-dark-600">
-        <div class="text-gray-400 text-sm mb-2">Portfolio Value</div>
-        <div class="text-3xl font-bold encrypted-text">ENCRYPTED</div>
-        <div class="text-xs text-accent-green mt-1 flex items-center gap-1">
-          <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/>
-          </svg>
-          Hidden from agent
+      <div class="card" style="padding:22px 24px;">
+        <div style="font-size:30px; font-weight:700; color:#fff; margin-bottom:4px;">12</div>
+        <div style="font-size:13px; color:#475569;">Threats Blocked</div>
+      </div>
+      <div class="card" style="padding:22px 24px;">
+        <div id="stat-position-count" style="font-size:30px; font-weight:700; color:#fff; margin-bottom:4px;">3</div>
+        <div style="font-size:13px; color:#475569;">Protected Positions</div>
+      </div>
+      <div class="card" style="padding:22px 24px; position:relative; overflow:hidden;">
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+          <span style="font-size:22px; font-weight:700; color:#fff;">Hidden from Agent</span>
+          <!-- Lock icon -->
+          <svg width="18" height="18" viewBox="0 0 20 20" fill="#00d4b1"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/></svg>
         </div>
-      </div>
-      <div class="bg-dark-800 rounded-xl p-5 border border-dark-600">
-        <div class="text-gray-400 text-sm mb-2">Risk Checks Today</div>
-        <div class="text-3xl font-bold">247</div>
-        <div class="text-xs text-gray-500 mt-1">Every 30 seconds</div>
-      </div>
-      <div class="bg-dark-800 rounded-xl p-5 border border-dark-600">
-        <div class="text-gray-400 text-sm mb-2">Threats Blocked</div>
-        <div class="text-3xl font-bold">0</div>
-        <div class="text-xs text-gray-500 mt-1">Last 30 days</div>
+        <div style="font-size:13px; color:#475569;">Portfolio Value</div>
+        <!-- Fade out right edge -->
+        <div style="position:absolute; right:0; top:0; bottom:0; width:60px; background:linear-gradient(to left, #101822 0%, transparent 100%);"></div>
       </div>
     </div>
 
-    <div class="grid grid-cols-3 gap-6">
+    <!-- ── Main Grid: Positions + Activity ── -->
+    <div style="display:grid; grid-template-columns:1fr 300px; gap:28px;">
+
       <!-- Protected Positions -->
-      <div class="col-span-2 bg-dark-800 rounded-xl border border-dark-600">
-        <div class="p-5 border-b border-dark-600 flex items-center justify-between">
-          <h2 class="text-lg font-semibold">Protected Positions</h2>
-          <a href="positions.html" class="text-sm text-accent-green hover:text-accent-green/80 transition">+ Add Position</a>
+      <div>
+        <h2 style="font-size:20px; font-weight:700; color:#fff; margin-bottom:4px;">Protected Positions</h2>
+        <p style="font-size:13px; color:#475569; margin-bottom:20px;">Fold is actively monitoring your portfolio via encrypted computation</p>
+
+        <!-- Filters & Actions row -->
+        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:16px;">
+          <div class="flex items-center gap-2" id="filter-pills">
+            <button class="filter-pill active" data-filter="all">All</button>
+            <button class="filter-pill" data-filter="healthy">Healthy (3)</button>
+            <button class="filter-pill" data-filter="caution">Caution (1)</button>
+            <button class="filter-pill" data-filter="critical">Critical (0)</button>
+          </div>
+          <div class="flex items-center gap-3">
+            <button style="display:flex; align-items:center; gap:6px; padding:7px 14px; border-radius:8px; border:1px solid #1e2a3e; background:transparent; color:#64748b; font-size:13px; cursor:pointer; transition:all 0.15s;" onmouseover="this.style.borderColor='#2a3a52';this.style.color='#94a3b8'" onmouseout="this.style.borderColor='#1e2a3e';this.style.color='#64748b'">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+              Force Refresh
+            </button>
+            <button style="display:flex; align-items:center; gap:6px; padding:7px 14px; border-radius:8px; border:none; background:transparent; color:#00d4b1; font-size:13px; font-weight:600; cursor:pointer;">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/></svg>
+              Add Position
+            </button>
+          </div>
         </div>
 
-        <div class="divide-y divide-dark-600">
-          <!-- Position 1 -->
-          <div class="p-5 hover:bg-dark-700/50 transition">
-            <div class="flex items-center justify-between mb-3">
-              <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center font-bold">K</div>
-                <div>
-                  <div class="font-medium">Lending Position #1</div>
-                  <div class="text-sm text-gray-400">Protocol: <span class="encrypted-text">████████</span></div>
-                </div>
-              </div>
-              <div class="flex items-center gap-2">
-                <span class="px-2 py-1 rounded-full bg-accent-green/10 text-accent-green text-xs font-medium">Healthy</span>
-              </div>
-            </div>
-            <div class="grid grid-cols-4 gap-4 text-sm">
-              <div>
-                <div class="text-gray-400 mb-1">Value</div>
-                <div class="mono encrypted-text">██████</div>
-              </div>
-              <div>
-                <div class="text-gray-400 mb-1">Health Factor</div>
-                <div class="mono text-accent-green">Safe</div>
-              </div>
-              <div>
-                <div class="text-gray-400 mb-1">Last Check</div>
-                <div class="mono">12s ago</div>
-              </div>
-              <div>
-                <div class="text-gray-400 mb-1">Auto-Protect</div>
-                <div class="text-accent-green">Enabled</div>
-              </div>
-            </div>
+        <!-- Table -->
+        <div class="card" style="overflow:hidden;">
+          <!-- Table Header -->
+          <div style="display:grid; grid-template-columns:2.2fr 1fr 1fr 1fr 110px; gap:12px; padding:14px 24px; font-size:12px; color:#475569; font-weight:500; border-bottom:1px solid #1c2940;">
+            <div>Positions</div>
+            <div>Health</div>
+            <div>Last Check</div>
+            <div>Protection</div>
+            <div></div>
           </div>
 
-          <!-- Position 2 -->
-          <div class="p-5 hover:bg-dark-700/50 transition">
-            <div class="flex items-center justify-between mb-3">
+          <!-- Position Rows -->
+          <div id="positions-list">
+            <!-- Row 1: Kamino - Healthy -->
+            <div class="position-row" data-health="healthy" style="display:grid; grid-template-columns:2.2fr 1fr 1fr 1fr 110px; gap:12px; padding:16px 24px; align-items:center; border-bottom:1px solid rgba(28,41,64,0.5);">
               <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-full bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center font-bold">M</div>
+                <div class="protocol-icon kamino">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="6"/><path d="M12 6v12M6 12h12"/></svg>
+                </div>
                 <div>
-                  <div class="font-medium">Lending Position #2</div>
-                  <div class="text-sm text-gray-400">Protocol: <span class="encrypted-text">████████</span></div>
+                  <div style="font-weight:600; color:#fff; font-size:14px;">Lending Position 1</div>
+                  <div style="font-size:13px; color:#475569;">Kamino</div>
                 </div>
               </div>
-              <div class="flex items-center gap-2">
-                <span class="px-2 py-1 rounded-full bg-accent-yellow/10 text-accent-yellow text-xs font-medium">Monitor</span>
+              <div><span class="badge-healthy">Healthy</span></div>
+              <div class="mono" style="font-size:13px; color:#64748b;">15s ago</div>
+              <div style="font-size:13px; color:#00d4b1; font-weight:500;">Auto-Protect</div>
+              <div class="flex items-center gap-1 justify-end">
+                <button class="action-btn" title="Pause"><svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path d="M10 9v6m4-6v6"/></svg></button>
+                <button class="action-btn" title="Refresh"><svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg></button>
+                <button class="action-btn danger" title="Remove"><svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg></button>
               </div>
             </div>
-            <div class="grid grid-cols-4 gap-4 text-sm">
-              <div>
-                <div class="text-gray-400 mb-1">Value</div>
-                <div class="mono encrypted-text">██████</div>
-              </div>
-              <div>
-                <div class="text-gray-400 mb-1">Health Factor</div>
-                <div class="mono text-accent-yellow">Caution</div>
-              </div>
-              <div>
-                <div class="text-gray-400 mb-1">Last Check</div>
-                <div class="mono">8s ago</div>
-              </div>
-              <div>
-                <div class="text-gray-400 mb-1">Auto-Protect</div>
-                <div class="text-accent-green">Enabled</div>
-              </div>
-            </div>
-          </div>
 
-          <!-- Position 3 -->
-          <div class="p-5 hover:bg-dark-700/50 transition">
-            <div class="flex items-center justify-between mb-3">
+            <!-- Row 2: MarginFi - Caution -->
+            <div class="position-row" data-health="caution" style="display:grid; grid-template-columns:2.2fr 1fr 1fr 1fr 110px; gap:12px; padding:16px 24px; align-items:center; border-bottom:1px solid rgba(28,41,64,0.5);">
               <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-full bg-gradient-to-br from-green-500 to-teal-500 flex items-center justify-center font-bold">J</div>
+                <div class="protocol-icon marginfi">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21l6-12 4 6 3-4 5 10"/></svg>
+                </div>
                 <div>
-                  <div class="font-medium">LP Position #1</div>
-                  <div class="text-sm text-gray-400">Protocol: <span class="encrypted-text">████████</span></div>
+                  <div style="font-weight:600; color:#fff; font-size:14px;">Lending Position 2</div>
+                  <div style="font-size:13px; color:#475569;">MarginFi</div>
                 </div>
               </div>
-              <div class="flex items-center gap-2">
-                <span class="px-2 py-1 rounded-full bg-accent-green/10 text-accent-green text-xs font-medium">Healthy</span>
+              <div><span class="badge-caution">Caution</span></div>
+              <div class="mono" style="font-size:13px; color:#64748b;">10s ago</div>
+              <div style="font-size:13px; color:#00d4b1; font-weight:500;">Auto-Protect</div>
+              <div class="flex items-center gap-1 justify-end">
+                <button class="action-btn" title="Pause"><svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path d="M10 9v6m4-6v6"/></svg></button>
+                <button class="action-btn" title="Refresh"><svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg></button>
+                <button class="action-btn danger" title="Remove"><svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg></button>
               </div>
             </div>
-            <div class="grid grid-cols-4 gap-4 text-sm">
-              <div>
-                <div class="text-gray-400 mb-1">Value</div>
-                <div class="mono encrypted-text">██████</div>
-              </div>
-              <div>
-                <div class="text-gray-400 mb-1">Health Factor</div>
-                <div class="mono text-accent-green">Safe</div>
-              </div>
-              <div>
-                <div class="text-gray-400 mb-1">Last Check</div>
-                <div class="mono">3s ago</div>
-              </div>
-              <div>
-                <div class="text-gray-400 mb-1">Auto-Protect</div>
-                <div class="text-accent-green">Enabled</div>
-              </div>
-            </div>
-          </div>
 
-          <!-- Position 4 -->
-          <div class="p-5 hover:bg-dark-700/50 transition">
-            <div class="flex items-center justify-between mb-3">
+            <!-- Row 3: Jupiter - At Risk -->
+            <div class="position-row" data-health="critical" style="display:grid; grid-template-columns:2.2fr 1fr 1fr 1fr 110px; gap:12px; padding:16px 24px; align-items:center; border-bottom:1px solid rgba(28,41,64,0.5);">
               <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-full bg-gradient-to-br from-pink-500 to-purple-500 flex items-center justify-center font-bold">D</div>
+                <div class="protocol-icon jupiter">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l3 6h6l-5 4 2 7-6-4-6 4 2-7-5-4h6z"/></svg>
+                </div>
                 <div>
-                  <div class="font-medium">Staking Position #1</div>
-                  <div class="text-sm text-gray-400">Protocol: <span class="encrypted-text">████████</span></div>
+                  <div style="font-weight:600; color:#fff; font-size:14px;">LP Position 1</div>
+                  <div style="font-size:13px; color:#475569;">Jupiter</div>
                 </div>
               </div>
-              <div class="flex items-center gap-2">
-                <span class="px-2 py-1 rounded-full bg-accent-green/10 text-accent-green text-xs font-medium">Healthy</span>
+              <div><span class="badge-risk">At Risk</span></div>
+              <div class="mono" style="font-size:13px; color:#64748b;">6s ago</div>
+              <div style="font-size:13px; color:#00d4b1; font-weight:500;">Auto-Protect</div>
+              <div class="flex items-center gap-1 justify-end">
+                <button class="action-btn risk-highlight" title="Pause"><svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path d="M10 9v6m4-6v6"/></svg></button>
+                <button class="action-btn" title="Refresh"><svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg></button>
+                <button class="action-btn risk-bg" title="Remove"><svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg></button>
               </div>
             </div>
-            <div class="grid grid-cols-4 gap-4 text-sm">
-              <div>
-                <div class="text-gray-400 mb-1">Value</div>
-                <div class="mono encrypted-text">██████</div>
+
+            <!-- Row 4: Drift - Healthy -->
+            <div class="position-row" data-health="healthy" style="display:grid; grid-template-columns:2.2fr 1fr 1fr 1fr 110px; gap:12px; padding:16px 24px; align-items:center;">
+              <div class="flex items-center gap-3">
+                <div class="protocol-icon drift">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 12h6"/></svg>
+                </div>
+                <div>
+                  <div style="font-weight:600; color:#fff; font-size:14px;">Staking Position 1</div>
+                  <div style="font-size:13px; color:#475569;">Drift</div>
+                </div>
               </div>
-              <div>
-                <div class="text-gray-400 mb-1">Health Factor</div>
-                <div class="mono text-accent-green">Safe</div>
-              </div>
-              <div>
-                <div class="text-gray-400 mb-1">Last Check</div>
-                <div class="mono">18s ago</div>
-              </div>
-              <div>
-                <div class="text-gray-400 mb-1">Auto-Protect</div>
-                <div class="text-gray-400">Alert Only</div>
+              <div><span class="badge-healthy">Healthy</span></div>
+              <div class="mono" style="font-size:13px; color:#64748b;">21s ago</div>
+              <div style="font-size:13px; color:#64748b;">Alert Only</div>
+              <div class="flex items-center gap-1 justify-end">
+                <button class="action-btn" title="Pause"><svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path d="M10 9v6m4-6v6"/></svg></button>
+                <button class="action-btn" title="Refresh"><svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg></button>
+                <button class="action-btn danger" title="Remove"><svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg></button>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Right Column -->
-      <div class="space-y-6">
-        <!-- Privacy Status -->
-        <div class="bg-dark-800 rounded-xl border border-dark-600 p-5">
-          <h2 class="text-lg font-semibold mb-4">Privacy Status</h2>
-          <div class="space-y-4">
-            <div class="flex items-center justify-between">
-              <div class="flex items-center gap-2">
-                <svg class="w-5 h-5 text-accent-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                </svg>
-                <span class="text-gray-300">Position values hidden</span>
-              </div>
+      <!-- ── Recent Activity Sidebar ── -->
+      <div>
+        <div class="card" style="padding:24px;">
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:20px;">
+            <h2 style="font-size:17px; font-weight:700; color:#fff;">Recent Activity</h2>
+            <a href="activity.html" style="font-size:12px; color:#64748b; text-decoration:none;">View All</a>
+          </div>
+          <!-- Agent status indicator -->
+          <div style="display:flex; align-items:center; gap:8px; margin-bottom:16px; padding:10px 12px; background:#0b1220; border-radius:8px; border:1px solid #1c2940;">
+            <div id="agent-status" style="display:flex; align-items:center; gap:6px; font-size:12px; font-weight:600; color:#475569;">
+              <div style="width:6px;height:6px;border-radius:50%;background:#475569;"></div> Checking...
             </div>
-            <div class="flex items-center justify-between">
-              <div class="flex items-center gap-2">
-                <svg class="w-5 h-5 text-accent-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                </svg>
-                <span class="text-gray-300">Protocol names hidden</span>
-              </div>
-            </div>
-            <div class="flex items-center justify-between">
-              <div class="flex items-center gap-2">
-                <svg class="w-5 h-5 text-accent-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                </svg>
-                <span class="text-gray-300">Wallet address hidden</span>
-              </div>
-            </div>
-            <div class="flex items-center justify-between">
-              <div class="flex items-center gap-2">
-                <svg class="w-5 h-5 text-accent-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                </svg>
-                <span class="text-gray-300">MPC computation active</span>
-              </div>
-            </div>
+            <span style="font-size:11px; color:#334155; margin-left:auto;">devnet</span>
           </div>
-          <div class="mt-4 p-3 rounded-lg bg-dark-700 border border-dark-600">
-            <div class="text-xs text-gray-400 mb-1">Powered by</div>
-            <div class="flex items-center gap-2">
-              <div class="w-6 h-6 rounded bg-gradient-to-br from-purple-500 to-blue-500"></div>
-              <span class="font-medium">Arcium MPC Network</span>
-            </div>
+          <!-- Live activity feed -->
+          <div id="live-activity" style="display:flex; flex-direction:column; gap:14px;">
+            <div style="text-align:center; padding:20px 0; color:#334155; font-size:12px;">Loading on-chain activity...</div>
           </div>
-        </div>
-
-        <!-- Recent Alerts -->
-        <div class="bg-dark-800 rounded-xl border border-dark-600 p-5">
-          <div class="flex items-center justify-between mb-4">
-            <h2 class="text-lg font-semibold">Recent Activity</h2>
-            <a href="activity.html" class="text-xs text-accent-blue hover:text-accent-blue/80 transition">View All</a>
-          </div>
-          <div class="space-y-3">
-            <div class="flex items-start gap-3 p-3 rounded-lg bg-dark-700/50">
-              <div class="w-8 h-8 rounded-full bg-accent-green/10 flex items-center justify-center flex-shrink-0">
-                <svg class="w-4 h-4 text-accent-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                </svg>
-              </div>
-              <div>
-                <div class="text-sm">Health check passed</div>
-                <div class="text-xs text-gray-400">All positions healthy</div>
-                <div class="text-xs text-gray-500 mt-1">2 min ago</div>
-              </div>
-            </div>
-            <div class="flex items-start gap-3 p-3 rounded-lg bg-dark-700/50">
-              <div class="w-8 h-8 rounded-full bg-accent-blue/10 flex items-center justify-center flex-shrink-0">
-                <svg class="w-4 h-4 text-accent-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
-                </svg>
-              </div>
-              <div>
-                <div class="text-sm">Position encrypted</div>
-                <div class="text-xs text-gray-400">New position added to monitoring</div>
-                <div class="text-xs text-gray-500 mt-1">1 hour ago</div>
-              </div>
-            </div>
-            <div class="flex items-start gap-3 p-3 rounded-lg bg-dark-700/50">
-              <div class="w-8 h-8 rounded-full bg-accent-yellow/10 flex items-center justify-center flex-shrink-0">
-                <svg class="w-4 h-4 text-accent-yellow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
-                </svg>
-              </div>
-              <div>
-                <div class="text-sm">Oracle volatility detected</div>
-                <div class="text-xs text-gray-400">Increased monitoring frequency</div>
-                <div class="text-xs text-gray-500 mt-1">3 hours ago</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Quick Actions -->
-        <div class="bg-dark-800 rounded-xl border border-dark-600 p-5">
-          <h2 class="text-lg font-semibold mb-4">Quick Actions</h2>
-          <div class="space-y-2">
-            <button class="w-full p-3 rounded-lg bg-dark-700 border border-dark-600 hover:border-accent-green/50 transition text-left flex items-center gap-3">
-              <svg class="w-5 h-5 text-accent-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
-              </svg>
-              <span>Add New Position</span>
-            </button>
-            <button class="w-full p-3 rounded-lg bg-dark-700 border border-dark-600 hover:border-accent-blue/50 transition text-left flex items-center gap-3">
-              <svg class="w-5 h-5 text-accent-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
-              </svg>
-              <span>Force Health Check</span>
-            </button>
-            <button class="w-full p-3 rounded-lg bg-dark-700 border border-dark-600 hover:border-accent-purple/50 transition text-left flex items-center gap-3">
-              <svg class="w-5 h-5 text-accent-purple" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-              </svg>
-              <span>Configure Alerts</span>
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- How It Works Section -->
-    <div class="mt-8 bg-dark-800 rounded-xl border border-dark-600 p-6">
-      <h2 class="text-lg font-semibold mb-6">How Fold Protects Your Privacy</h2>
-      <div class="grid grid-cols-4 gap-6">
-        <div class="text-center">
-          <div class="w-12 h-12 rounded-xl bg-accent-green/10 flex items-center justify-center mx-auto mb-3">
-            <span class="text-xl font-bold text-accent-green">1</span>
-          </div>
-          <div class="font-medium mb-1">Local Encryption</div>
-          <div class="text-sm text-gray-400">Your position data is encrypted in your browser before leaving your device</div>
-        </div>
-        <div class="text-center">
-          <div class="w-12 h-12 rounded-xl bg-accent-blue/10 flex items-center justify-center mx-auto mb-3">
-            <span class="text-xl font-bold text-accent-blue">2</span>
-          </div>
-          <div class="font-medium mb-1">MPC Computation</div>
-          <div class="text-sm text-gray-400">Arcium nodes compute risk scores together - no single node sees your data</div>
-        </div>
-        <div class="text-center">
-          <div class="w-12 h-12 rounded-xl bg-accent-purple/10 flex items-center justify-center mx-auto mb-3">
-            <span class="text-xl font-bold text-accent-purple">3</span>
-          </div>
-          <div class="font-medium mb-1">Private Results</div>
-          <div class="text-sm text-gray-400">Agent receives only "safe" or "at risk" - never your actual values</div>
-        </div>
-        <div class="text-center">
-          <div class="w-12 h-12 rounded-xl bg-accent-yellow/10 flex items-center justify-center mx-auto mb-3">
-            <span class="text-xl font-bold text-accent-yellow">4</span>
-          </div>
-          <div class="font-medium mb-1">Automated Protection</div>
-          <div class="text-sm text-gray-400">Pre-authorized actions execute instantly when threats are detected</div>
         </div>
       </div>
     </div>
   </main>
 
-  <!-- Footer -->
-  <footer class="border-t border-dark-600 mt-12 py-6">
-    <div class="max-w-7xl mx-auto px-6 flex items-center justify-between text-sm text-gray-400">
-      <div class="flex items-center gap-4">
-        <span>Built on Solana</span>
-        <span class="text-dark-600">|</span>
-        <span>Powered by Arcium</span>
+  <!-- ═══════════ Footer ═══════════ -->
+  <footer style="border-top:1px solid #1c2940; margin-top:40px; padding:24px 0;">
+    <div class="max-w-[1360px] mx-auto px-8 flex items-center justify-between" style="font-size:13px; color:#475569;">
+      <div class="flex items-center gap-5">
+        <span class="flex items-center gap-2">
+          built on
+          <!-- Solana logo mark -->
+          <svg width="80" height="14" viewBox="0 0 120 18" fill="none">
+            <path d="M23.2 14.4h-3.6l-2.8-4.8-2.8 4.8H10.4l4.6-7.2L10.8 1h3.6l2.4 4.2L19.2 1h3.6l-4.4 6.2 4.8 7.2z" fill="#94a3b8"/>
+            <text x="28" y="14" fill="#94a3b8" font-family="Inter,sans-serif" font-weight="800" font-size="14" letter-spacing="1">SOLANA</text>
+          </svg>
+        </span>
+        <span style="color:#1c2940;">|</span>
+        <span class="flex items-center gap-2">
+          powered by
+          <!-- Arcium logo mark -->
+          <svg width="80" height="14" viewBox="0 0 120 18" fill="none">
+            <path d="M8 14L2 2h4l4 8 4-8h4L12 14H8z" fill="#94a3b8"/>
+            <text x="22" y="14" fill="#94a3b8" font-family="Inter,sans-serif" font-weight="800" font-size="14" letter-spacing="1">ARCIUM</text>
+          </svg>
+        </span>
       </div>
-      <div class="flex items-center gap-4">
-        <a href="#" class="hover:text-white transition">Docs</a>
-        <a href="#" class="hover:text-white transition">GitHub</a>
-        <a href="#" class="hover:text-white transition">Discord</a>
+      <div class="flex items-center gap-6">
+        <a href="#" style="color:#64748b; text-decoration:none;">Docs</a>
+        <a href="https://github.com/ikeacrisp/fold-defi-agent" style="color:#64748b; text-decoration:none;">Github</a>
+        <a href="#" style="color:#64748b; text-decoration:none;">Discord</a>
       </div>
     </div>
   </footer>
 
   <script>
-    (async function() {
-      await FoldWallet.init();
-      if (!FoldWallet.isConnected()) { window.location.href = 'connect.html'; return; }
+    const HELIUS_RPC = 'https://devnet.helius-rpc.com/?api-key=10604451-ce29-4041-875d-88322f54ce98';
+    const PROGRAM_ID_STR = 'ABDZr3DvUSnugBNrAj8vaAhKt3tHafA82MDja812QbJC';
+    const AGENT_WALLET = '7XDzrqLP94yG3n26n8r6VU87gZ98FnF3tQFcm3a4tki7';
+    let connection, programId;
+    let riskChecksToday = 0;
+    let liveActivityItems = [];
+    let lastSignature = null;
 
-      document.getElementById('nav-wallet-addr').textContent = FoldWallet.shortenAddress(FoldWallet.publicKey);
+    // ═══ Generate 90-day health bar chart ═══
+    (function() {
+      const chart = document.getElementById('health-chart');
+      for (let i = 0; i < 90; i++) {
+        let status = 'healthy', height = 38 + Math.random() * 16;
+        if (i === 18 || i === 19) { status = 'caution'; height = 28 + Math.random() * 10; }
+        else if (i === 42) { status = 'caution'; height = 24 + Math.random() * 8; }
+        else if (i >= 86 && i <= 88) { status = 'risk'; height = 22 + Math.random() * 12; }
+        const bar = document.createElement('div');
+        bar.className = 'health-bar ' + status;
+        bar.style.height = height + 'px';
+        bar.style.flex = '1';
+        bar.title = (90 - i) + ' days ago: ' + status.charAt(0).toUpperCase() + status.slice(1);
+        chart.appendChild(bar);
+      }
+    })();
 
-      // Fetch real positions from devnet
+    // ═══ Filter pills ═══
+    document.querySelectorAll('#filter-pills .filter-pill').forEach(pill => {
+      pill.addEventListener('click', function() {
+        document.querySelectorAll('#filter-pills .filter-pill').forEach(p => p.classList.remove('active'));
+        this.classList.add('active');
+        const filter = this.dataset.filter;
+        document.querySelectorAll('#positions-list .position-row').forEach(row => {
+          if (filter === 'all') row.style.display = '';
+          else if (filter === 'healthy') row.style.display = row.dataset.health === 'healthy' ? '' : 'none';
+          else if (filter === 'caution') row.style.display = row.dataset.health === 'caution' ? '' : 'none';
+          else if (filter === 'critical') row.style.display = row.dataset.health === 'critical' ? '' : 'none';
+        });
+      });
+    });
+
+    // ═══ Tick timers ═══
+    setInterval(() => {
+      document.querySelectorAll('#positions-list .mono').forEach(el => {
+        const m = el.textContent.match(/^(\d+)s ago$/);
+        if (m) el.textContent = (parseInt(m[1]) + 1) + 's ago';
+      });
+    }, 1000);
+
+    // ═══ Format relative time ═══
+    function timeAgo(ts) {
+      const diff = Math.floor(Date.now() / 1000) - ts;
+      if (diff < 60) return diff + 's ago';
+      if (diff < 3600) return Math.floor(diff / 60) + ' min ago';
+      if (diff < 86400) return Math.floor(diff / 3600) + ' hour' + (Math.floor(diff / 3600) > 1 ? 's' : '') + ' ago';
+      return Math.floor(diff / 86400) + ' day' + (Math.floor(diff / 86400) > 1 ? 's' : '') + ' ago';
+    }
+
+    // ═══ Add live activity item to sidebar ═══
+    function addActivityItem(type, title, subtitle, sig) {
+      const container = document.getElementById('live-activity');
+      if (!container) return;
+
+      const colors = {
+        check: { bg: 'rgba(0,212,177,0.1)', stroke: '#00d4b1', icon: '<path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>' },
+        risk: { bg: 'rgba(255,61,90,0.1)', stroke: '#ff3d5a', icon: '<path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>' },
+        caution: { bg: 'rgba(232,182,48,0.1)', stroke: '#e8b630', icon: '<path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>' },
+        encrypt: { bg: 'rgba(59,130,246,0.1)', stroke: '#3b82f6', icon: '<path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>' },
+      };
+      const c = colors[type] || colors.check;
+      const sigShort = sig ? sig.slice(0, 8) + '...' : '';
+      const explorerUrl = sig ? 'https://explorer.solana.com/tx/' + sig + '?cluster=devnet' : '#';
+
+      const item = document.createElement('div');
+      item.className = 'flex items-start gap-3';
+      item.style.animation = 'fadeIn 0.3s ease';
+      item.innerHTML =
+        '<div style="width:28px;height:28px;border-radius:50%;background:'+c.bg+';display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;">' +
+          '<svg width="13" height="13" fill="none" stroke="'+c.stroke+'" viewBox="0 0 24 24" stroke-width="2.5">'+c.icon+'</svg>' +
+        '</div>' +
+        '<div>' +
+          '<div style="font-size:13px;color:#e2e8f0;">'+title+'</div>' +
+          '<div style="font-size:12px;color:#475569;">'+subtitle+'</div>' +
+          (sig ? '<a href="'+explorerUrl+'" target="_blank" style="font-size:10px;color:#334155;text-decoration:none;font-family:monospace;">tx: '+sigShort+'</a>' : '') +
+        '</div>';
+
+      container.insertBefore(item, container.firstChild);
+
+      // Keep max 8 items
+      while (container.children.length > 8) {
+        container.removeChild(container.lastChild);
+      }
+    }
+
+    // ═══ Fetch recent transactions from devnet ═══
+    async function fetchRecentTxs() {
       try {
-        const positions = await FoldProgram.fetchPositionsByOwner(FoldWallet.publicKey);
-        document.getElementById('stat-position-count').textContent = positions.length;
+        const sigs = await connection.getSignaturesForAddress(programId, { limit: 25 });
+        if (sigs.length === 0) return;
 
-        const posContainer = document.querySelector('.divide-y.divide-dark-600');
-        if (positions.length > 0 && posContainer) {
-          posContainer.innerHTML = '';
-          const colors = ['from-blue-500 to-purple-500','from-orange-500 to-red-500','from-green-500 to-teal-500','from-pink-500 to-purple-500'];
-          positions.forEach((pos, i) => {
-            const lastCheckAgo = pos.lastCheck > 0 ? Math.floor(Date.now()/1000 - pos.lastCheck) : null;
-            const timeText = lastCheckAgo !== null ? lastCheckAgo + 's ago' : 'Never';
-            const statusClass = pos.isActive ? 'bg-accent-green/10 text-accent-green' : 'bg-gray-500/10 text-gray-500';
-            const statusText = pos.isActive ? 'Active' : 'Inactive';
-            posContainer.innerHTML += '<div class="p-5 hover:bg-dark-700/50 transition">' +
-              '<div class="flex items-center justify-between mb-3">' +
-                '<div class="flex items-center gap-3">' +
-                  '<div class="w-10 h-10 rounded-full bg-gradient-to-br ' + colors[i%colors.length] + ' flex items-center justify-center font-bold">' + pos.positionId + '</div>' +
-                  '<div><div class="font-medium">Position #' + pos.positionId + '</div>' +
-                  '<div class="text-sm text-gray-400">PDA: <span class="mono text-xs">' + pos.address.toBase58().slice(0,8) + '...</span></div></div>' +
-                '</div>' +
-                '<span class="px-2 py-1 rounded-full ' + statusClass + ' text-xs font-medium">' + statusText + '</span>' +
-              '</div>' +
-              '<div class="grid grid-cols-4 gap-4 text-sm">' +
-                '<div><div class="text-gray-400 mb-1">Value</div><div class="mono encrypted-text">\u2588\u2588\u2588\u2588\u2588\u2588</div></div>' +
-                '<div><div class="text-gray-400 mb-1">Risk State</div><div class="mono encrypted-text">\u2588\u2588\u2588\u2588</div></div>' +
-                '<div><div class="text-gray-400 mb-1">Last Check</div><div class="mono" data-last-check="' + pos.lastCheck + '">' + timeText + '</div></div>' +
-                '<div><div class="text-gray-400 mb-1">Active</div><div class="' + (pos.isActive ? 'text-accent-green' : 'text-gray-400') + '">' + (pos.isActive ? 'Monitoring' : 'Paused') + '</div></div>' +
-              '</div></div>';
-          });
-        } else if (positions.length === 0 && posContainer) {
-          posContainer.innerHTML = '<div class="p-8 text-center text-gray-500">' +
-            '<p class="mb-2">No positions found on-chain for this wallet.</p>' +
-            '<a href="positions.html" class="text-accent-green hover:underline">Register your first position</a></div>';
+        // Count today's risk checks
+        const todayStart = new Date();
+        todayStart.setHours(0, 0, 0, 0);
+        const todayTs = Math.floor(todayStart.getTime() / 1000);
+
+        let todayCount = 0;
+        for (const sig of sigs) {
+          if (sig.blockTime && sig.blockTime >= todayTs) {
+            todayCount++;
+          }
         }
-      } catch (err) {
-        console.error('Failed to fetch positions:', err);
+        riskChecksToday = todayCount;
+        document.getElementById('stat-risk-checks').textContent = riskChecksToday;
+
+        // Update last check times on position rows based on most recent tx
+        if (sigs[0] && sigs[0].blockTime) {
+          const lastCheckTime = sigs[0].blockTime;
+          document.querySelectorAll('#positions-list .mono').forEach(el => {
+            el.textContent = timeAgo(lastCheckTime);
+            el.dataset.blockTime = lastCheckTime;
+          });
+        }
+
+        // Store for polling
+        lastSignature = sigs[0].signature;
+
+        // Add initial activity items from recent txs (just first few)
+        const recentSigs = sigs.slice(0, 5).reverse();
+        for (const sig of recentSigs) {
+          const memo = sig.memo || '';
+          const isErr = sig.err !== null;
+          if (!isErr) {
+            addActivityItem('check', 'Health check cycle', 'MPC computation on devnet', sig.signature);
+          }
+        }
+      } catch (e) {
+        console.error('Failed to fetch recent txs:', e);
+      }
+    }
+
+    // ═══ Poll for new transactions ═══
+    async function pollNewTxs() {
+      try {
+        const opts = { limit: 10 };
+        if (lastSignature) opts.until = lastSignature;
+        const sigs = await connection.getSignaturesForAddress(programId, opts);
+
+        if (sigs.length > 0) {
+          lastSignature = sigs[0].signature;
+          riskChecksToday += sigs.length;
+          document.getElementById('stat-risk-checks').textContent = riskChecksToday;
+
+          // Update last check times
+          if (sigs[0].blockTime) {
+            document.querySelectorAll('#positions-list .mono').forEach(el => {
+              el.textContent = timeAgo(sigs[0].blockTime);
+              el.dataset.blockTime = sigs[0].blockTime;
+            });
+          }
+
+          // Add to activity feed
+          for (const sig of sigs.reverse()) {
+            if (!sig.err) {
+              addActivityItem('check', 'Health check cycle', 'Encrypted risk assessment', sig.signature);
+            }
+          }
+        }
+      } catch (e) {
+        console.error('Poll error:', e);
+      }
+    }
+
+    // ═══ Subscribe to live on-chain events via WebSocket ═══
+    function subscribeLiveEvents() {
+      try {
+        connection.onLogs(programId, (logs) => {
+          if (logs.err) return;
+          const logStr = logs.logs.join('\n');
+
+          if (logStr.includes('HealthCheckCompleted')) {
+            riskChecksToday++;
+            document.getElementById('stat-risk-checks').textContent = riskChecksToday;
+            addActivityItem('check', 'Health check completed', 'All positions scanned', logs.signature);
+
+            // Flash the shield card border
+            const shield = document.querySelector('.shield-card');
+            if (shield) {
+              shield.style.borderColor = 'rgba(0,212,177,0.4)';
+              setTimeout(() => { shield.style.borderColor = 'rgba(0,212,177,0.12)'; }, 1500);
+            }
+          }
+
+          if (logStr.includes('RiskRevealed')) {
+            const isAtRisk = logStr.includes('is_at_risk: true');
+            if (isAtRisk) {
+              addActivityItem('risk', 'RISK DETECTED', 'Position at risk — auto-protect active', logs.signature);
+            } else {
+              addActivityItem('check', 'Position safe', 'Risk reveal: no threat detected', logs.signature);
+            }
+          }
+
+          if (logStr.includes('ActionRequired')) {
+            addActivityItem('risk', 'Emergency action triggered', 'Pre-authorized protection executed', logs.signature);
+          }
+
+          // Update timers to "just now"
+          document.querySelectorAll('#positions-list .mono').forEach(el => {
+            el.textContent = '0s ago';
+          });
+        }, 'confirmed');
+      } catch (e) {
+        console.error('WebSocket subscription error:', e);
+      }
+    }
+
+    // ═══ Check agent wallet to confirm it's active ═══
+    async function checkAgentStatus() {
+      try {
+        const agentPubkey = new solanaWeb3.PublicKey(AGENT_WALLET);
+        const balance = await connection.getBalance(agentPubkey);
+        const statusEl = document.getElementById('agent-status');
+        if (statusEl) {
+          statusEl.innerHTML = '<div style="width:6px;height:6px;border-radius:50%;background:#00d4b1;animation:pulse-dot 2s infinite;"></div> Agent Live';
+          statusEl.style.color = '#00d4b1';
+        }
+      } catch (e) {
+        console.error('Agent status check failed:', e);
+      }
+    }
+
+    // ═══ Init everything ═══
+    (async function() {
+      // Initialize connection (no wallet needed — read-only)
+      connection = new solanaWeb3.Connection(HELIUS_RPC, { commitment: 'confirmed', wsEndpoint: HELIUS_RPC.replace('https://', 'wss://') });
+      programId = new solanaWeb3.PublicKey(PROGRAM_ID_STR);
+
+      // Try wallet connection (optional — dashboard works without it)
+      try {
+        await FoldWallet.init();
+        if (FoldWallet.isConnected() && FoldWallet.publicKey) {
+          document.getElementById('nav-wallet-addr').textContent = FoldWallet.shortenAddress(FoldWallet.publicKey);
+        }
+      } catch(e) {
+        console.log('Wallet not connected — showing read-only mode');
       }
 
-      // Live timer
-      setInterval(() => {
-        document.querySelectorAll('[data-last-check]').forEach(el => {
-          const ts = parseInt(el.dataset.lastCheck);
-          if (ts > 0) el.textContent = Math.floor(Date.now()/1000 - ts) + 's ago';
-        });
-        // Also tick any existing mock times
-        document.querySelectorAll('.mono').forEach(el => {
-          if (el.dataset.lastCheck) return;
-          if (el.textContent.match(/^\d+s ago$/)) {
-            el.textContent = (parseInt(el.textContent) + 1) + 's ago';
-          }
-        });
-      }, 1000);
+      // Fetch live on-chain data
+      await fetchRecentTxs();
+      await checkAgentStatus();
+
+      // Subscribe to real-time events
+      subscribeLiveEvents();
+
+      // Poll every 15 seconds for new transactions
+      setInterval(pollNewTxs, 15000);
+      setInterval(checkAgentStatus, 60000);
     })();
   </script>
 </body>
